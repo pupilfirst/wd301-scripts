@@ -45,7 +45,7 @@ This work is licensed under a
 - Difference between virtual and real DOM
 
 ### Basic Styling with Tailwind CSS
-- dding Tailwind to React app
+- Adding Tailwind to React app
 - Adding basic styling
 
 ### Final application walkthrough
