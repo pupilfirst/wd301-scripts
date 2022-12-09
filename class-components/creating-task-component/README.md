@@ -1,6 +1,6 @@
 # Script
 
-In this video, we will learn about class based components. This is not recommended anymore, but still it is good to know about them.
+In this video, you will learn about class based components. Though this is not a recommended approach for writing React components anymore, but still it is good to know about them.
 
 Let's first create a folder for this level in our git repository.
 
