@@ -31,7 +31,7 @@ In earlier versions of React, only class based components could have a state ass
 
 We use ES6 class to define a component.
 
-A component have to inherit from `React.Component` class. So, if we are to create a component `Task`, it will look like
+A component have to inherit from `React.Component` class. We will next create a `Task` component.
 
 Let's create a new file `Task.tsx`. When creating a component, you have to capitalize the first character.
 
