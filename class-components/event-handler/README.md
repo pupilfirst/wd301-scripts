@@ -71,6 +71,10 @@ inputRef = React.createRef<HTMLInputElement>();
 
 We add a class member `inputRef` which can hold a reference to a `HTMLInputElement`. Now, we can use it to map the corresponding input field.
 
+```tsx
+<input type="text" ref={this.inputRef}/>
+```
+
 Now, let's modify the submission handler to print the value that user entered.
 
 ```tsx
