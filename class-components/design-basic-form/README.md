@@ -168,3 +168,7 @@ Now, let's switch to `TaskForm.tsx` and add a button to submit the form.
 Save the file. And if we visit `http://localhost:3000`, we can see the input field and submit button being rendered.
 
 We can type in the input field and even submit the form. See you in the next lesson.
+
+# Text
+
+In this lesson, we will learn how to design a basic form using react.
