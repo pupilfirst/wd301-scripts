@@ -1,6 +1,6 @@
 # Script
 
-In this video, we will learn how to manage and update state in a class based component.
+In this video, you will learn how to manage and update state in a class based component.
 
 We initialize state in the constructor. This is the only place where we can directly mutate or change the `this.state` variable.
 
