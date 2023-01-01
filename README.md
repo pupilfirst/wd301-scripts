@@ -21,10 +21,11 @@ This work is licensed under a
 ## L1. React Fundamentals
 
 ### Introduction to React
+- [Introduction to course](https://github.com/pupilfirst/wd301-scripts/pull/110)
 
 ### Setting up Development Environment
-- Node.JS Environment setup
-- React Dev Tools browser extension
+- [Node.JS Environment setup](https://github.com/pupilfirst/wd301-scripts/pull/114)
+- [React Dev Tools browser extension](https://github.com/pupilfirst/wd301-scripts/pull/109 )
 
 ### CRA - Create React App
 - Generating a CRA project
