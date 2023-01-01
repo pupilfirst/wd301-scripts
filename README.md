@@ -87,12 +87,15 @@ This work is licensed under a
 ## L3. State management and handling user inputs with forms
 
 ### Component Lifecycle
-- Introduction to Class-based components
-- Introduction to Lifecycle methods
+
+- [Introduction to Class-based components](./class-components/creating-task-component/README.md)
+
+- [Introduction to Lifecycle methods](./class-components/life-cycle-methods/README.md)
 
 ### Introduction to React State
+
+- [State initialization through constructor](./class-components/state-in-class-components/README.md)
 - The rules of state
-- State initialization through constructor
 - Updating state properties
 
 ### Handling user inputs with Forms
