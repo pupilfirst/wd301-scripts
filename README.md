@@ -28,7 +28,7 @@ This work is licensed under a
 - [React Dev Tools browser extension](https://github.com/pupilfirst/wd301-scripts/pull/109 )
 
 ### CRA - Create React App
-- Generating a CRA project
+- [Generating a CRA project](https://github.com/pupilfirst/wd301-scripts/pull/115)
 - Why CRA?
 
 ### Introduction to JSX
