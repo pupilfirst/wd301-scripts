@@ -29,7 +29,7 @@ This work is licensed under a
 
 ### CRA - Create React App
 - [Generating a CRA project](https://github.com/pupilfirst/wd301-scripts/pull/115)
-- Why CRA?
+- [Why CRA?](https://github.com/pupilfirst/wd301-scripts/pull/116)
 
 ### Introduction to JSX
 - What is JSX?
