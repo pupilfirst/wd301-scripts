@@ -22,7 +22,7 @@ This work is licensed under a
 
 ### Introduction to React
 - [Introduction to course](https://github.com/pupilfirst/wd301-scripts/pull/110)
-
+- [Why React?](https://github.com/pupilfirst/wd301-scripts/pull/118)
 ### Setting up Development Environment
 - [Node.JS Environment setup](https://github.com/pupilfirst/wd301-scripts/pull/114)
 - [React Dev Tools browser extension](https://github.com/pupilfirst/wd301-scripts/pull/109 )
