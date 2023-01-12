@@ -108,6 +108,7 @@ This work is licensed under a
 - Controlled vs Uncontrolled elements
 - Handling form submission
 
+- [Deploying React app to GitHub](./class-components/deploy-react-app/README.md)
 ### Milestone 
 
 ## L4. React Hooks
