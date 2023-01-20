@@ -46,8 +46,8 @@ This work is licensed under a
 - [Props in React](https://github.com/pupilfirst/wd301-scripts/pull/134)
 
 ### DOM and Virtual DOM
-- What is virtual DOM?
-- Difference between virtual and real DOM
+- [What is virtual DOM?](https://github.com/pupilfirst/wd301-scripts/pull/135)
+- [Difference between virtual and real DOM (merged as one conent)](https://github.com/pupilfirst/wd301-scripts/pull/135)
 
 ### Basic Styling with Tailwind CSS
 - Adding basic styling
