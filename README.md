@@ -38,7 +38,7 @@ This work is licensed under a
 
 ### Introduction to JSX
 - [What is JSX?](https://github.com/pupilfirst/wd301-scripts/pull/129)
-- Using JS Variables in JSX
+- [Using JS Variables in JSX](https://github.com/pupilfirst/wd301-scripts/pull/130)
 
 ### Component Nesting & Props
 - Component nesting
