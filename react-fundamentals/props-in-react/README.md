@@ -40,11 +40,12 @@ const App = () => {
   );
 }
 ```
-Here, we've added an attribute called `title`, which equals to **"Build the website with static content"**. And, I want to communicate this data to the chile component, `TaskCard`.
+Here, we've added an attribute called `title`, which equals to **"Build the website with static content"**. And, I want to communicate this data to the child component, `TaskCard`.
 
 Now, React is going to collect all the attributes we've added to this JSX element here, and it's going to stuff them all into an object.
 
-So in this case we added in one attribute to set `title` equals *"Build the website with static content"*. React is going to put it into an object as a key value pair.
+So in this case, we added in one attribute to set `title` equals *"Build the website with static content"*. React is going to put it into an object as a key value pair.
+
 ```js
 { title: "Build the website with static content" }
 ```
@@ -64,6 +65,7 @@ const TaskCard = (props) => {
 }
 ```
 Once we receive that object, we can use whatever data is there inside it, in any manner. So, let's try to print the `title`.
+
 ```jsx
 const TaskCard = (props) => {
   return (
@@ -78,4 +80,4 @@ const TaskCard = (props) => {
 >Action: Open browser and show output
 
 And yes, it works!
-So it's all about the props system.
+So that's all about the props system.
