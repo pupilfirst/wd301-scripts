@@ -42,8 +42,8 @@ This work is licensed under a
 
 ### Component Nesting & Props
 - [Component reuse](https://github.com/pupilfirst/wd301-scripts/pull/131)
-- Component nesting
-- Props in React
+- [Component nesting](https://github.com/pupilfirst/wd301-scripts/pull/133)
+- [Props in React](https://github.com/pupilfirst/wd301-scripts/pull/134)
 
 ### DOM and Virtual DOM
 - What is virtual DOM?
