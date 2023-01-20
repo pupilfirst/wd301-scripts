@@ -37,7 +37,7 @@ This work is licensed under a
 - [Why CRA?](https://github.com/pupilfirst/wd301-scripts/pull/116)
 
 ### Introduction to JSX
-- What is JSX?
+- [What is JSX?](https://github.com/pupilfirst/wd301-scripts/pull/129)
 - Using JS Variables in JSX
 
 ### Component Nesting & Props
