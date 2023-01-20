@@ -41,9 +41,9 @@ This work is licensed under a
 - [Using JS Variables in JSX](https://github.com/pupilfirst/wd301-scripts/pull/130)
 
 ### Component Nesting & Props
+- [Component reuse](https://github.com/pupilfirst/wd301-scripts/pull/131)
 - Component nesting
 - Props in React
-- Component reuse
 
 ### DOM and Virtual DOM
 - What is virtual DOM?
