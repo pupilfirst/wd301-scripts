@@ -23,7 +23,7 @@ This pattern is known as client-side routing because the client doesn’t have t
 To build different sections of a webpage, React uses something called **Component**. Everything in React is a "Component". Components are reusable UIs which allow you to split the app into separate blocks that act independently of each other. 
 Components are created using something called “JSX” or syntactic JavaScript. It is basically like declaring HTML content as consts, variables, functions, etc. You will learn more about Components and JSX in future lessons.
  
-So, excited to dine-in? See you in the next lesson.
+So, excited to dive-in? See you in the next lesson.
 
 <!-- React relies on a something called **virtual DOM**, which is a copy of the actual DOM. React’s virtual DOM is immediately reloaded to reflect this new change whenever there is a change in the data state. After which, React compares the virtual DOM to the actual DOM to figure out what exactly has changed. You will learn more about virtual DOM in future lesson.
 
