@@ -1,5 +1,5 @@
 # Script
-The next thing I wanted to show you around JSX is how we can dynamically figure out what content we want to display inside of our component.
+In this lesson, I wanted to show you, in JSX, how we can dynamically figure out what content we want to display inside of our component.
 
 > Action: Open App component
 > 
