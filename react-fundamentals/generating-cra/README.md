@@ -2,28 +2,28 @@
 As we've successfully installed Node in our computer, we can use it to generate a new project. And in this video, I'm going to show that.
 
 # Script
-To generate a new React.Js application, we're going to use a tool called **NPX**. Now you might ask, I've heard about NPM, but what is NPX?
+To generate a new React.Js application, we're going to use a tool called **NPX**. Now you might ask, I've heard about NPM: 
+- Which is an online repository of open-source Node.js projects/libraries.
+- And along with that, it's a CLI tool that helps us to install those packages and manage their versions and dependencies.
+- And we get NPM out of the box when we install Node.js. 
 
-### About NPX
-Now, we already know about NPM, right? 
-- First, it is an online repository of open-source Node.js projects/libraries.
-- Second, it's a CLI tool that helps us to install those packages and manage their versions and dependencies.
+But what is NPX?
 
-We get NPM out of the box when we install Node.js. 
+So, **npx** is also a CLI tool, which makes it very easy to run any sort of Node.js based executable that you would normally install via npm.
 
-**npx** is also a CLI tool, which makes it very easy to run any sort of Node.js based executable that you would normally install via npm.
+You can run the following command called `which npx` to see if it is already installed.
+> Action run the command in terminal
 
-You can run the following command to see if it is already installed for your current npm version:
 ```sh
 which npx
 ```
+
+Yes, it's already installed. Since `npm` version 5.2.0, `npx` is pre-bundled with npm. So it’s pretty much a standard nowadays.
 
 If npx is not installed in your computer, you can install it via this command:
 ```sh
 npm install -g npx
 ```
-
-Since `npm` version 5.2.0, `npx` is pre-bundled with npm. So it’s pretty much a standard nowadays.
 
 ### Now, let's generate our first React project
 
