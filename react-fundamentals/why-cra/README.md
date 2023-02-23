@@ -1,5 +1,5 @@
 # Text
-In the previous lesson, we've generated our new React project using `create-react-app`. Now let's jump into the project folder explore what's inside it and how things are working?
+In the previous lesson, we've generated our new React project using `create-react-app`. Now let's jump into the project folder to explore what's inside it and how things are working?
 
 # Script
 In this video, let's learn more about the files and folders that the `create-react-app`  has generated for us. So, I'll open the project in VS Code.
