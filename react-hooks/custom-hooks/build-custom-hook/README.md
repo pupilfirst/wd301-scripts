@@ -125,6 +125,12 @@ Adding an item is working fine. It also got stored in `localStorage`. Now if we 
 
 The items are being populated from `localStorage`.
 
+Let's remove any unused code from our component.
+
+> Action: Remove the `useEffect` example code.
+
+See you in the next lesson.
+
 ### Reference
 
 [Hooks](https://beta.reactjs.org/learn/reusing-logic-with-custom-hooks)
