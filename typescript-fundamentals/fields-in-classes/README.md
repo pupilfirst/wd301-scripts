@@ -116,7 +116,7 @@ In this example, the hobbies field is optional, so we can create a Person object
 
 All the above functionalities along with what we have learned in the previous lessons will help you create, efficient and type-safe code, thereby reducing programming errors in your development.
 
-The major benefit of typescript which is pipe safety can solve a lot of programming errors, thereby helping you concentrate more on the application logic during your development.
+The major benefit of typescript which is type safety can solve a lot of programming errors, thereby helping you concentrate more on the application logic during your development.
 
 You can learn more about it [here](https://www.typescriptlang.org/docs/).
 
