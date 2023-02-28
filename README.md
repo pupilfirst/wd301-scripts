@@ -128,7 +128,6 @@ This work is licensed under a
 ### Custom Hooks
 - [Overview of custom hooks](./react-hooks/custom-hooks/overview/README.md)
 - [Process of building custom hooks](./react-hooks/custom-hooks/build-custom-hook/README.md)
-- [Using custom hook](./react-hooks/custom-hooks/use-custom-hook/README.md)
 
 ### Milestone
 - [L4 milestone](./react-hooks/milestone/README.md)
