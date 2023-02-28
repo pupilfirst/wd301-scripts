@@ -6,6 +6,7 @@
 
 - You have to use a custom hook to store task items to `localStorage`
 - Populate already saved items from `localStorage` when the page is loaded.
-- Add capability to delete a task.
+- Add capability to delete a task. This should be done by adding a `<button>` for each task item.
+- Each task should be listed using a `li` tag.
 
 Additionally, make sure to format your code using `Prettier` and use `ESLint` to enforce code standards.
