@@ -1,5 +1,5 @@
 # Text
-To work on a React application, there is little bit of setup we've to do in out computer.
+To work on a React application, there is little bit of setup we've to do in our computer.
 
 First, we've to install/update Node.Js on our computer. Because, we're going to use Node to actually generate a React project.
 
