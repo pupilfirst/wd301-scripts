@@ -1,52 +1,60 @@
-# Script
+# Text
 
-### Different ways to style
+In this lesson, you will learn about styling React components. Now you've already learned that, a React component is nothing but a piece of UI which is composed of HTML, CSS and JavaScript. So, in any user interface, CSS plays a major role in terms of the look and feel. And that's not different in case of React as well.
 
-Inline CSS
+So, in React we still use CSS, but there is nothing too React specific when it comes to CSS code. Still you can add a new CSS file for a component, and write all the CSS properties you want.
 
-	I don’t think anyone needs an introduction to inline CSS. This is the CSS styling sent to the element directly using the HTML or JSX. You can include a JavaScript object for CSS in React components, although there are a few restrictions such as camel casing any property names which contain a hyphen.
+Let's create our first CSS file in this React application. So for that, create a new `TaskCard.css` file inside the `src` directory and add the following properties.
+```css
+.TaskItem {
+  border: 1px solid #DFDFDF;
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+}
+```
+*Now, as this is not a CSS lesson, I won't bore you with explaining these properties.*
 
+Now back in the `TaskCard.js`, we need to do one important thing. We need to make this overall build process aware of this CSS file and tell it that the CSS code in here should be considered and should be injected in the finished application. Because by default the build process is not going to browse all your files in `src` directory and automatically including everything in final build. You explicitly have to tell React, that a certain file should be considered.
 
-Regular CSS
+So, we have to import the `TaskCard.css` file in the `TaskCard.js` file, like this:
+```js
+import 'TaskCard.css'
 
-	Regular CSS is a common approach, arguably one step better than inline CSS. The styles can be imported to any number of pages and elements unlike inline CSS, which is applied directly to the particular element. Normal CSS has several advantages, such as native browser support (it requires no dependencies), there’s no extra tooling to learn, and there’s no danger of vendor lock in.
+const TaskCard = (props) => {
+  return (
+    <div>
+      <h2>{props.title}</h2>
+      <p>Completed on: due date...</p>
+      <p>Assignee: name...</p>
+    </div>
+  )
+}
 
+export default TaskCard;
+```
+This simply tells the build process that the CSS files should be considered. 
 
-CSS-in-JS
+Next, we have to figure out a way to apply the CSS classes to the React elements we've written using JSX. Now you might think, we can simply add the `class` attribute to the `div` tag here, and provide it the `TaskItem` css class. But in React, we are not allowed to add the `class` attribute to an element, instead we have to write `className`. 
 
-	CSS-in-JS is a technique which enables you to use JavaScript to style components. When this JavaScript is parsed, CSS is generated and attached into the DOM.
+```js
+import './TaskCard.css'
 
-	There are several benefits to this approach. For example, the generated CSS is scoped by default, meaning that changes to the styles of a component won’t affect anything else outside that component. This helps prevent stylesheets picking up bloat as time goes by; if you delete a component, you automatically delete its CSS.
+const TaskCard = (props) => {
+  return (
+    <div className="TaskItem">
+      <h2>{props.title}</h2>
+      <p>Completed on: due date...</p>
+      <p>Assignee: name...</p>
+    </div>
+  )
+}
 
-	- JSS
+export default TaskCard
+```
 
-	- Styled-Components
+Now this might look strange, but you have to keep in mind that, this is not really HTML. It looks like HTML, but it's JSX syntax, and under the hood, it's still JavaScript code.
 
-CSS Modules
-
-	If you’ve ever felt like the CSS global scope problem takes up most of your time when you have to find what a particular style does, or if getting rid of CSS files leaves you nervously wondering if you might break something somewhere else in the code base, I feel you.
-CSS Modules solve this problem by making sure that all of the styles for a component are in one single place and apply only to that particular component. 
-
-
-Material Design
-
-	Material is a design system created by Google to help teams build high-quality digital experiences for Android, iOS and the web.
-
-
-	Material is the metaphor
-		Material Design is inspired by the physical world and its textures, including how they reflect light and cast shadows. Material surfaces reimagine the mediums of paper and ink.
-
-	Components
-		Material Components are interactive building blocks for creating a user interface, and include a built-in states system to communicate focus, selection, activation, error, hover, press, drag, and disabled states.
-
-
-		Components cover a range of interface needs, including:
-            * Display: Placing and organizing content using components like cards, lists, and sheets.
-            * Navigation: Allowing users to move through the product using components like navigation drawers and tabs.
-            * Actions: Allowing users to perform tasks using components such as the floating action button.
-            * Input: Allowing users to enter information or make selections using components like text fields, chips, and selection controls.
-            * Communication: Alerting users to key information and messages using components such as snackbars, banners, and dialogs.
-
-
+Now, that is how easy it is to add styling to your React components.
 
 
