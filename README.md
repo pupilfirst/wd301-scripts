@@ -50,7 +50,7 @@ This work is licensed under a
 - [Difference between virtual and real DOM (merged as one conent)](https://github.com/pupilfirst/wd301-scripts/pull/135)
 
 ### Basic Styling with Tailwind CSS
-- Adding basic styling
+- [Adding basic styling](https://github.com/pupilfirst/wd301-scripts/pull/144)
 - Adding Tailwind to React app
 
 ### Final application walkthrough
