@@ -53,9 +53,9 @@ This work is licensed under a
 - [Adding basic styling](https://github.com/pupilfirst/wd301-scripts/pull/144)
 - Adding Tailwind to React app
 
-### Final application walkthrough
-
 ### Milestone
+- Milestone
+
 
 ## L2. Introduction to Typescript
 
