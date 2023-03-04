@@ -54,7 +54,7 @@ This work is licensed under a
 - Adding Tailwind to React app
 
 ### Milestone
-- Milestone
+- [Milestone](https://github.com/pupilfirst/wd301-scripts/pull/145)
 
 
 ## L2. Introduction to Typescript
