@@ -12,6 +12,12 @@ Here are the steps you'll need to follow to execute and run your TypeScript code
 npm install -g typescript
 ```
 
+- Create a new file called `index.ts` in your working directory and enter the following piece of code:
+
+```
+console.log("This is a typescript file!!!");
+```
+
 - Compile your TypeScript code: Once you have the TypeScript compiler installed, you can use it to compile your TypeScript code into JavaScript. To do this, navigate to the directory containing your TypeScript files and run the following command:
 ```
 tsc index.ts
@@ -24,6 +30,7 @@ tsc index.ts main.ts
 ```
 
 - Run the generated JavaScript code: Once your TypeScript code has been compiled into JavaScript, you can run it just like you would any other JavaScript code. If you're running it in a web browser, you can do this by including the generated `.js` file in your HTML file like so:
+
 ```html
 <script src="index.js"></script>
 ```
@@ -33,6 +40,24 @@ tsc index.ts main.ts
 ```
 node index.js
 ```
+
+The above might not be the ideal way we run our code, as in most scenarios we use node bundled with other packages to run our application code written in TypeScript.
+
+Alternatively, we can use an external npm package to compile and run our TypeScript code in a single command.
+
+- Install and use the `ts-node` package using the following command:
+
+```
+npm install -g ts-node
+```
+
+- Once done, you can directly execute your TypeScript code by running the below command in the terminal
+
+```
+ts-node index.ts
+```
+
+You can learn more about `ts-node` usage [here](https://www.npmjs.com/package/ts-node)
 
 You should now be able to execute and run your TypeScript code in your chosen environment.
 
