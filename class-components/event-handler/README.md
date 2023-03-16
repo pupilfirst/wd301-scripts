@@ -72,7 +72,7 @@ inputRef = React.createRef<HTMLInputElement>();
 We add a class member `inputRef` which can hold a reference to a `HTMLInputElement`. Now, we can use it to map the corresponding input field.
 
 ```tsx
-<input type="text" ref={this.inputRef}/>
+<input type="text" ref={this.inputRef} />
 ```
 
 Now, let's modify the submission handler to print the value that user entered.
@@ -224,6 +224,33 @@ import TaskList from "./TaskList";
 
 ```
 
+We can now add styling from level 1 to our `Smart-task-app`.
+
+```tsx
+render() {
+    return (
+      <div className="container py-10 max-w-4xl mx-auto">
+        <h1 className="text-3xl mb-2 font-bold text-slate-700">
+          Smarter Tasks
+        </h1>
+        <h1 className="text-md mb-6 text-slate-600">
+          <span className="font-bold">Project: </span>
+          Graduation Final Year Project (Revamp college website)
+        </h1>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="border border-slate-200 rounded-xl p-4">
+            <h1 className="text-slate-500 font-bold text-center mb-2">
+              Pending
+            </h1>
+            <TaskForm />
+            <TaskList tasks={this.state.tasks} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+```
+
 Next, let's edit the `TaskForm` component to accept `addTask` as a prop from `TaskApp` component.
 
 > Action: Open `TaskForm.tsx` and update with following code.
@@ -238,8 +265,8 @@ interface TaskFormProps {
 addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
   event.preventDefault();
   const newTask = {
-    title: this.state.title
-  }
+    title: this.state.title,
+  };
   this.props.addTask(newTask);
   this.setState({ title: "" });
 };
@@ -256,9 +283,23 @@ Pass the `addTask` method as prop to `TaskForm` component.
 ```tsx
   render() {
     return (
-      <div>
-        <TaskForm addTask={this.addTask} />
-        <TaskList tasks={this.state.tasks} />
+      <div className="container py-10 max-w-4xl mx-auto">
+        <h1 className="text-3xl mb-2 font-bold text-slate-700">
+          Smarter Tasks
+        </h1>
+        <h1 className="text-md mb-6 text-slate-600">
+          <span className="font-bold">Project: </span>
+          Graduation Final Year Project (Revamp college website)
+        </h1>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="border border-slate-200 rounded-xl p-4">
+            <h1 className="text-slate-500 font-bold text-center mb-2">
+              Pending
+            </h1>
+            <TaskForm addTask={this.addTask} />
+            <TaskList tasks={this.state.tasks} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -278,7 +319,6 @@ function App() {
     </div>
   );
 }
-
 ```
 
 Save the file. Let's check the app in browser.
@@ -287,9 +327,39 @@ Save the file. Let's check the app in browser.
 
 We can see the items are getting added to our list. Let's use `<li>` to list the tasks.
 
-> Action: Switch to `Task.tsx` and replace `<div>` with `<li>`
+> Action: Switch to `Task.tsx` and add styling from level 1.
 
-We can now see the tasks are listed with bullet points.
+```tsx
+import "./TaskCard.css";
+
+// ...
+
+
+render() {
+    return (
+      <div className="TaskItem shadow-md border border-slate-100">
+        <h2 className="text-base font-bold my-1">{this.props.title}</h2>
+        <p className="text-sm text-slate-500">{this.props.dueDate}</p>
+        <p className="text-sm text-slate-500">
+          Description: {this.props.description}
+        </p>
+      </div>
+    );
+  }
+
+```
+
+`TaskCard.css` looks like:
+
+```css
+.TaskItem {
+  /* border: 1px solid #DFDFDF; */
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-top: 12px;
+}
+```
+
+We can now see the tasks are displayed with the styling.
 
 See you in the next lesson.
-
