@@ -8,7 +8,7 @@ In this video, we will change or refactor our class based components to function
 
 Let's open our project in VS Code.
 
-> Action: Switch to VS Code adn switch to `app.js`. Split the editor to show `TaskList.tsx`
+> Action: Switch to VS Code and switch to `app.js`. Split the editor to show `TaskList.tsx`
 
 We already have a function based component in our project. The `App` component is just a function. We can see how much simpler it is compared to `TaskList.tsx`, which is a class based component.
 
@@ -32,19 +32,13 @@ Now, let's copy the content from `render` function and paste it in our new compo
 
 ```tsx
 return (
-  <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-    <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-      <li className="mt-5 sm:mt-0" style={{ listStyleType: "none" }}>
-        <h2 className="text-lg font-bold text-gray-900">
-          {this.props.title}
-          <span className="pl-3 text-xs text-gray-400">
-            {this.props.dueDate}
-          </span>
-        </h2>
-        <p className="mt-1 text-sm text-gray-700">{this.props.description}</p>
-      </li>
-    </div>
-  </div>
+  <div className="TaskItem shadow-md border border-slate-100">
+        <h2 className="text-base font-bold my-1">{this.props.title}</h2>
+        <p className="text-sm text-slate-500">{this.props.dueDate}</p>
+        <p className="text-sm text-slate-500">
+          Description: {this.props.description}
+        </p>
+      </div>
 );
 ```
 
@@ -55,17 +49,13 @@ Now, the editor is showing us some error. We don't need the `this` anymore. We c
 ```tsx
 const TaskFC = (props: TaskItem) => {
   return (
-    <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-      <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-        <li className="mt-5 sm:mt-0" style={{ listStyleType: "none" }}>
-          <h2 className="text-lg font-bold text-gray-900">
-            {props.title}
-            <span className="pl-3 text-xs text-gray-400">{props.dueDate}</span>
-          </h2>
-          <p className="mt-1 text-sm text-gray-700">{props.description}</p>
-        </li>
+    <div className="TaskItem shadow-md border border-slate-100">
+        <h2 className="text-base font-bold my-1">{props.title}</h2>
+        <p className="text-sm text-slate-500">{props.dueDate}</p>
+        <p className="text-sm text-slate-500">
+          Description: {props.description}
+        </p>
       </div>
-    </div>
   );
 };
 ```
