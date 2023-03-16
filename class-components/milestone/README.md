@@ -11,12 +11,18 @@ To complete this milestone, you have to add following features to your `TaskApp`
 - Add another input field to accept a description of a task. The field should have it's id as `todoDescription`
 - Add another input field to accept due date for a task. The field should have it's id as `todoDueDate`
 - User should not be able to create empty tasks ie, tasks without title or due date. Description can be empty.
-- Each task should be rendered as a `<li>` element. 
+- Each task rendered should have `TaskItem` CSS class.
 
 ```html
 <div>
-  <li style="list-style-type: none;"><h3>Sample item  (2023-01-09)</h3>some description</li>
-  <li style="list-style-type: none;"><h3>Another item  (2023-01-08)</h3>another description</li>
+  <div class="TaskItem">
+    <h3>Sample item (2023-01-09)</h3>
+    some description
+  </div>
+  <div class="TaskItem">
+    <h3>Another item (2023-01-08)</h3>
+    another description
+  </div>
 </div>
 ```
 
