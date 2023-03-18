@@ -12,20 +12,19 @@ Now let's scaffold a react application using Create React App using TypeScript t
 
 Let's execute the command
 
-> Action: `npx create-react-app level-3 --template typescript`
+> Action: `npx create-react-app smarter-tasks --template typescript`
 
-It will create a folder named `level-3` and install necessary packages and files. Once it is finished, let's switch to the newly created app.
+It will create a folder named `smarter-tasks` and install necessary packages and files. Once it is finished, let's switch to the newly created app.
 
-> Action: `cd level-3`
+> Action: `cd smarter-tasks`
 
 ```sh
-cd level-3
+cd smarter-tasks
 ```
 
 If you look in the `src` folder, you can see two TypeScript files have been created - `index.tsx` and `App.tsx`
 
 `.tsx` is the TypeScript equivalent of JSX. It is JSX but with types.
-
 
 In earlier versions of React, only class based components could have a state associated with it. So if we need to keep track of changes or provide some useful functionality, class based component was the only way to go.
 
@@ -38,8 +37,7 @@ Let's create a new file `Task.tsx`. When creating a component, you have to capit
 > Action: Add following code to `Task.tsx`
 
 ```tsx
-class Task extends React.Component {
-}
+class Task extends React.Component {}
 ```
 
 A class component will have a `render` method, which will be invoked whenever the internal state changes, and renders the actual component.
@@ -47,9 +45,7 @@ A class component will have a `render` method, which will be invoked whenever th
 ```tsx
 class Task extends React.Component {
   render() {
-    return (
-      <div>Buy groceries </div>
-    )
+    return <div>Buy groceries </div>;
   }
 }
 ```
@@ -70,7 +66,6 @@ import Task from "./Task";
 
 Then, let's remove the boilerplate code that renders react icon, and replace with our `Task` component.
 
-
 ```tsx
 function App() {
   return (
@@ -85,7 +80,7 @@ Let's remove the unused imports as well.
 
 > Action: Remove `import logo from './logo.svg';` from `App.tsx`
 
-Let's save the file. And run our app. Open the terminal, change to `level-3`. Then execute the command
+Let's save the file. And run our app. Open the terminal, change to `smarter-tasks`. Then execute the command
 
 ```sh
 npm start
@@ -114,9 +109,7 @@ import React from "react";
 
 class Task extends React.Component {
   render() {
-    return (
-      <div>Buy groceries </div>
-    )
+    return <div>Buy groceries </div>;
   }
 }
 
