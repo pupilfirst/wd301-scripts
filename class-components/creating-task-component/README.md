@@ -2,7 +2,7 @@
 
 In this video, you will learn about class based components. Though this is not a recommended approach for writing React components anymore, but still it is good to know about them.
 
-First, let's scaffold a React application using Create React App using TypeScript template. We can do that by providing the following command.
+First, let's scaffold a React application using Create React App using TypeScript template. We can do that by providing the following command once we are inside the `wd301` folder.
 
 `npx create-react-app smarter-tasks --template typescript`
 
@@ -10,7 +10,7 @@ Let's execute the command
 
 > Action: `npx create-react-app smarter-tasks --template typescript`
 
-It will create a folder named `smarter-tasks` and install necessary packages and files. Once it is finished, let's switch to the newly created app.
+It will create a folder named `smarter-tasks` and install necessary packages and files. Once it is finished, let's switch to the newly created app by using `cd`.
 
 > Action: `cd smarter-tasks`
 
