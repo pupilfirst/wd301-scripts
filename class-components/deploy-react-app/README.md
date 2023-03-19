@@ -1,130 +1,39 @@
-# Script
+# Text
 
-In this video, we will learn how to build and deploy our react application to the internet.
+In this lesson, we will learn how to build and deploy our React application to the internet.
 
-To host our application, we will use GitHub. Let's head to GitHub and create a repository.
+To host our application, we will use Netlify. Let's head to Netlify and create an account. We will use GitHub to login to Netlify.
 
-> Action: Visit github.com and create a repository
+> Action: Visit netlify.com and use GitHub to signup
 
-Let's name our repository `task-app`. Do not use the same repository which has the source code in it. We will keep it as separate repository.
+Once logged in, select `Import an existing project` option from `Add new site` menu.
 
-Let's clone this repository.
+Next, select `GitHub` from the list of Git providers. Authorize Netlify to access your repositories. Provide access to `Only select repository`. Then type in `wd301` and select the course repository.
 
-> Action: clone the github repository to local folder.
+Click on Install button to initiate installation of site.
 
-```sh
-git clone <git url>
-```
+In the next page, select the `<your github username>/wd301` repository to proceed.
 
-Now, we will open our project in VS Code.
+Now, we will have to specify the subdirectory which holds the source code for React app, the build command, and the path to which production build will be generated.
 
-> Action: switch to VS Code and open package.json
+Type `smart-task-app` in base directory field. The other two fields should get automatically populated.
 
-If we look at `package.json`, we can see there is a build step under `scripts`. Let's use that to create a production deployment.
+Projects generated with `create-react-app` has a `build` command already set up in `package.json`.
 
-Run the following command from terminal.
+The `Build commad` should have the value `npm run build`.
 
-```sh
-npm run build
-```
+When the build command is executed, a production build, which contains HTML, CSS, and JavaScript will be generated in `build` folder. We will add the output directory to `Publish directory`.
 
-Now, the project is being built and the output will be in the `build` folder by default. Let's open the build folder.
+Publish directory should have the value `smart-task-app/build`.
 
-> Action: open build folder and view the files.
+Click on `Deploy site`. It will start a deployment job and will display the url to which React app is deployed.
 
-Now we have to copy these files into the respository we just created.
+Click on `Site Settings`. The React app should be built and deployed in under a minute.
 
-> Action: Open newly cloned repo in finder and copy the files from build folder into it.
-
-Let's commit these files. Open the terminal, browse to the repository location.
-
-```sh
-git add --all
-git commit -m "Initial react app deployment"
-git push
-```
-
-Once we push some content, we can change repository settings to host a static website.
-
-> Action: visit the Github repository
-
-Click on the `settings` icon. And select `Pages` from the menu on the left.
-
-> Action: click settings tab, select pages item from left menu
-
-We pushed the content to `main` branch. From under `Builds and deployment` > `Branch`, select`main`. Save the settings.
-
-We can see a GitHub action has triggerred and deployed our app. It will take around 1 minute for the action to run.
-
-Now let's visit the url `https://<username>.github.io/<repository-name>`.
-
-> Action: Visit `https://<username>.github.io/<repository-name>`
-
-We don't see our app. It is just a blank screen. Let's check the console to verify if there are any errors.
-
-> Action: open browser tools and switch to console and reload the page.
-
-The browser is unable to find the `JavaScript` and `CSS` files. Let's fix that.
-
-> Action: open `https://create-react-app.dev/docs/deployment/#building-for-relative-paths`
-
-If we read through react docs, there is an option to build our app for relative paths. We just need to add an entry in `package,json`.
-
-Switch over to our react project and edit the `package.json`.
-
-> Action: open `package.json`
-
-Let's add following entry:
-
-```json
-"homepage": "https://username.github.io/repository-name",
-```
-
-Save the file. And let's repeat the same steps as before.
-
-Run the `build` script.
-
-```sh
-npm run build
-```
-
-It will delete the previous buil automatically. Once the build is complete, let's replace the files in our deployment repository. We can delete the existing files, then copy the new ones.
-
-> Action: Open the deployment depository, delete the files, copy new build
-
-Now, let's commit this changes.
-
-```sh
-git add --all
-git commit -m "Built with relative url"
-git push
-```
-
-> Action: commit the changes. Then switch to GitHub in browser.
-
-If you look at the repository, we can see, a new GitHub action has been triggerred.
+Any further updates or commits which is pushed to Github will automatically trigger a deployment.
 
 > Action: visit the deployed app and add a todo item.
 
-And once it is complete, let's visit our deployed app. And it is working as expected.
+Let's visit our deployed app. And it is working as expected.
 
-See you in the next video.
-
-
-# Text
-
-In this lesson we will learn to use GitHub to host our React app.
-
-To create production build:
-
-```sh
-npm run build
-```
-
-The output will be in `build` folder. These files can be used to host a static website in GitHub.
-
-To make the static files load correctly, you will have to add a `homepage` key in `package.json` before running the build step.
-
-```json
-"homepage": "https://username.github.io/repository-name",
-```
+See you in the next lesson.
