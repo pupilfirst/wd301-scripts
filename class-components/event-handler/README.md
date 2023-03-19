@@ -224,7 +224,7 @@ import TaskList from "./TaskList";
 
 ```
 
-We can now add styling from level 1 to our `Smart-task-app`.
+We can now add styling from level 1 to our `smarter-tasks`.
 
 ```tsx
 render() {
