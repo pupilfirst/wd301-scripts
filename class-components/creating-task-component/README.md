@@ -2,13 +2,9 @@
 
 In this video, you will learn about class based components. Though this is not a recommended approach for writing React components anymore, but still it is good to know about them.
 
-Let's first create a folder for this level in our git repository.
+First, let's scaffold a React application using Create React App using TypeScript template. We can do that by providing the following command.
 
-> Action: Create a folder L3 from VS Code.
-
-Now let's scaffold a react application using Create React App using TypeScript template. We can do that by providing the following command.
-
-> Action open browser and type npx create react app TypeScript, and select the relevant link
+`npx create-react-app smarter-tasks --template typescript`
 
 Let's execute the command
 
