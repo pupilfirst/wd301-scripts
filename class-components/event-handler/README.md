@@ -325,7 +325,7 @@ Save the file. Let's check the app in browser.
 
 > Action: visit http://localhost:3000 and add few entries
 
-We can see the items are getting added to our list. Let's use `<li>` to list the tasks.
+We can see the items are getting added to our list. Let's also add the custom `TaskCard` css class from level 1 to our items.
 
 > Action: Switch to `Task.tsx` and add styling from level 1.
 
