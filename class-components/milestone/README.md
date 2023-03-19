@@ -6,11 +6,11 @@
 
 ## Problem Description
 
-To complete this milestone, you have to add following features to your `TaskApp`.
+To complete this milestone, you have to add the following features to your `smarter-tasks` app.
 
-- Add another input field to accept a description of a task. The field should have it's id as `todoDescription`
-- Add another input field to accept due date for a task. The field should have it's id as `todoDueDate`
-- User should not be able to create empty tasks ie, tasks without title or due date. Description can be empty.
+- Add another input field to accept a description of a task. The field should have its `id` as `todoDescription`
+- Add another input field to accept due date for a task. The field should have its `id` as `todoDueDate`
+- User should not be able to create empty tasks, i.e., tasks without title or due date. Description can be empty.
 - Each task rendered should have `TaskItem` CSS class.
 
 ```html
