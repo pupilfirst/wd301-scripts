@@ -100,7 +100,26 @@ We will use `setState` and `eventHandlers` to manage the input field. Let's edit
 
 > Action: delete the refs.
 
-We already have `title` in our state. Let's use it to track the input field value.
+Let us now add state to hold `title`. Open `TaskForm.tsx` and add `title` of type `string` to `TaskFormState` interface.
+
+```tsx
+interface TaskFormState {
+  title: string;
+}
+```
+
+Now, we will initialize the `title` in our constructor.
+
+```tsx
+  constructor(props: TaskFormProps) {
+    super(props);
+    this.state = {
+      title: ""
+    }
+  }
+```
+
+Now, let's use the state to track the input field value.
 
 ```tsx
   render(){
