@@ -154,7 +154,7 @@ This work is licensed under a
 
 ## L6. Making API Request with React
 
-### Introduction to our API Service
+- [Introduction to our API Service](https://github.com/pupilfirst/wd301-scripts/pull/154)
 
 ### Fetching data
 
