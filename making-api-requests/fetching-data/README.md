@@ -16,10 +16,10 @@ fetch('https://api.example.com/data')
 In this example, we're fetching data from the URL "https://api.example.com/data". The fetch method returns a *promise*, which we can use to handle the response from the API. We're using the `json()` method to parse the response as JSON data, and then logging the data to the console.
 
 Now, let's see how we can use this fetch method in a React JS component. 
-For that, let's open our React application in VS code and in the `src` directory we will create a new file called ReactPlayground.js. 
+For that, let's open our React application in VS code and in the `src` directory we will create a new file called ReactPlayground.tsx. 
 > Action: Open VS code and create ReactPlayground.js in src folder.
 
-Here's we will write a simple component that fetches data from an external API and then we will render that data:
+Here's we will write a simple component that fetches data from an external API, and then we will render that data:
 
 ```jsx
 import React, { useState, useEffect } from 'react';
