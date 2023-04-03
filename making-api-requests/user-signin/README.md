@@ -29,20 +29,21 @@ Let's add this new `Signin` component in our `App` component.
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Signup from './pages/signup';
+import { AuthProvider } from "./useAuth";
 
 // Dialogue 1: First, we've to import the Signin component
 import Signin from './pages/signin';
 const App = () => {
   return (
     <Router>
-      <div>
+      <AuthProvider>
         <Switch>
           <Route exact path="/" component={Signup} />
           <Route exact path="/signup" component={Signup} />
           { /* Dialogue 2: Then we will add route for signin path and render Signin page there */}
           <Route exact path="/signin" component={Signin} />
         </Switch>
-      </div>
+      </AuthProvider>
     </Router>
   );
 };
