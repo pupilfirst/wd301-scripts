@@ -38,8 +38,8 @@ const App = () => {
     <Router>
       <AuthProvider>
         <Switch>
-          <Route exact path="/" component={Signup} />
-          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/" element={<Signup />} />
+          <Route exact path="/signup" element={<Signup />} />
           { /* Dialogue 2: Then we will add route for signin path and render Signin page there */}
           <Route exact path="/signin" component={Signin} />
         </Switch>
