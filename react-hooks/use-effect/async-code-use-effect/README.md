@@ -18,9 +18,9 @@ import React, { useEffect } from "react";
 
 You can also instead use the hook from already imported `React` package as `React.useEffect`.
 
-Let's now add a `useEffect` hook to run whenever tasks gets added or updated. We can specify such dependencies in the dependency array.
+Let's now remove the line that updates title when each task is added.
 
-> Action: Add the following code, highlight the dependecy array:
+> Action: Remove `document.title =` line from `TaskApp.tsx`
 
 ```tsx
 React.useEffect(() => {}, [taskAppState.tasks]);
@@ -56,11 +56,12 @@ While writing `async` code in `useEffect` hook, it is easy to get `async`-`await
 
 ```tsx
 React.useEffect(async () => {
+  // This is wrong usage
   const token = await saveTasksToBackend(taskAppState.tasks);
 
   return () => {
     cancelAPI(token);
-  }
+  };
 }, [taskAppState.tasks]);
 ```
 
@@ -69,12 +70,12 @@ In such a code, the clean up function will never get executed. Instead, we can w
 ```tsx
 React.useEffect(() => {
   const saveTasks = async () => {
-    const token = await saveTasksToBackend(taskAppState.tasks);
-  }
+    token = await saveTasksToBackend(taskAppState.tasks);
+  };
   saveTasks();
   return () => {
     cancelAPI(token);
-  }
+  };
 }, [taskAppState.tasks]);
 ```
 
