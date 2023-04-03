@@ -156,22 +156,22 @@ This work is licensed under a
 
 - [Introduction to our API Service](https://github.com/pupilfirst/wd301-scripts/pull/154)
 
-### Fetching data
-
-### Handling Request with Async Await
-- Updating state after async requests
-
-### Submit Form data to API
+### Making API calls
+- [Fetching data](https://github.com/pupilfirst/wd301-scripts/pull/155)
+- [Handling Request with Async Await](https://github.com/pupilfirst/wd301-scripts/pull/156)
+- [Submit Form data to API](https://github.com/pupilfirst/wd301-scripts/pull/157)
 
 ### Add user authentication
-- User sign up
-- User sign in
-- Persisting user session
-- Managing current user
+- [User sign up](https://github.com/pupilfirst/wd301-scripts/pull/159)
+- [User sign in](https://github.com/pupilfirst/wd301-scripts/pull/158)
+- [Persisting user session](https://github.com/pupilfirst/wd301-scripts/pull/160)
+- [Managing current user](https://github.com/pupilfirst/wd301-scripts/pull/161)
 
-### Implementing a conditional render for public and private pages
+### Implementing a conditional render
+- [Public and private pages using react-router]()
 
 ### Milestone
+
 
 ## L7. More with UI & State Modelling
 
