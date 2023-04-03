@@ -60,12 +60,34 @@ const authToken = localStorage.getItem('authToken');
 Here, we are using the `getItem` method of the **Local Storage API** to retrieve the authentication token with the key authToken.
 
 #### Step 3: Checking if the User is Authenticated
-To check if the user is authenticated, we can simply check if the authentication token is present in Local Storage. We can do this by using the following code:
+To check if the user is authenticated, we can simply check if the authentication token is present in Local Storage. We will do that in the `src/useAuth.js` file, here we will use `useEffect` hook to set the value of `isAuthenticated` in `AuthContext`.
+
 ```tsx
-const isAuthenticated = !!localStorage.getItem('authToken');
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const signin = () => setIsAuthenticated(true);
+  const signout = () => setIsAuthenticated(false);
+  const authContextValue = {
+    isAuthenticated,
+    signin,
+    signout,
+  };
+  
+  useEffect(() => {
+    const isAuth = !!localStorage.getItem('authToken');
+    setIsAuthenticated(isAuth)
+  }, [])
+  
+  return (
+    <AuthContext.Provider value={authContextValue}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
 ```
+
 Here, we are using the getItem method of the Local Storage API to retrieve the authentication token with the key `authToken`. We then use the `!!` operator to convert the value to a boolean.
 
-Now the value of the `isAuthenticated` constant will determine whether the user is authenticated or not. Then we can use `isAuthenticated` constant with React router to determine where to redirect our users.
+Now the value of the `isAuth` constant will determine whether the user is authenticated or not. Then we can use `isAuthenticated` constant with React router to determine where to redirect our users.
 
 To conclude, in this lesson, we learned how to persist user sessions in ReactJs using the Local Storage API. We saw how we can store the authentication token in Local Storage, retrieve it on subsequent requests. By persisting the user session, we can provide a seamless experience to our users and improve the overall usability of our web applications.
