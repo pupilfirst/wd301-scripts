@@ -47,7 +47,7 @@ So, we've cleaned up all the routes that `App` component had previously, and onl
 
 Great! the signup page is coming, now let's create the signup form. For that, I'll create a new file SignupForm.tsx inside the `/src/pages/signup` folder.
 
-> Action: Create Signup.tsx inside `/src/pages/signup` directory
+> Action: Create SignupForm.tsx inside `/src/pages/signup` directory
 
 ```tsx
 import React, { useState } from 'react';
