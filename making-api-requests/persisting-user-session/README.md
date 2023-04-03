@@ -33,7 +33,7 @@ const SigninForm: React.FC<> = () => {
       console.log('Sign-in successful');
       
       // Dialogue: After successful signin, first we will save the token in localStorage
-      localStorage.setItem('authToken', response.data.token);
+      localStorage.setItem('authToken', response.data.access_token);
 
     } catch (error) {
       console.error('Sign-in failed:', error);
