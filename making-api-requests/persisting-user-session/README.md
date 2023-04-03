@@ -50,7 +50,7 @@ const SigninForm: React.FC<> = () => {
 ```
 Here, we are using the `setItem` method of the **Local Storage API** to store the authentication token with the key `authToken`.
 
-We've to save the token after signup as well, so update the `handleSubmit` method in the `SignupForm` component and use `localStorage.setItem('authToken', response.data.token)` there after successful signup.
+We've to save the token after signup as well, so update the `handleSubmit` method in the `SignupForm` component and use `localStorage.setItem('authToken', response.data.access_token)` there after successful signup.
 
 #### Step 2: Retrieving the Authentication Token
 Once we have stored the authentication token, we can retrieve it on subsequent requests. We can do this by using the following code:
