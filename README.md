@@ -170,7 +170,8 @@ This work is licensed under a
 ### Implementing a conditional render
 - [Public and private pages using react-router]()
 
-### Milestone
+# Milestone
+- [Milestone specification](https://github.com/pupilfirst/wd301-scripts/pull/163)
 
 
 ## L7. More with UI & State Modelling
