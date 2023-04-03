@@ -27,15 +27,17 @@ Let's add this new `Signup` component in our `App` component.
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Signup from './pages/signup';
+import { AuthProvider } from "./useAuth";
+
 const App = () => {
   return (
     <Router>
-      <div>
+      <AuthProvider>
         <Switch>
           <Route exact path="/" component={Signup} />
           <Route exact path="/signup" component={Signup} />
         </Switch>
-      </div>
+      </AuthProvider>
     </Router>
   );
 };
