@@ -14,7 +14,7 @@ useEffect(setup, dependencies?)
 
 There can be two variants of `effects`:
 
-- One that does not require a cleanup function.
+- One that does not require a cleanup function. Let's open `TaskApp.tsx` and add the following lines.
 
   ```tsx
   import React, { useEffect } from "react";
@@ -37,6 +37,8 @@ There can be two variants of `effects`:
   };
   ```
 
+  Now if you try adding tasks, the tab title changes accordingly.
+
 - One that require a cleanup function.
 
   The example where availability of username is checked on every keystroke, we would need to cancel the already sent network requests as the user types a new character. The code to cancel such a request should be passed in the cleanup function. As a rule of thumb, every `connect` needs `disconnect`, `subscribe` needs `unsubscribe`, and `fetch` needs either `cancel` or `ignore` Eg:
@@ -56,6 +58,8 @@ There can be two variants of `effects`:
 ## Optimizing useEffect
 
 `useEffect` gets called on each render. We can optimize it by passing an array of dependencies. Then react will only trigger `useEffect` whenever an entry in the dependency array changes. Eg: Here we can tell React to run the `useEffect` only when `taskAppState.tasks` gets modified.
+
+Let's add a dependency array to `TaskApp.tsx`.
 
 ```tsx
 import React, { useEffect } from "react";
