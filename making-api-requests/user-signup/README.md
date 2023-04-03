@@ -34,8 +34,8 @@ const App = () => {
     <Router>
       <AuthProvider>
         <Switch>
-          <Route exact path="/" component={Signup} />
-          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/" element={<Signup />} />
+          <Route exact path="/signup" element={<Signup />} />
         </Switch>
       </AuthProvider>
     </Router>
