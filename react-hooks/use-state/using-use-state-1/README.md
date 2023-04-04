@@ -1,5 +1,15 @@
 # Text
 
+With React 16.8, _hooks_ got introduced and it is now possible to write react components that are just functions. ES6 classes are no more needed to hold state in a component. Following is an example of function based component.
+
+```tsx
+import React from "react";
+
+function Header() {
+  return <h1>This is a header</h1>;
+}
+```
+
 We can use `useState` hook to store the state in a function based component. The initialization call to `useState` returns a pair of values - the current state itself, and a setter function that updates it.
 
 The syntax for `useState` hook is:
@@ -19,8 +29,6 @@ The initialization can also be done by passing a function.
 
 ```tsx
 import React, { useState } from "react";
-
-
 
 function SampleComponent() {
   const [title, setTitle] = useState(() => {
