@@ -69,6 +69,7 @@ In such a code, the clean up function will never get executed. Instead, we can w
 
 ```tsx
 React.useEffect(() => {
+// This is correct usage
   const saveTasks = async () => {
     token = await saveTasksToBackend(taskAppState.tasks);
   };
