@@ -107,7 +107,39 @@ const dueDateChanged: React.ChangeEventHandler<HTMLInputElement> = (event) => {
 };
 ```
 
-The setter in functional component, replaces the previous state. So, we will have to use the spread operator (`...`) to preserve any other values. If we had used seperate setters for `title`, `description` etc, we could have simply invoked the setter.
+The setter in functional component, replaces the previous state. In class based components,
+
+```tsx
+this.setState({ title: "sample title" }); // setting title
+this.setState({ description: "sample description" }); // setting description
+```
+
+would result in a merged state like:
+
+```js
+{
+  title: "sample title",
+  description: "sample description"
+}
+```
+
+but in function based component,
+
+```tsx
+setFormState({ title: "sample title" }); // would set the state to `{ title: "sample title" }`
+
+setFormState({ description: "sample description" });
+```
+
+would replace existing state and final state becomes:
+
+```js
+{ 
+  description: "sample description"
+}
+```
+
+So, we will have to use the spread operator (`...`) to preserve any other values. If we had used seperate setters for `title`, `description` etc, we could have simply invoked the setter.
 
 Let's update the `addTask` function next. We can drop the `this.state` and use `formState`. Also we can directly invoke `props.addTask` rather than `this.props.addTask`.
 
