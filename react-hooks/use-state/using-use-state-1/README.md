@@ -13,6 +13,8 @@ function SampleComponent() {
 }
 ```
 
+![useState](./useState.png)
+
 The initialization can also be done by passing a function.
 
 ```tsx
