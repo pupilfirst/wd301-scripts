@@ -1,5 +1,5 @@
 # Text
-Hello and welcome to this new lesson where you will learn how to fetcch data from an API edpoint in React.JS.
+Hello and welcome to this new lesson where you will learn how to fetch data from an API edpoint in React.JS.
 
 # Script
 Data fetching is an important aspect of building web applications, and React JS provides several ways to fetch data from external sources. In this lesson, we'll explore the most common methods of data fetching in React JS.
