@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
     </div>
   );
 };
-
+Create `TaskListPage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
 export default HomePage;
 ```
 
