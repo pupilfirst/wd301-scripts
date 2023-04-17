@@ -79,7 +79,7 @@ const TaskListPage: React.FC = () => {
 
 export default TaskListPage;
 ```
-
+Create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
 ```js
 // TaskDetailsPage.tsx
 import React from 'react';
