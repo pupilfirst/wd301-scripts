@@ -44,6 +44,17 @@ You can rename the scripts to be `start` instead of `dev` to launch the server s
 },
 ```
 
+To make the project similar to what CRA generates, we will have to rename `main.tsx` in `smarter-tasks/src` folder to `index.tsx`.
+
+Also make sure to edit `index.html` to reflect the above change.
+
+```html
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+```
+
 Now onwards, you can use the same commands as we had covered in earlier lessons.
 
 ## Advantages of using Vite
