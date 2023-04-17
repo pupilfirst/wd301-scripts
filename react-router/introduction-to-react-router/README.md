@@ -6,7 +6,7 @@ React Router is a library that allows us to handle routing in a React applicatio
 
 First, let us start by installing and adding the React Router to our application.
 
-In the terminal, within your project folder, type the following command:
+In the terminal, within your `smarter-tasks` project folder, type the following command:
 
 ```bash
 npm install --save react-router-dom @types/react-router-dom
