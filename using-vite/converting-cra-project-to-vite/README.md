@@ -1,6 +1,6 @@
 # Text
 
-To use `vite` instead of `create-react-app` in your project, you will have to follow the following steps.
+To use `vite` instead of `create-react-app` in your existing project, you will have to follow the following steps.
 
 ## Install Vite
 
