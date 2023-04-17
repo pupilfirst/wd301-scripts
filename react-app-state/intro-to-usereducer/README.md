@@ -4,7 +4,35 @@ In previous lessons, you've already learned about the most used React hooks like
 # Script
 React provides a number of powerful features that allow developers to create highly interactive and responsive web applications. One of these features is the `useReducer` hook, which is a powerful tool for managing state in React.
 
-The `useReducer` hook is quite similar to the useState hook (to some extent). But the `useReducer` hook allows us to manage state in a more structured way than the `useState` hook. And in this lesson, we will explore the `useReducer` hook and its benefits.
+The `useReducer` hook is:
+1. an alternative to the useState hook (to some extent). 
+2. they are both hooks that are meant to produce state.
+3. and whenever the state changes, the component is going to automatically rerender.
+
+The big difference between useState and useReducer is in the steps involved in implementing state management using both of these hooks. The useReducer hook  is most useful when you have multiple pirces of state that are very closely related to each other.
+
+### Let's create a new Component and learn to use the useReducer hook.
+
+Using the useReducer hook in React is quite simple. First, we will create a new component called `Counter.tsx` in the `src` folder. 
+
+
+1. Then we will import the `useReducer` hook from the 'react' library:
+```js
+import React, { useReducer } from 'react';
+
+// Dialogue 1: Next we will define our Counter component
+const Counter = () => {
+
+  // Dialogue 2: Then inside the component, I'll write a const, and inside a square bracket I'll write state, dispatch. Then we will use the useReducer hook, where the first argument is going to be something caled **reducer** and the second argument will be an object with properties like `count` and `message`.
+  const [state, dispatch] = useReducer(reducer, {
+    count: 0,
+    valueToAdd: 0
+  });
+  
+}
+```
+
+
 
 ### What is useReducer in React?
 The useReducer hook is a built-in hook in React that provides a way to manage complex state transitions in your application. As I said before, it is similar to the `useState` hook, but instead of managing a single state value, it manages a state object and allows you **to dispatch actions to update the state**.
@@ -18,11 +46,32 @@ The useReducer hook takes two arguments: the **reducer** function and the **init
 Using the useReducer hook in React is quite simple. First, we will create a component called `Counter.tsx` in the src `folder`. 
 
 1. Then we will import the `useReducer` hook from the 'react' library:
-```js
+```tsx
 import React, { useReducer } from 'react';
+
+// Dialogue 1: Next we will define our Counter component
+const Counter = () => {
+
+  // Dialogue 2: Then inside the component, I'll write a const, and inside a square bracket I'll write state, dispatch. Then we will use the useReducer hook, where the first argument is going to be something caled **reducer** and the second argument will be an object with properties like `count` and `message`.
+  const [state, dispatch] = useReducer(reducer, {
+    count: 0,
+    valueToAdd: 0
+  });
+  
+}
 ```
 
-2. Then we will define the initial state of our component using an object:
+2. Next, we will define the `reducer` function
+
+```tsx
+// Dialogue 1: the reducer function will take two arguments, `state` and `action`. And for now, I;m going to keep it empty.
+const reducer = (state, action) => {
+
+}
+```
+> Action: Now go back to browser: we can expect some errors.
+
+1. Then we will define the initial state of our component using an object:
 
 ```js
 const initialState = {
