@@ -70,7 +70,7 @@ You should edit the `scripts` section in `package.json` as follows:
 ```json
 "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "tsc && vite build"
   },
 ```
 
