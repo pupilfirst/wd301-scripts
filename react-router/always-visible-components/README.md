@@ -8,7 +8,7 @@ In this lesson, we will learn how to create always visible components in our app
 
 Firstly, let's create a new component that we want to be always visible. For the purpose of this tutorial, let's create a header component that will be visible on all pages of our application.
 
-Create a new file called `Header.tsx` in the src/components folder.
+Create a new file called `Header.tsx` in the src/components folder of our `smarter-tasks` project.
 
 In the `Header.tsx` file, add the following code to create a simple header component.
 
