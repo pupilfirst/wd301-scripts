@@ -47,7 +47,7 @@ function App() {
 Here we're using the 'Route' component to map URLs to different components. The 'exact' prop is used to ensure that the route only matches the exact path specified.
 
 Now let's create the components for our home page, task list page, and task details page.
-
+Create `HomePage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
 ```js
 // HomePage.tsx
 import React from 'react';
