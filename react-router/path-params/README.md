@@ -16,7 +16,7 @@ To add path params to the existing project, we will modify the routes in our `Ap
 
 Let's start by adding path params to the task details page so that we can display the details for a specific task.
 
-First, let's modify the TaskDetails component to accept a taskId prop:
+First, let's modify the TaskDetails component in `TaskDetailsPage.tsx` to accept a `taskId` prop:
 
 ```js
 import { useParams } from "react-router-dom";
@@ -43,9 +43,9 @@ function TaskDetails({ taskId }: TaskDetailsProps) {
 export default TaskDetails;
 ```
 
-Note that we're using the useParams hook from the react-router-dom package to access the taskId parameter from the URL. We're also passing the taskId prop to the component, which we'll use to display the task details.
+Note that we're using the useParams hook from the react-router-dom package to access the `taskId` parameter from the URL. We're also passing the taskId prop to the component, which we'll use to display the task details.
 
-Next, let's modify the route for the TaskDetails component to include a taskId path param:
+Next, let's modify the route for the TaskDetails component in the `App.tsx` file to include a taskId path param:
 
 ```js
 <Route path="/tasks/:taskId" component={TaskDetails} />
@@ -53,7 +53,7 @@ Next, let's modify the route for the TaskDetails component to include a taskId p
 
 Now, when the user navigates to a URL like /tasks/123, React Router will pass the value "123" as the taskId prop to the TaskDetails component.
 
-Finally, let's modify the TaskList component to include links to the task details page that include the task ID as a path param:
+Finally, let's modify the TaskList component in the `TaskListPage.tsx` to include links to the task details page that include the task ID as a path param:
 
 ```js
 import { Link } from "react-router-dom";
