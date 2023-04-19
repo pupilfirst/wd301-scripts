@@ -128,6 +128,8 @@ Let us now try and add a scenario where we want to check if the user is authenti
 
 First, let's create a new `useAuth` hook to keep track of the user's authentication state. We'll use the `useContext` hook from React to create a new context for the authentication state:
 
+Create `AuthContext.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+
 ```js
 import { createContext, useContext, useState } from "react";
 
@@ -178,7 +180,7 @@ import HomePage from "./HomePage";
 import TaskList from "./TaskList";
 import TaskDetails from "./TaskDetails";
 import Signin from "./Signin";
-import { AuthProvider } from "./useAuth";
+import { AuthProvider } from "./AuthContext";
 
 function App() {
   return (
@@ -202,7 +204,7 @@ Now, let's update the Home component by making changes to the `HomePage.tsx` fil
 
 ```js
 import { useParams, useHistory } from "react-router-dom";
-import { useAuth } from "./useAuth";
+import { useAuth } from "./AuthContext";
 
 function HomePage() {
   const history = useHistory();
