@@ -10,6 +10,8 @@ Let's say you want to add a signin page to your Create React App project and red
 
 First, let's create a new Signin component for the signin page:
 
+Create `Signin.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+
 ```js
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -57,11 +59,19 @@ function Signin() {
 export default Signin;
 ```
 
-n this example, we're using the useState hook to keep track of the username and password inputs. We're also using the useHistory hook from the react-router-dom package to access the history object.
+In this example, we're using the `useState` hook to keep track of the username and password inputs. We're also using the `useHistory` hook from the `react-router-dom` package to access the history object.
 
 When the user submits the form, we're preventing the default form submission behaviour using e.preventDefault(), performing the signin logic (which is omitted in this example), and finally redirecting the user to the homepage using history.push("/").
 
-Next, let's add a new route for the Signin component to the App.tsx file:
+Next, let's add a new route for the Signin component to the `App.tsx` file:
+
+Add an additional route to the Router element in the file for the `Signin` component we created above.
+
+```js
+<Route path="/signin" component={Signin} />
+```
+
+The final `App.tsx` might look something like this after the changes. 
 
 ```js
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -89,6 +99,8 @@ export default App;
 Now, when the user navigates to `/signin`, the Signin component will be rendered.
 
 Finally, let's add a link to the signin page from the homepage:
+
+Add a navigation element with a link to the `Signin` component as below on the `HomePage.tsx` file.
 
 ```js
 import { Link } from "react-router-dom";
@@ -158,7 +170,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 In this example, we're creating a new `AuthContext` context with the `createContext` function. We're also creating a new `AuthProvider` component that wraps the children with the `AuthContext.Provider`. This provider component takes care of setting and updating the authentication state and provides the signin and signout functions to change the authentication state.
 
-Next, let's update the App component to use the AuthProvider:
+Next, let's update the App component by updating the `App.tsx` file to use the AuthProvider:
 
 ```js
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -186,7 +198,7 @@ function App() {
 export default App;
 ```
 
-Now, let's update the Home component to check if the user is authenticated before allowing them to access the page. We can do this by using the useAuth hook we created earlier:
+Now, let's update the Home component by making changes to the `HomePage.tsx` file, to check if the user is authenticated before allowing them to access the page. We can do this by using the useAuth hook we created earlier:
 
 ```js
 import { useParams, useHistory } from "react-router-dom";
