@@ -1,5 +1,5 @@
 # Text
-Hello and welcome to this new lesson, here I will walk you through the wireframe of the application, that we're going to build over next the few lessons. And then I'll also explain the API service that we've created for you, to easily integrate with React. As we don't want you create API endpoints at the moment, as your focus should be on React, right? 
+Hello and welcome to this new lesson, here I will walk you through the wireframe of the application, that we're going to build over next the few lessons. And then I'll also explain the API service that we've created for you, to easily integrate with React. We don't want you create API endpoints at the moment, as your focus should be on React, right? 
 
 So, let's get started!
 
@@ -22,7 +22,7 @@ So, throughout the next few lessons, we will build some essential features of a 
 - Allow users to comment on tasks for better communication and collaboration
 - Tracking all activities of different projects
 
-Now, the *reporting and analytics* part may not be in the scope of our current implementation, though you can work on it on your own, to improvise the PMS further.
+Along with that, a project management system should have a **reports and analytics** section, but for now we are not keeping it as part of our implementation. Though you can work on it on your own, to improvise the PMS further.
 
 ### The wireframe
 So, let me show you the wireframe of different pages:
@@ -51,7 +51,11 @@ After these basic task details, the user should get an option to add comment for
 Then from the main menu, the user should be able to visit and see the list of all members in that organisation, and he/she can invite others to join as well.
 
 ### Understanding the API service
-Now, to implement all these features, we need a lot of APIs. But, don't worry, we've created each and every API endpoints required for this project, and it's deployed at:
+Now, to implement all these features, we need a lot of APIs. 
+
+API is nothing but a set of protocols, tools, and routines that enable software applications to communicate with each other. In simple terms, an API acts as an intermediary between different software applications, allowing them to share data and functionalities with each other.
+
+So, from our React app, we have to make API calls to a API service provider to implement all these features. And we have to deal with a lot of endpoints. But, don't worry, we've created each and every API endpoints required for this project, and it's deployed at:
 > Action: Show the API endpoint URL
 
 And you can see the complete documentation for all API endpoints from here:
