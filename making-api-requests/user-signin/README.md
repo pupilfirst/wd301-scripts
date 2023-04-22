@@ -3,7 +3,12 @@ Hey there! In this lesson you will learn to create a **user signin** form in Rea
 
 So let's get started.
 
-First, we will start with adding the route for the signin page. For that, I'll create a new  `signin` folder inside the `pages` directory.
+First, we will start with adding the route for the signin page. 
+
+From now onwards, we will keep all of our components related to a specific page or route in a folder called **pages**, inside the src directory. So, let's create that folder:
+> Action: Create `pages` folder inside src.
+
+Next, we will create a `signin` folder inside the `pages` directory. We will create all components related ti signin page inside this folder.
 > Action: Create a new folder called `signin` inside the `pages` directory.
 
 Then, inside the signin `folder` I'll add a new file called `index.tsx` with the following content:
@@ -49,7 +54,7 @@ const App = () => {
 };
 export default App;
 ```
-Now, let's go back to the browser to check if Signin page is coming or not.
+Now, let's go back to the browser to check if Signin page is coming or not. For that, I'll open the following URL: http://localhost:3000/signin
 > Action: Open browser and show the signin page.
 
 Great! the signin page is coming, now let's create the signin form. For that, I'll create a new file `SigninForm.tsx`, inside the `/src/pages/signin` folder.
@@ -136,7 +141,7 @@ import React, { useState } from 'react';
 import SigninForm from "./SigninForm"
 
 const Signin: React.FC<> = () => {
-  // Dialogue 2: And use it after the h2 tag
+  // Dialogue 2: And use it after the h1 tag
   return (
     <div>
       <h1>Sign in</h1>
