@@ -38,7 +38,7 @@ const Form: React.FC = () => {
 export default Form;
 ```
 
-Next, we will add event handlers with all input fields to get the updated value in `formData` state.
+Next, we will add event handlers with all input fields to get the updated value in `formData` state. The updated code will look this:
 
 ```tsx
 import React, { useState } from 'react';
