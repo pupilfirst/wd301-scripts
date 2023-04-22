@@ -1,7 +1,7 @@
 # Script
 In this lesson you will learn to submit a form data to an API in React, using async and await. 
 
-So, we'll go over how to create a form in React, handle form submission, and make an API call with the submitted data.
+So, we'll go over how to create a form in React, how to handle form submission, and how to make an API call with the form data.
 
 First, we will open our project in VS Code editor.
 
@@ -69,15 +69,19 @@ const Form: React.FC = () => {
       <textarea id="message" name="message" value={formData.message} onChange={handleChange} />
 
       <button type="submit">Submit</button>
+      Form Values: {formData}
     </form>
   );
 };
 
 export default Form;
 ```
-> Action: Test the show if the form value is getting updated in local state
+So, here we've added a `handleChange` method to get values from each input fields, then we are using `setFormData` function to update the `formData` object. After we submit button, I've printed the `formData` values, for testing purpose (you can remove it later). 
+Now, let's go to the browser to test it out.
 
-Now finally we are all set to submit our form. Let's implement the `handleSubmit` function and submit the form data to API endpoint.
+> Action: Test the show if the form value is getting updated in local state and it's showing in webpage after the submit button.
+
+Now, we are all set to submit our form. Let's implement the `handleSubmit` function and submit the form data to API endpoint.
 
 ```tsx
 import React, { useState } from 'react';
@@ -135,8 +139,8 @@ export default Form;
 
 In the `handleSubmit` function, we're making a POST request to the JSONPlaceholder API with the form data using `fetch()`. We're using `async` and `await` to handle the response from the API.
 
-So, we are all set to test it out.
-> Action: Submit the form and Show the output on browser
+So, we are all set to test it out. Let's restart the application and open http://localhost:3000 in browser.
+> Action: Submit the form and Show the output on browser. Also keep network tab open to show the POST API call.
 
 As, as you can see, the form data is successfully getting submitted to the API endpoint.
 That's it for this lesson, see you in the next one.
