@@ -24,7 +24,7 @@ const Signin: React.FC<> = () => {
 export default Signin;
 ```
 
-Let's add this new `Signin` component in our `App` component.
+Let's add this new `Signin` component in our `App` component, i.e., _App.tsx_ file.
 ```tsx
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
