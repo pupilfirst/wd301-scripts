@@ -6,7 +6,7 @@ So let's rewrite the same component using `Async Await`.
 # Script
 Using `async` and `await` is a cleaner and more readable way to handle Promises. The `async` keyword is used to declare that a function returns a Promise, and the await keyword is used to wait for the Promise to resolve before continuing with the execution of the code.
 
-So to start with the implementation, first, we have to clean up all code present in the `ReactPlayground` component.
+So to start with the implementation, first, we have to clean up all code present in the `ReactPlayground` component in our _ReactPlayground.tsx_ file.
 > Action: Clear ReactPlayground component
 
 Now, let's implement the async await way to fetch data:
