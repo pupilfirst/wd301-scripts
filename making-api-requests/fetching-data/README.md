@@ -13,7 +13,16 @@ fetch('https://api.example.com/data')
   .then(response => response.json())
   .then(data => console.log(data));
 ```
-In this example, we're fetching data from the URL "https://api.example.com/data". The fetch method returns a *promise*, which we can use to handle the response from the API. We're using the `json()` method to parse the response as JSON data, and then logging the data to the console.
+In this example, we're fetching data from the URL "https://api.example.com/data". The fetch method returns a *promise*, which we can use to handle the response from the API. 
+
+As we know, a **Promise** in JavaScript is an object that represents a value that might not be available yet, but will be resolved at some point in the future.
+
+A Promise has three states:
+1. Pending: The initial state when a Promise is created.
+2. Fulfilled: The state when a Promise is resolved with a value.
+3. Rejected: The state when a Promise is rejected with an error.
+
+Then we're using the `json()` method to parse the response as JSON data, and then logging the data to the console.
 
 Now, let's see how we can use this fetch method in a React JS component. 
 For that, let's open our React application in VS code and in the `src` directory we will create a new file called ReactPlayground.tsx. 
