@@ -14,76 +14,70 @@ For example, if the user navigates to /users/123, React Router will pass the val
 
 To add path params to the existing project, we will modify the routes in our `App.tsx` file.
 
-Let's start by adding path params to the task details page so that we can display the details for a specific task.
+Let's start by adding link from the `Task.tsx` page to share the task id to the TaskDetailsPage, so that we can display the details for a specific task.
 
-First, let's modify the TaskDetails component in `TaskDetailsPage.tsx` to accept a `taskId` prop:
+First, let's modify the Task component in `Task.tsx` to share a `id` prop:
+
+Add a Link tag to the `h2` element as below so the user can click on the Task title to navigate to the task details page.
 
 ```js
-import { useParams } from "react-router-dom";
-
-interface TaskDetailsProps {
-  taskId: string;
-}
-
-function TaskDetails({ taskId }: TaskDetailsProps) {
-  // Use the `useParams` hook to access the `taskId` parameter from the URL
-  const { id } = useParams<{ id: string }>();
-
-  // Render the task details using the `taskId` prop and the `id` parameter from the URL
-  return (
-    <div>
-      <h1>Task Details</h1>
-      <p>Task ID: {taskId}</p>
-      <p>Parameter ID: {id}</p>
-      {/* Render the rest of the task details */}
-    </div>
-  );
-}
-
-export default TaskDetails;
+<Link to={`/tasks/${item.id}`}>
+  <h2 className="text-base font-bold my-1">{item.title}</h2>
+</Link>
 ```
 
-Note that we're using the useParams hook from the react-router-dom package to access the `taskId` parameter from the URL. We're also passing the taskId prop to the component, which we'll use to display the task details.
-
-Next, let's modify the route for the TaskDetails component in the `App.tsx` file to include a taskId path param:
+Next, let's modify the TaskDetails component in `TaskDetailsPage.tsx` to accept a `id` prop:
 
 ```js
-<Route path="/tasks/:taskId" component={TaskDetails} />
-```
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useLocalStorage } from './hooks/useLocalStorage';
+import { TaskItem } from "./types";
 
-Now, when the user navigates to a URL like /tasks/123, React Router will pass the value "123" as the taskId prop to the TaskDetails component.
-
-Finally, let's modify the TaskList component in the `TaskListPage.tsx` to include links to the task details page that include the task ID as a path param:
-
-```js
-import { Link } from "react-router-dom";
-
-interface Task {
+interface TaskDetailsPageParams extends Record<string, string> {
   id: string;
-  name: string;
 }
 
-interface TaskListProps {
-  tasks: Task[];
+interface TaskAppState {
+  tasks: TaskItem[];
 }
 
-function TaskList({ tasks }: TaskListProps) {
+const TaskDetailsPage: React.FC = () => {
+  const { id } = useParams<TaskDetailsPageParams>();
+  const [taskAppState] = useLocalStorage<TaskAppState>(
+    "tasks",
+    {
+      tasks: [],
+    }
+  );
+  
+  const task = taskAppState.tasks.find(task => task.id === id);
+
   return (
-    <div>
-      <h1>Task List</h1>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <Link to={`/tasks/${task.id}`}>{task.name}</Link>
-          </li>
-        ))}
-      </ul>
+    <div className="bg-white shadow-md rounded-md p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-medium">{task?.title}</h3>
+      </div>
+      <p className="text-gray-600">{task?.description}</p>
+      <p className="text-gray-600">{task?.dueDate}</p>
     </div>
   );
-}
+};
 
-export default TaskList;
+export default TaskDetailsPage;
 ```
+
+In the above code, we have read the latest list of tasks from the Localstorage, filtered out the task details by `id` param and displayed the same. 
+
+Note that we're using the useParams hook from the react-router-dom package to access the `id` parameter from the URL. We're also passing the `id` prop to the component, which we'll use to display the task details.
+
+Next, let's verify the route for the TaskDetails component in the `App.tsx` file to confirm if it includes a id path param:
+
+```js
+<Route path="/tasks/:id" element={ <TaskDetailsPage/> } />
+```
+
+Now, when the user navigates to a URL like `/tasks/123`, React Router will pass the value "123" as the `id` prop to the TaskDetails component.
 
 Now, when the user clicks on a task link, React Router will navigate to the task details page with the task ID as a path param. And, when the user navigates to a URL that includes a task ID, React Router will pass the task ID as a prop to the TaskDetails component, allowing you to display the details for a specific task.
 

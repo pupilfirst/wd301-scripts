@@ -8,9 +8,9 @@ In this lesson, we will learn how to create always visible components in our app
 
 Firstly, let's create a new component that we want to be always visible. For the purpose of this tutorial, let's create a header component that will be visible on all pages of our application.
 
-Create a new file called `Header.tsx` in the src/components folder of our `smarter-tasks` project.
+Create a new file called `Header.tsx` in the src folder of our `smarter-tasks` project.
 
-In the `Header.tsx` file, add the following code to create a simple header component.
+In the `Header.tsx` file, add the following code to create a simple header component with navigation for the routes we created.
 
 ```js
 import React from 'react';
@@ -18,9 +18,25 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header>
-      <h1>Task Manager</h1>
-    </header>
+    <nav className="bg-gray-800 py-4">
+      <div className="mx-auto px-4">
+        <div className="flex justify-between">
+          <div className="flex items-center">
+            <Link to="/" className="ml-6 text-gray-300 hover:text-white">
+              Home
+            </Link>
+            <Link to="/tasks" className="ml-6 text-gray-300 hover:text-white">
+              Tasks
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <h1 className="text-white text-lg font-bold">Task Manager</h1>
+          </div>
+          <div className="flex items-center">
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 };
 
@@ -29,28 +45,31 @@ export default Header;
 
 Next, we need to modify our `App.tsx` file to include the Header component in all pages. We can do this by wrapping our routes in a div and rendering the Header component inside it.
 
-```js
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Header from './components/Header';
-import HomePage from './pages/HomePage';
-import TaskListPage from './pages/TaskListPage';
-import TaskDetailsPage from './pages/TaskDetailsPage';
+Update the `App()` function making sure to import the Header component into the `App.tsx` file.
 
-const App = () => {
+```js
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+
+import Header from "./Header";
+import HomePage from "./HomePage";
+import TaskApp from "./TaskApp";
+import TaskDetailsPage from "./TaskDetailsPage";
+
+
+function App() {
   return (
-    <Router>
-      <div>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/tasks" component={TaskListPage} />
-          <Route exact path="/tasks/:id" component={TaskDetailsPage} />
-        </Switch>
-      </div>
-    </Router>
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/" element={ <HomePage/> } />
+        <Route path="/tasks" element={ <TaskApp/> } />
+        <Route path="/tasks/:id" element={ <TaskDetailsPage/> } />
+      </Routes>
+    </div>
   );
-};
+}
 
 export default App;
 ```
