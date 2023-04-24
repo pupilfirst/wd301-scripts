@@ -9,7 +9,7 @@ First, let us start by installing and adding the React Router to our application
 In the terminal, within your `smarter-tasks` project folder, type the following command:
 
 ```bash
-npm install --save react-router-dom @types/react-router-dom
+npm install --save react-router-dom@latest @types/react-router-dom
 ```
 
 This will install the necessary packages we need to use React Router.
@@ -18,36 +18,49 @@ Next, let us learn how to work with React Router.
 
 Let's try and integrate routes into our existing task management application. Let us split the application to have a home page, task list page, and task details page. 
 
-First, we'll need to import the necessary components from the React Router package. Open up the 'App.tsx' file in your project and add the following imports at the top:
+First, we'll need to import the necessary components from the React Router package. Open up the 'index.tsx' file in our project and add the following import at the top:
 
 ```js
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 ```
 
-We're using the 'BrowserRouter' component, which allows us to use regular URLs like '/tasks' or '/tasks/:id'. The 'Route' component is used to map a URL to a component, and the 'Switch' component is used to ensure that only one route is matched at a time.
+Also, lets update the `root.render` function to use the above `BrowserRouter` instead of the `React.StrictMode` like below.
 
-Next, let's update our 'App' component to use the 'Router' component.
+```js
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+```
+
+We're using the 'BrowserRouter' component, which allows us to use regular URLs like '/tasks' or '/tasks/:id'. 
+
+Next, let's update our 'App' component to use the 'Router' component. Open up the 'App.tsx' file in our project and add the following import at the top:
+
+```js
+import { Routes, Route } from "react-router-dom";
+```
+
+Now lets update the `App` component with the routes we will plan to use in our application. Update the return for the `App` function with the below code.
 
 ```js
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/tasks" component={TaskListPage} />
-          <Route exact path="/tasks/:id" component={TaskDetailsPage} />
-        </Switch>
-      </div>
-    </Router>
+    <Routes>
+        <Route path="/" element={ <HomePage/> } />
+        <Route path="/tasks" element={ <TaskApp/> } />
+        <Route path="/tasks/:id" element={ <TaskDetailsPage/> } />
+      </Routes>
   );
 }
 ```
 
-Here we're using the 'Route' component to map URLs to different components. The 'exact' prop is used to ensure that the route only matches the exact path specified.
+Here we're using the 'Route' component to map URLs to different components. 
 
 Now let's create the components for our home page, task list page, and task details page.
 Create `HomePage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+
 ```js
 // HomePage.tsx
 import React from 'react';
@@ -60,32 +73,20 @@ const HomePage: React.FC = () => {
     </div>
   );
 };
-Create `TaskListPage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+
 export default HomePage;
 ```
 
-```js
-// TaskListPage.tsx
-import React from 'react';
+For listing the tasks we will use the already created `TaskApp` component as we mentioned in the `App` component. 
 
-const TaskListPage: React.FC = () => {
-  return (
-    <div>
-      <h1>Task List</h1>
-      <p>This is the Task List page.</p>
-    </div>
-  );
-};
+Next, Lets create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
 
-export default TaskListPage;
-```
-Create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
 ```js
 // TaskDetailsPage.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-interface TaskDetailsPageParams {
+interface TaskDetailsPageParams extends Record<string, string> {
   id: string;
 }
 
