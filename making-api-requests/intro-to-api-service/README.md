@@ -92,7 +92,7 @@ And finally, in the **Tasks** group, we've endpoints to:
 
 So, please go through the API doc, on your own. There you'll notice, we've added a lot of details in terms of, what are the parameters, which ones are required, sample request body, sample response body and all possible HTTP status codes you might encounter based on client or server errors.
 
-Now, most of these endpoints are secured, except the endpoints for *creating new organisation* and *user signin*. So, in all of these secured endpoints, you've to send a token as part of a request header called **Authorization**. You'll get the token once you would signin to the application. In our React app, we've to make sure to store that token in the browser and send it as part of the  **Authorization** header, to call the protected endpoints.
+Now, most of these endpoints are secured, except the endpoints for *creating new organisation* and *user signin*. We've secured all ciritical resources or endpoints, so that we can prevent them from unauthorised access. So, in all of these secured endpoints, you've to send a token as part of a request header called **Authorization**. You'll get the token once you would signin to the application. In our React app, we've to make sure to store that token in the browser and send it as part of the  **Authorization** header, to call the protected endpoints.
 
 So, that was a quick introduction of our PMS project, it's wireframe and the API service. 
 
