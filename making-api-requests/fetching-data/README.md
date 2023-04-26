@@ -26,7 +26,7 @@ Then we're using the `json()` method to parse the response as JSON data, and the
 
 Now, let's see how we can use this fetch method in a React JS component. 
 For that, let's open our React application in VS code and in the `src` directory we will create a new file called ReactPlayground.tsx. 
-> Action: Open VS code and create ReactPlayground.js in src folder.
+> Action: Open VS code and create ReactPlayground.tsx in src folder.
 
 Here's we will write a simple component that fetches data from an external API, and then we will render that data:
 
