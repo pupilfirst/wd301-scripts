@@ -24,11 +24,11 @@ A Promise has three states:
 
 Then we're using the `json()` method to parse the response as JSON data, and then logging the data to the console.
 
-Now, let's see how we can use this fetch method in a React JS component. 
-For that, let's open our React application in VS code and in the `src` directory we will create a new file called ReactPlayground.tsx. 
+Now, let's see how we can use this `fetch` method in a React JS component. 
+For that, let's open our React application in VS code and in the `src` directory we will create a new file called `ReactPlayground.tsx`. 
 > Action: Open VS code and create ReactPlayground.tsx in src folder.
 
-Here's we will write a simple component that fetches data from an external API, and then we will render that data:
+Here's we will write a simple component that fetches data from an external API, and then we will render that data. Here, we will use an open API from JSONPlaceholder, to get list of all posts (https://jsonplaceholder.typicode.com/posts).
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -42,15 +42,11 @@ const ReactPlayground = () => {
       .then(data => setData(data))
       .catch(error => console.error(error));
   }, []);
+  console.log(data);
 
   return (
     <div>
-      {data.map(item => (
-        <div key={item.id}>
-          <h2>{item.title}</h2>
-          <p>{item.body}</p>
-        </div>
-      ))}
+      <h1 className="text-4xl">Posts</h1>
     </div>
   );
 }
@@ -59,17 +55,24 @@ export default ReactPlayground;
 ```
 In this component, we're using the `useState` and `useEffect` hooks to manage the component's state and lifecycle. We're initializing the state with an empty array, and then using the `useEffect` hook to fetch data from the API and update the state when the component mounts.
 
-Finally, we're rendering the data in the component using the `map` method to create a list of items.
-
-Now that we have our `ReactPlayground` ready, let's import it in our `App.tsx` file. 
+Now, let's import the `ReactPlayground` component in our `App.tsx` file. 
 ```jsx
 import React from 'react';
+...
+...
 import ReactPlayground from './ReactPlayground';
+...
+...
 
 function App() {
   return (
     <div>
+      {isHeaderVisible && <Header />}
       <ReactPlayground />
+      <Routes>
+        ...
+        ...
+      </Routes>
     </div>
   );
 }
@@ -77,9 +80,60 @@ function App() {
 export default App;
 ```
 
-That's it! Now let's go back to the browser and check if it's working?
+Next, let's go back to the browser to check if it's working?
 
-> Open browser and show the result is coming on screen on not.
+> Visit http://localhost:3000 in browser and open the network console.
+So, as you can see, whenever we refresh the page, an API call is made to JSONPlaceholder, to get the list of all posts. Now let's use this data and print id, title and body attribute of each post in our `ReactPlayground` component.
+
+So, first we will define an interface call `Post` in the `ReactPlayground` component:
+```tsx
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+```
+Then, we will use this interface in the `useState` hook:
+```tsx
+const [data, setData] = useState<Post[]>([]);
+```
+
+And finally, we will render the `data` in the component using the `map` method to create a list of posts.
+```tsx
+import React, { useState, useEffect } from 'react';
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
+const ReactPlayground = () => {
+  const [data, setData] = useState<Post[]>([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error(error));
+  }, []);
+  console.log(data)
+  return (
+    <div>
+      <h1 className="text-4xl">Posts</h1>
+      {data.map(item => (
+        <div key={item.id}>
+          <h2 className='text-2xl'>{item.title}</h2>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+export default ReactPlayground;
+```
+Finally, let's go back to the browser and check if the list of posts are coming or not.
+
+Yes!
 
 As you see, we're making a request to the **JSONPlaceholder API** to fetch some sample data, and then we are showing that data in our component.
 
