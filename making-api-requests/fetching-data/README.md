@@ -61,7 +61,7 @@ In this component, we're using the `useState` and `useEffect` hooks to manage th
 
 Finally, we're rendering the data in the component using the `map` method to create a list of items.
 
-Now that we have our `ReactPlayground` ready, let's import it in our `App.js` file. 
+Now that we have our `ReactPlayground` ready, let's import it in our `App.tsx` file. 
 ```jsx
 import React from 'react';
 import ReactPlayground from './ReactPlayground';
