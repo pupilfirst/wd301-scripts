@@ -13,6 +13,8 @@ Here's an example folder structure:
 
 ```
 src/
+|-- constants/
+|   |-- index.ts
 |-- assets/
 |-- pages/
 |   |-- home/
@@ -42,6 +44,7 @@ src/
 
 In this folder structure:
 
+- The `constants` folder contains all constants of our application, for example: API endpoints, secret credentials etc.
 - The `assets` folder contains static assets such as images and fonts.
 - The `pages` folder contains the pages of the application, and each page has its own folder. Every page folder contains a common `index.tsx` file, which is responsible for managing UI or layout of that specific page. The component inside the `index.tsx` file may require child components to compose the whole UI.
 - The `pages/shared` folder contains all of those components which can be shared among other pages. For example: TextField, Dialog, Progressbar etc.
@@ -193,7 +196,7 @@ Now our form is ready and we can submit the form data to the `Create Organisatio
 ```tsx
 import React, { useState } from 'react';
 
-const SignupForm: React.FC<> = () => {
+const SignupForm: React.FC = () => {
   const [organisationName, setOrganisationName] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
