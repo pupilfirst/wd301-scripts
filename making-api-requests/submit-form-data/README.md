@@ -69,17 +69,47 @@ const Form: React.FC = () => {
       <textarea id="message" name="message" value={formData.message} onChange={handleChange} />
 
       <button type="submit">Submit</button>
-      Form Values: {formData}
+      <ul>
+        <li>Name: {formData.name}</li>
+        <li>Email: {formData.email}</li>
+        <li>Message: {formData.message}</li>
+      </ul>
     </form>
   );
 };
 
 export default Form;
 ```
-So, here we've added a `handleChange` method to get values from each input fields, then we are using `setFormData` function to update the `formData` object. After we submit button, I've printed the `formData` values, for testing purpose (you can remove it later). 
+So, here we've added a `handleChange` method to get values from each input fields, then we are using `setFormData` function to update the `formData` object. After we submit button, I've printed the `formData` values just for testing purpose, you can remove it later. 
+
+Next, let's import the `Form` component in our `App.tsx` file. 
+```jsx
+import React from 'react';
+...
+...
+import Form from './Form';
+...
+...
+
+function App() {
+  return (
+    <div>
+      {isHeaderVisible && <Header />}
+      <Form />
+      <Routes>
+        ...
+        ...
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+```
+
 Now, let's go to the browser to test it out.
 
-> Action: Test the show if the form value is getting updated in local state and it's showing in webpage after the submit button.
+> Action: Test the show if the form value is getting updated in local state and it's showing in webpage once we will the form fields.
 
 Now, we are all set to submit our form. Let's implement the `handleSubmit` function and submit the form data to API endpoint.
 
@@ -130,6 +160,11 @@ const Form: React.FC = () => {
       <textarea id="message" name="message" value={formData.message} onChange={handleChange} />
 
       <button type="submit">Submit</button>
+      <ul>
+        <li>Name: {formData.name}</li>
+        <li>Email: {formData.email}</li>
+        <li>Message: {formData.message}</li>
+      </ul>
     </form>
   );
 };
@@ -139,8 +174,9 @@ export default Form;
 
 In the `handleSubmit` function, we're making a POST request to the JSONPlaceholder API with the form data using `fetch()`. We're using `async` and `await` to handle the response from the API.
 
-So, we are all set to test it out. Let's restart the application and open http://localhost:3000 in browser.
+So, we are all set to test it out. Let's open http://localhost:3000 in browser.
 > Action: Submit the form and Show the output on browser. Also keep network tab open to show the POST API call.
 
-As, as you can see, the form data is successfully getting submitted to the API endpoint.
-That's it for this lesson, see you in the next one.
+As, as you can see, the form data is successfully getting submitted to the API endpoint. And in response we are getting the new post object.
+
+So, that's it for this lesson, see you in the next one.
