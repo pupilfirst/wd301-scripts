@@ -13,7 +13,7 @@ Here's an example folder structure:
 
 ```
 src/
-|-- constants/
+|-- config/
 |   |-- index.ts
 |-- assets/
 |-- pages/
@@ -44,7 +44,7 @@ src/
 
 In this folder structure:
 
-- The `constants` folder contains all constants of our application, for example: API endpoints, secret credentials etc.
+- The `config` folder contains all configuration values related to our application, for example: API endpoints and secret credentials as constants.
 - The `assets` folder contains static assets such as images and fonts.
 - The `pages` folder contains the pages of the application, and each page has its own folder. Every page folder contains a common `index.tsx` file, which is responsible for managing UI or layout of that specific page. The component inside the `index.tsx` file may require child components to compose the whole UI.
 - The `pages/shared` folder contains all of those components which can be shared among other pages. For example: TextField, Dialog, Progressbar etc.
@@ -235,7 +235,7 @@ Here, when the form is submitted, the `handleSubmit` function is called, which m
 
 Now, there is a scope of small re-fractoring, i.e. the API endpoint https://wd301-api.onrender.com is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
 
-I'll create a `src/config/index.ts` file, and add the following content there:
+I'll create a `src/config/constants.ts` file, and add the following content there:
 ```ts
 export const API_ENDPOINT = "https://wd301-api.onrender.com"
 ```
@@ -243,7 +243,7 @@ export const API_ENDPOINT = "https://wd301-api.onrender.com"
 Then I'll import this constant in our `SignupForm` component:
 ```tsx
 import React, { useState } from 'react';
-import { API_ENDPOINT } from '../../constants';
+import { API_ENDPOINT } from '../../config/constants';
 ...
 ...
 ```
