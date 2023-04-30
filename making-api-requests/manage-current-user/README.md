@@ -5,25 +5,30 @@ So to do that,
 ### Step 1: first we have to store *User Data*, post signup or signin.
 After a successful login, we will have access to the user's data, such as their name, email, and authentication token. We can store this data in an object and then convert it to a JSON string using JSON.stringify().
 ```tsx
-const SigninForm: React.FC<> = () => {
+const SigninForm: React.FC = () => {
   // ...
   // ...
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch('/users/sign_in', {
+      const response = await fetch(`${API_ENDPOINT}/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
+
       if (!response.ok) {
         throw new Error('Sign-in failed');
       }
+
       console.log('Sign-in successful');
       
+      // extract the response body as JSON data
+      const data = await response.json();
+
       // Dialogue: After successful signin, first we will save the token in localStorage
-      localStorage.setItem('authToken', response.data.access_token);
-      localStorage.setItem('userData', JSON.stringify(response.data));
+      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('userData', JSON.stringify(data.user));
 
     } catch (error) {
       console.error('Sign-in failed:', error);
@@ -40,7 +45,7 @@ const SigninForm: React.FC<> = () => {
 
 
 ```
-Here, we are converting the `response.data` object (which contains user information), into a JSON string using `JSON.stringify()`. We are then using `localStorage.setItem()` to store the JSON string in local storage with the key name `userData`.
+Here, we are converting the `user` object (which contains user information), into a JSON string using `JSON.stringify()`. Then, we are  using `localStorage.setItem()` to store the JSON string in local storage with the key name `userData`.
 
 We've to save the token after signup as well, so update the `handleSubmit` method in the `SignupForm` component and use `localStorage.setItem('userData', JSON.stringify(response.data))` there after successful signup.
 
