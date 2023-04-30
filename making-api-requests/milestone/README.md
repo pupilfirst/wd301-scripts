@@ -7,7 +7,8 @@ To complete this milestone, you have to make the following changes in the *Smart
 3. In the dashboard page, provide a link to logout from the account. To successfully logout, you have to clear the session and current user's information from local storage.
 
 ## Submission Requirements
-1. After the implementation, commit your changes, and push the code to this new GitHub repository.
+1. The logout link should have the `id` attribute with `logout-link` as it's value
+2. After the implementation, commit your changes, and push the code to this new GitHub repository.
 
 #### Well-formatted code is a must.
 Remember to format the code - keep proper indentation and add relevant comments if required. This one is non-negotiable as always.
