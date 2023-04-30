@@ -16,24 +16,26 @@ To implement user session in ReactJs, we will use the Local Storage API. We can 
 #### Step 1: Storing the Authentication Token
 When the user logs in, we will store the authentication token in Local Storage. We can do this in our `SigninForm` component:
 ```tsx
-const SigninForm: React.FC<> = () => {
+const SigninForm: React.FC = () => {
   // ...
   // ...
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
-      const response = await fetch('/users/sign_in', {
+      const response = await fetch(`${API_ENDPOINT}/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
+
       if (!response.ok) {
         throw new Error('Sign-in failed');
       }
       console.log('Sign-in successful');
       
       // Dialogue: After successful signin, first we will save the token in localStorage
-      localStorage.setItem('authToken', response.data.access_token);
+      localStorage.setItem('authToken', response.data.token);
 
     } catch (error) {
       console.error('Sign-in failed:', error);
@@ -59,7 +61,28 @@ const authToken = localStorage.getItem('authToken');
 ```
 Here, we are using the `getItem` method of the **Local Storage API** to retrieve the authentication token with the key authToken.
 
-#### Step 3: Checking if the User is Authenticated
+#### Step 2: Checking if the User is Authenticated
+To check if the user is authenticated, we can simply use the `ProtectedRoute` component. There we will use the `authToken` to decide if a user is authenticated.
+
+```tsx
+import { Navigate } from "react-router-dom";
+
+export function ProtectedRoute({ element }: { element: JSX.Element }) {
+  const isAuth = !!localStorage.getItem("authToken");
+  if (isAuth) {
+    return element;
+  } else {
+    return <Navigate to="/signin" />;
+  }
+}
+```
+Here, we are using the getItem method of the Local Storage API to retrieve the authentication token with the key `authToken`. We then use the `!!` operator to convert the value to a boolean.
+
+Now the value of the `isAuth` constant will determine whether the user is authenticated or not. if not, then we are redirecting the user to the signin page.
+
+To conclude, in this lesson, we learned how to persist user sessions in ReactJs using the Local Storage API. We saw how we can store the authentication token in Local Storage, retrieve it on subsequent requests. By persisting the user session, we can provide a seamless experience to our users and improve the overall usability of our web applications.
+
+<!-- #### Step 3: Checking if the User is Authenticated
 To check if the user is authenticated, we can simply check if the authentication token is present in Local Storage. We will do that in the `src/useAuth.js` file, here we will use `useEffect` hook to set the value of `isAuthenticated` in `AuthContext`.
 
 ```tsx
@@ -88,6 +111,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 Here, we are using the getItem method of the Local Storage API to retrieve the authentication token with the key `authToken`. We then use the `!!` operator to convert the value to a boolean.
 
-Now the value of the `isAuth` constant will determine whether the user is authenticated or not. Then we can use `isAuthenticated` constant with React router to determine where to redirect our users.
+Now the value of the `isAuth` constant will determine whether the user is authenticated or not. Then we can use `isAuthenticated` constant with React router to determine where to redirect our users. -->
 
-To conclude, in this lesson, we learned how to persist user sessions in ReactJs using the Local Storage API. We saw how we can store the authentication token in Local Storage, retrieve it on subsequent requests. By persisting the user session, we can provide a seamless experience to our users and improve the overall usability of our web applications.
+
