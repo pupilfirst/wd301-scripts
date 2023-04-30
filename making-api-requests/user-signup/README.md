@@ -143,9 +143,11 @@ import SignupForm from "./SignupForm"
 const Signup: React.FC<> = () => {
   // Dialogue 2: And use it after the h2 tag
   return (
-    <div>
-      <h1>Sign up</h1>
-      <SignupForm />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="max-w-md w-full px-6 py-8 bg-white rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Sign up</h1>
+        <SignupForm />
+      </div>
     </div>
   );
 }
@@ -163,36 +165,32 @@ const SignupForm: React.FC = () => {
   const [userPassword, setUserPassword] = useState('');
 
   return (
-    <form>
-      <label>
-        Organisation Name:
-        <input type="text" value={organisationName} onChange={(e) => setOrganisationName(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Name:
-        <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input type="email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input type="password" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} />
-      </label>
-      <br />
-      <button type="submit">Sign up</button>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label className="block text-gray-700 font-semibold mb-2">Organisation Name:</label>
+        <input type="text" value={organisationName} onChange={(e) => setOrganisationName(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+      </div>
+      <div>
+        <label className="block text-gray-700 font-semibold mb-2">Your Name:</label>
+        <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+      </div>
+      <div>
+        <label className="block text-gray-700 font-semibold mb-2">Email:</label>
+        <input type="email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+      </div>
+      <div>
+        <label className="block text-gray-700 font-semibold mb-2">Password:</label>
+        <input type="password" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+      </div>
+      <button type="submit" className="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4">Sign up</button>
     </form>
   );
 };
 
 export default SignupForm;
 ```
+As you can see, I;ve also used some CSS classes from Tailwind to style our form. Now our form is ready and we can submit the form data to the `Create Organisation` API endpoint.
 
-Now our form is ready and we can submit the form data to the `Create Organisation` API endpoint.
 ```tsx
 import React, { useState } from 'react';
 
@@ -206,7 +204,7 @@ const SignupForm: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/organisations', {
+      const response = await fetch('https://wd301-api.onrender.com/organisations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ organisation: { name: organisationName, user_name: userName, user_email: userEmail, user_password: userPassword} }),
@@ -215,9 +213,7 @@ const SignupForm: React.FC = () => {
       if (!response.ok) {
         throw new Error('Sign-up failed');
       }
-
       console.log('Sign-up successful');
-
       // Dialogue: After successful signup we have to redirect the user to the secured page. We will do that later.
     } catch (error) {
       console.error('Sign-up failed:', error);
@@ -235,9 +231,44 @@ const SignupForm: React.FC = () => {
 
 export default SignupForm;
 ```
-Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/organisations` endpoint with the organisationName, user's name, email and password from the form. If the request is successful, the function logs a message to the console, and redirects the user to the `/dashboard` path using the `history` object from `react-router-dom`. If the request fails, an error message is logged to the console.
+Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/organisations` endpoint with the `organisationName`, `userName`, `userEmail` and `userPassword`. If the signup request gets processed in server successfully, the function logs a message to the console. If the request fails, an error message is logged to the console as well.
 
+Now, there is a scope of small re-fractoring, i.e. the API endpoint https://wd301-api.onrender.com is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
 
+I'll create a `src/config/index.ts` file, and add the following content there:
+```ts
+export const API_ENDPOINT = "https://wd301-api.onrender.com"
+```
+
+Then I'll import this constant in our `SignupForm` component:
+```tsx
+import React, { useState } from 'react';
+import { API_ENDPOINT } from '../../constants';
+...
+...
+```
+
+Then I'll use this constant in the `handleSubmit` method:
+```tsx
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(`${API_ENDPOINT}/organisations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ organisation: { name: organisationName, user_name: userName, user_email: userEmail, user_password: userPassword} }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Sign-up failed');
+      }
+      console.log('Sign-up successful');
+    } catch (error) {
+      console.error('Sign-up failed:', error);
+    }
+  };
+```
 
 Finally, we are all set to test the signup page.
 > Action: Open the app in browser and try to signup, keep browser console opened.
