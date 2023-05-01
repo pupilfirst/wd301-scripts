@@ -128,7 +128,7 @@ const SigninForm: React.FC<> = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${API_ENDPOINT}/users/login`, {
+      const response = await fetch(`${API_ENDPOINT}/users/sign_in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -159,12 +159,12 @@ const SigninForm: React.FC<> = () => {
 
 export default SigninForm;
 ```
-Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/users/login` endpoint with the email and password from the form. If the request is successful, the function logs a message to the console, and if the request fails, an error message is also logged in the console.
+Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/users/sign_in` endpoint with the email and password from the form. If the request is successful, the function logs a message to the console, and if the request fails, an error message is also logged in the console.
 
 Finally, we are all set to test the signin page.
 > Action: Open the app in browser and try to signin, keep browser console opened.
 
-So, as we can see, after filling the form, once we hit the submit button, the `POST /users/login` endpoint is getting called, and we are getting a successful response.
+So, as we can see, after filling the form, once we hit the submit button, the `POST /users/sign_in` endpoint is getting called, and we are getting a successful response.
 Now if you would observe the response payload, we are getting a `token` back here as well. 
 
 Now there are two things to take care of:
