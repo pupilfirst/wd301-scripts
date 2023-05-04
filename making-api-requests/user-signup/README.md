@@ -233,11 +233,11 @@ export default SignupForm;
 ```
 Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/organizations` endpoint with the `organizationName`, `userName`, `userEmail` and `userPassword`. If the signup request gets processed in server successfully, the function logs a message to the console. If the request fails, an error message is logged to the console as well.
 
-Now, there is a scope of small re-fractoring, i.e. the API endpoint https://wd301-api.onrender.com is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
+Now, there is a scope of small re-fractoring, i.e. the API endpoint `https://wd301-api.pupilfirst.school` is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
 
 I'll create a `src/config/constants.ts` file, and add the following content there:
 ```ts
-export const API_ENDPOINT = "https://wd301-api.onrender.com"
+export const API_ENDPOINT = "https://wd301-api.pupilfirst.school"
 ```
 
 Then I'll import this constant in our `SignupForm` component:
