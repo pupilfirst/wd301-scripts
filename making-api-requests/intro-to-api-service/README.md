@@ -55,7 +55,7 @@ Now, to implement all these features, we need a lot of APIs.
 
 API is nothing but a set of protocols, tools, and routines that enable software applications to communicate with each other. In simple terms, an API acts as an intermediary between different software applications, allowing them to share data and functionalities with each other.
 
-So, from our React app, we have to make API calls to a API service provider to implement all these features. And we have to deal with a lot of endpoints. But, don't worry, we've created each and every API endpoints required for this project, and it's deployed at: https://wd301-api.onrender.com
+So, from our React app, we have to make API calls to a API service provider to implement all these features. And we have to deal with a lot of endpoints. But, don't worry, we've created each and every API endpoints required for this project, and it's deployed at: `https://wd301-api.pupilfirst.school`
 > Action: Show the API endpoint URL
 
 And you can see the complete documentation for all API endpoints from here:
