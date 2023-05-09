@@ -8,7 +8,7 @@ To complete this milestone, you have to make the following changes in the *Smart
 
 ### Repo structure
 At this point in the course, this is how your repo should be structured:
-.
+```
 ├── hello-react
 ├── smarter-tasks
 |   ├── public
@@ -16,17 +16,17 @@ At this point in the course, this is how your repo should be structured:
 |   |   ├── hooks
 |   |   |   └── useLocalStorage.ts
 |   |   ├── config
-|   |   |   |── constants.ts
+|   |   |   └── constants.ts
 |   |   ├── pages
-|   |   |   |-- dashboard/
-|   |   |   |   |-- index.tsx
-|   |   |   |-- signin/
-|   |   |   |   |-- index.tsx
-|   |   |   |   |-- SigninForm.tsx
-|   |   |   |-- signup/
-|   |   |   |   |-- index.tsx
-|   |   |   |   |-- SignupForm.tsx
-|   |   |   |-- shared/
+|   |   |   ├── dashboard/
+|   |   |   |   └── index.tsx
+|   |   |   ├── signin/
+|   |   |   |   ├── index.tsx
+|   |   |   |   └── SigninForm.tsx
+|   |   |   ├── signup/
+|   |   |   |   ├── index.tsx
+|   |   |   |   └── SignupForm.tsx
+|   |   |   ├── shared/
 |   |   |── App.tsx
 |   |   ├── Header.tsx
 |   |   ├── HomePage.tsx
@@ -36,7 +36,7 @@ At this point in the course, this is how your repo should be structured:
 │   ├── package.json
 │   └── package-lock.json
 └── .gitignore
-
+```
 ## Submission Requirements
 1. After the implementation, commit your changes, and push the code to the GitHub repository.
 
