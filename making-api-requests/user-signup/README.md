@@ -237,7 +237,14 @@ Now, there is a scope of small re-fractoring, i.e. the API endpoint `https://wd3
 
 I'll create a `src/config/constants.ts` file, and add the following content there:
 ```ts
-export const API_ENDPOINT = "https://wd301-api.pupilfirst.school"
+export const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+```
+
+Here, we are trying to read the `REACT_APP_API_ENDPOINT` from environment, and setting the value in a constant called `API_ENDPOINT`.
+
+Next, we have a set this environment variable, and for that we will create a `.env` file in our project folder, with the following content:
+```
+REACT_APP_API_ENDPOINT=https://wd301-api.pupilfirst.school
 ```
 
 Then I'll import this constant in our `SignupForm` component:
