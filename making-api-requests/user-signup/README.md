@@ -242,7 +242,7 @@ export const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 Here, we are trying to read the `REACT_APP_API_ENDPOINT` from environment, and setting the value in a constant called `API_ENDPOINT`.
 
-Next, we have a set this environment variable, and for that we will create a `.env` file in our project folder, with the following content:
+Next, we have a set this environment variable, and for that we will create a `.env` file in our project root folder, with the following content:
 ```
 REACT_APP_API_ENDPOINT=https://wd301-api.pupilfirst.school
 ```
