@@ -1,6 +1,6 @@
 # Text
 
-### About the folder structure
+### The folder structure we are going to follow
 Maintaining an organized and optimized folder structure is crucial in building scalable and maintainable React application. 
 
 Before we start defining the folder structure, we need to understand the concept of "Pages".
