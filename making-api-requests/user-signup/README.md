@@ -59,7 +59,7 @@ This folder structure will give us the following benefits:
 - It will encourage separation of concerns.
 
 # Script
-In this video, we are going to create a user signup form. So, when someone new comes to our Smarter Tasks (PMS) app, they should see a link to signup. When we click on the signup link, we should take them to the signup form, where they have to fill some details like:  organization name, his/her name,  email and password. Then, when they click on the signup button, it should call our API service to create the user account. Let's start.
+In this video, we are going to create a user signup form. So, when someone new comes to our Smarter Tasks (PMS) app, they should see a link to signup. When we click on the signup link, we should take them to the signup form, where they have to fill some details like:  organisation name, his/her name,  email and password. Then, when they click on the signup button, it should call our API service to create the user account. Let's start.
 
 First, we will start with adding the route for the signup page. For that, I'll create a new folder `signup` inside the `pages` directory.
 > Action: Create a new folder called `signup` inside the `pages` directory.
@@ -121,7 +121,7 @@ import React from 'react';
 const SignupForm: React.FC = () => {
   return (
     <form>
-      <input name="organizationName" name="organizationName" id="organizationName" type="text" />
+      <input name="organisationName" name="organisationName" id="organisationName" type="text" />
       <input name="userName" name="userName" id="userName" type="text" />
       <input name="userEmail" name="userEmail" id="userEmail" type="email" />
       <input name="userPassword" name="userPassword" id="userPassword" type="password" />
@@ -159,7 +159,7 @@ Next, I'll add event handlers to store the form field values in our component's 
 import React, { useState } from 'react';
 
 const SignupForm: React.FC = () => {
-  const [organizationName, setOrganizationName] = useState('');
+  const [organisationName, setOrganisationName] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -167,8 +167,8 @@ const SignupForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">Organization Name:</label>
-        <input type="text" name="organizationName" id="organizationName" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+        <label className="block text-gray-700 font-semibold mb-2">Organisation Name:</label>
+        <input type="text" name="organisationName" id="organisationName" value={organisationName} onChange={(e) => setOrganisationName(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
       </div>
       <div>
         <label className="block text-gray-700 font-semibold mb-2">Your Name:</label>
@@ -189,13 +189,13 @@ const SignupForm: React.FC = () => {
 
 export default SignupForm;
 ```
-As you can see, I;ve also used some CSS classes from Tailwind to style our form. Now our form is ready and we can submit the form data to the `Create Organization` API endpoint.
+As you can see, I;ve also used some CSS classes from Tailwind to style our form. Now our form is ready and we can submit the form data to the `Create Organisation` API endpoint.
 
 ```tsx
 import React, { useState } from 'react';
 
 const SignupForm: React.FC = () => {
-  const [organizationName, setOrganizationName] = useState('');
+  const [organisationName, setOrganisationName] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -204,10 +204,10 @@ const SignupForm: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${API_ENDPOINT}/organizations`, {
+      const response = await fetch(`${API_ENDPOINT}/organisations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: organizationName, user_name: userName, email: userEmail, password: userPassword}),
+        body: JSON.stringify({ name: organisationName, user_name: userName, email: userEmail, password: userPassword}),
       });
 
       if (!response.ok) {
@@ -231,7 +231,7 @@ const SignupForm: React.FC = () => {
 
 export default SignupForm;
 ```
-Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/organizations` endpoint with the `organizationName`, `userName`, `userEmail` and `userPassword`. If the signup request gets processed in server successfully, the function logs a message to the console. If the request fails, an error message is logged to the console as well.
+Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/organisations` endpoint with the `organisationName`, `userName`, `userEmail` and `userPassword`. If the signup request gets processed in server successfully, the function logs a message to the console. If the request fails, an error message is logged to the console as well.
 
 Now, there is a scope of small re-fractoring, i.e. the API endpoint `https://wd301-api.pupilfirst.school` is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
 
@@ -261,10 +261,10 @@ Then I'll use this constant in the `handleSubmit` method:
     event.preventDefault();
 
     try {
-      const response = await fetch(`${API_ENDPOINT}/organizations`, {
+      const response = await fetch(`${API_ENDPOINT}/organisations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: organizationName, user_name: userName, email: userEmail, password: userPassword}),
+        body: JSON.stringify({ name: organisationName, user_name: userName, email: userEmail, password: userPassword}),
       });
 
       if (!response.ok) {
@@ -280,7 +280,7 @@ Then I'll use this constant in the `handleSubmit` method:
 Finally, we are all set to test the signup page.
 > Action: Open the app in browser and try to signup, keep browser console opened.
 
-So, as we can see, after filling the form, once we hit the submit button, the `POST /organizations` endpoint is getting called, and we are getting a successful response.
+So, as we can see, after filling the form, once we hit the submit button, the `POST /organisations` endpoint is getting called, and we are getting a successful response.
 Now if you would observe the response payload, we are getting a `token` here. 
 
 Now there are two things to take care of:
