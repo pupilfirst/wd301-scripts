@@ -1,6 +1,6 @@
 # Text
 
-It this level, we'll learn what React Router is, how to integrate it into your project and how to use it to create application routes for your React app.
+In this level, we'll learn what React Router is, how to integrate it into your project and how to use it to create application routes for your React app.
 
 React Router is a library that allows us to handle routing in a React application. It provides a declarative way to define routes and map them to different components in our application. This means we can create a navigation system that works with URLs, allowing our users to easily navigate between pages or views of our app.
 
@@ -34,9 +34,9 @@ root.render(
 );
 ```
 
-We're using the 'BrowserRouter' component, which allows us to use regular URLs like '/tasks' or '/tasks/:id'. 
+We're using the `BrowserRouter` component, which allows us to use regular URLs like '/tasks' or '/tasks/:id'. 
 
-Next, let's update our 'App' component to use the 'Router' component. Open up the 'App.tsx' file in our project and add the following import at the top:
+Next, let's update our `App` component to use the `Router` component. Open up the `App.tsx` file in our project and add the following import at the top:
 
 ```js
 import { Routes, Route } from "react-router-dom";
@@ -56,10 +56,10 @@ function App() {
 }
 ```
 
-Here we're using the 'Route' component to map URLs to different components. 
+Here we're using the `Route` component to map URLs to different components. 
 
 Now let's create the components for our home page, task list page, and task details page.
-Create `HomePage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+Create `HomePage.tsx` file under the `/src` folder in our `smarter-tasks` project and copy the lines below.
 
 ```js
 // HomePage.tsx
@@ -79,7 +79,7 @@ export default HomePage;
 
 For listing the tasks we will use the already created `TaskApp` component as we mentioned in the `App` component. 
 
-Next, Lets create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+Next, Lets create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-tasks` project and copy the lines below.
 
 ```js
 // TaskDetailsPage.tsx
@@ -103,9 +103,9 @@ const TaskDetailsPage: React.FC = () => {
 export default TaskDetailsPage;
 ```
 
-Here, we're using the 'useParams' hook from React Router to extract the ID parameter from the URL. 
+Here, we're using the `useParams` hook from React Router to extract the `id` parameter from the URL. 
 
-Now that we've created our components and added the necessary routes to our 'App' component, let's the working routes in our app. Run the following command in your terminal to start the development server:
+Now that we've created our components and added the necessary routes to our `App` component, let's test working routes in our app. Run the following command in your terminal to start the development server:
 
 ```bash
 npm start
