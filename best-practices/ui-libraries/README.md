@@ -4,7 +4,7 @@ User interface (UI) plays a crucial role in creating engaging and intuitive Reac
 
 We will compare the top three UI libraries, provide a comprehensive comparison table, and conclude with why Headless UI is our choice for React.
 
-## What is Headless UI
+## What is [Headless UI](https://headlessui.com/)
 
 Headless UI is a powerful and versatile UI library specifically designed for React applications. It offers a collection of completely unstyled, accessible, and customizable UI components. Here are some key features of Headless UI:
 
@@ -18,7 +18,7 @@ Headless UI is a powerful and versatile UI library specifically designed for Rea
 
 ## Other UI Library Options
 
-### Material-UI
+### [Material-UI](https://mui.com/)
 
 Material-UI is a comprehensive UI library that implements the Material Design principles. It offers a wide range of pre-styled and visually appealing components.
 
@@ -28,7 +28,7 @@ It also offers a robust theming system that allows developers to customize the c
 
 The library also benefits from a large and active community, providing extensive documentation, support, and a variety of community-contributed resources.
 
-### Ant Design
+### [Ant Design](https://ant.design/docs/react/introduce)
 
 Ant Design is a popular UI library known for its comprehensive set of components with a minimalist and modern design.
 
@@ -38,7 +38,7 @@ This also offers extensive support for internationalization, making it easier to
 
 The most important feature here includes a range of enterprise-level components, such as tables, forms, and charts, which are well-suited for building complex business applications.
 
-### Chakra UI
+### [Chakra UI](https://chakra-ui.com/)
 
 Chakra UI is a modular and accessible UI library that focuses on developer experience and speed of development.
 
