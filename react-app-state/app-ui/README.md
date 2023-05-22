@@ -4,7 +4,7 @@ In this lesson, we will enhance the visual appeal of our Smarter Tasks applicati
 headlessUI is a powerful library of UI components that simplifies the development process by providing pre-built components with built-in JavaScript functionality. These components, such as dialogs and dropdowns, come with ready-to-use logic, eliminating the need for us to write the code from scratch. While headlessUI offers a limited set of components on their website, we will find that it includes everything necessary to elevate the user experience of our Smarter Tasks application.
 
 ### Step 1: Install and configure headlessUI
-In our project we aleready have the TailwindCSS installed and configured. Next, we have to install headlessUI in our project. For that, we will run the following command in our terminal (ofcourse inside our project folder):
+In our project we aleready have the TailwindCSS installed and configured. Next, we have to install headlessUI in our project. For that, we will run the following command in our terminal (of course inside our project folder):
 
 ```sh
 npm install @headlessui/react --save
@@ -246,3 +246,387 @@ export default AccountLayout
 Then we've simply used `Outlet` inside the `main`.
 
 And that's it, we've successfully configured our account layout.
+
+
+# Script 2: Re-defining app routes
+Next, we will optimize the routes of our application by creating a separate routes file. This will help us organize and manage our routes more effectively. By centralizing our routes, we can easily maintain and update them as our application grows. So, let's begin this process to enhance our routing implementation.
+
+### Step 1: Create the files and folder structure
+First we will create a separate folder named `routes` inside the `src` directory.
+> Action: Create the routes fodler
+Then inside the new `routes` folder, we will create a `index.tsx` file, where we will keep all of our routing configurations.
+> Action: Create the index.tsx file
+
+### Step 2: Define the routes using `createBrowserRouter`
+Before defining our app's routes, let's have a look at the official website of [React Router](https://reactrouter.com/en/main).
+> Action: visit https://reactrouter.com/en/main/start/overview
+> Click: I'm new (which will take you to a new page)
+> Visit the [Adding a router](https://reactrouter.com/en/main/start/tutorial#adding-a-router) section in this page
+
+So as you can see, React Router introduced the new [`createBrowserRouter`](https://reactrouter.com/en/main/routers/create-browser-router) hook, to define routes of a React application. And when I'm recording this lesson, this is the recommended router for all React Router web projects.
+
+Along with that, `createBrowserRouter` also allows us to define our routes as a plain JavaScript object. So let's define the routes:
+
+```tsx
+import { createBrowserRouter } from "react-router-dom";
+
+import Signin from "../pages/signin"
+import Signup from "../pages/signup"
+
+const router = createBrowserRouter([
+  {
+    path: "/", 
+    element: <Signin />
+  },
+  {
+    path: "/signin", 
+    element: <Signin />
+  },
+  {
+    path: "/signup", 
+    element: <Signup />
+  }
+]);
+export default router;
+```
+Here,
+- first we've imported `createBrowserRouter` from `react-router-dom`.
+- then we've used `createBrowserRouter` to define the root route, which will show the signin page by default, a dedicated route for signin page and the route for signup page.
+
+### Step 3: Load the router in `App` component
+OK, so our basic router is ready. Now we have to load and connect this new router in `App` component. So, I'll open the App component (means the `App.tsx` file) and there first I'll import the `RouterProvider` from `react-router-dom`. You can see the `RouterProvider` as an upgraded version of `BrowserRouter`.
+```tsx
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import "./App.css";
+import router from "./routes"
+
+const App = () => {
+  return (
+    <div>
+      <RouterProvider router={router} />
+    </div>
+  );
+}
+export default App;
+```
+Here I've also imported the `router` from the `routes` folder and provided it to the `RouterProvider`.
+
+Next our primary index.tsx file (means the `src/index.tsx` file) needs a fix, as we have to remove the `BrowserRouter` from there.
+
+> Remove the BrowserRouter from `index.tsx` file
+
+The uppdated code would look something like this:
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+    <App />,
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+```
+
+Now we are all set to test our new app routes. So, let's open http://localhost:3000 in browser to check if everything is working properly.
+> Action: open http://localhost:3000 in the browser and show output. First the signin page should come, then check the /signup and /signin routes as well.
+
+### Step 4: Now let's define the protected path `/account`
+So far we've defined the public routes in our route file. Next, we will define the protected routes.
+
+For that, first we've to make sure that all of our protected routes uses the `AccountLayout`, that we've defined earlier (in the layouts/account/index.tsx file).
+
+So, I'll define a new path called "*account*" in the `src/routes/index.tsx file`:
+```tsx
+import { createBrowserRouter } from "react-router-dom";
+
+import Signin from "../pages/signin"
+import Signup from "../pages/signup"
+import AccountLayout from "../layouts/account"
+const router = createBrowserRouter([
+  {
+    path: "/", 
+    element: <Signin />
+  },
+  {
+    path: "/signin", 
+    element: <Signin />
+  },
+  {
+    path: "/signup", 
+    element: <Signup />
+  },
+  // Protected Routes
+  {
+    path: "account",
+    element: <AccountLayout />
+  },
+]);
+export default router;
+```
+
+Ok, now to protect the `/account` path from unauthorised access, we will use the `ProtectedRoute` helper that we've defined earlier. 
+
+To do that, first I'll move it inside the `src/routes` folder, and then I'll update the content to return a fragment (means the react fragment: <></>) with `children`, instead of `element`:
+```tsx
+import { Navigate, useLocation } from "react-router-dom";
+
+export default function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const { pathname } = useLocation()
+
+  const isAuth = !!localStorage.getItem("authToken");
+  if (isAuth) {
+    return <>{children}</>;
+  }
+  return <Navigate to="/signin" replace  state={{ referrer: pathname }} />;
+}
+```
+
+Next, we will import `ProtectedRoute` inside our router (i.e src/routes.index.tsx), and then we will wrap our `AccountLayout` with `ProtectedRoute`, like this:
+```tsx
+import { createBrowserRouter } from "react-router-dom";
+
+import Signin from "../pages/signin"
+import Signup from "../pages/signup"
+import AccountLayout from "../layouts/account"
+import ProtectedRoute from "./ProtectedRoute"
+
+const router = createBrowserRouter([
+  {
+    path: "/", 
+    element: <Signin />
+  },
+  {
+    path: "/signin", 
+    element: <Signin />
+  },
+  {
+    path: "/signup", 
+    element: <Signup />
+  },
+  // Protected Routes
+  {
+    path: "account",
+    element: (
+      <ProtectedRoute>
+        <AccountLayout />
+      </ProtectedRoute>
+    )
+  },
+]);
+
+export default router;
+```
+
+### Step 5: Now let's define the protected routes for projects and members
+Now we are all set to define our routes for projects and members. We will define them as child routes of `/account`:
+```tsx
+import { createBrowserRouter } from "react-router-dom";
+
+import AccountLayout from "../layouts/account"
+import ProtectedRoute from "./ProtectedRoute"
+import Signin from "../pages/signin"
+import Signup from "../pages/signup"
+import Projects from "../pages/projects"
+import Members from "../pages/members"
+
+const router = createBrowserRouter([
+  {
+    path: "/", 
+    element: <Signin />
+  },
+  {
+    path: "/signin", 
+    element: <Signin />
+  },
+  {
+    path: "/signup", 
+    element: <Signup />
+  },
+  // Protected Routes
+  {
+    path: "account",
+    element: (
+      <ProtectedRoute>
+        <AccountLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "projects",
+        element: (<Projects />)
+      },
+      {
+        path: "members",
+        element: (<Members />)
+      },
+    ],
+  },
+]);
+
+export default router;
+```
+Now at this moment if we would visit the browser, we will get some errors as `"../pages/projects"`, `"../pages/members"` path does not exist.
+
+So let's fix this.
+
+For that we will create a new file `src/pages/projects/index.tsx`, with the following content:
+```tsx
+const Projects = () => {
+  return (
+    <h2>Projects</h2>
+  )
+}
+export default Projects;
+```
+
+And then we will create `src/pages/members/index.tsx`, with the following content:
+```tsx
+const Members = () => {
+  return (
+    <h2>Members</h2>
+  )
+}
+export default Members;
+```
+
+Ok, now let's test it out.
+> Action: Open http://localhost:3000 in browser
+> Login (and it will redirect you to /dashboard path which is not defined in this route)
+
+So as you can see, after login we are getting redirected back to the `/dashboard` path which we've defined earlier in our `SigninForm` component. Now we've to change the after signin path to `/account`.
+```tsx
+// src/pages/signin/SigninForm.tsx
+
+    try {
+      // ...
+      // ...
+
+      // Redirect users to account path after login
+      navigate("/account")
+
+    } catch (error) {
+      console.error('Sign-in failed:', error);
+    }
+```
+
+Similarly, in `SignupForm.tsx`, we've change the after signup path to `/account`.
+```tsx
+// src/pages/signup/SignupForm.tsx
+
+    try {
+      // ...
+      // ...
+
+      // Redirect users to account path after signup
+      navigate("/account")
+
+    } catch (error) {
+      console.error('Sign-up failed:', error);
+    }
+```
+That's it, so let's test it out.
+> Action: Open http://localhost:3000 in browser
+> Signin and it should take the user to /account path
+> But the logout link is not working
+
+### Step 6: Define the logout route
+So as you can see, after login we got successfully redirected to the `/account` path. The UI looks good. But the logout link is not working. Let's fix it.
+
+So, we will add a new route `/logout` in our `src/routes/index.tsx` file
+```tsx
+import Logout from "../pages/logout";
+  // ...
+  // ...
+  {
+    path: "/signup", 
+    element: <Signup />
+  },
+  { 
+    path: "/logout", 
+    element: <Logout /> 
+  },
+  // Protected Routes
+```
+
+Here, we've also imported a new component `<Logout />` from the `/pages/logout` directory, which does not exist at the moment. So we will create the `Logout` component (in `/pages/logout/index.tsx` file) like this:
+
+```tsx
+import React, { useEffect } from "react";
+import { Navigate } from "react-router-dom"
+
+const Logout = () => {
+  useEffect(() => {
+    localStorage.removeItem("authToken")
+    localStorage.removeItem("userData")
+  }, [])
+  
+  return <Navigate to="/signin" />;
+}
+
+export default Logout;
+```
+
+And that's it, let's test it out.
+> Action: Open http://localhost:3000 in browser
+> Signin and logout to show both features
+
+So as you can see,
+- Signin is working
+- After signin we are successfully getting redirected to the `/account` path
+- We can navigate to Projects and Members path
+- And we can logout
+  
+Though we can fine-tune this overall experience even more, like:
+- If an user is already logged-in, and if he/she visits the root path (`/`), now he/she is getting the signin page, but instead of that we can redirect the him/her to `/account` page and show the projects.
+- And after signin we are getting a blank page, which can be improved by redirecting the users to `/account/projects` path.
+
+Let's do that
+### Step 7: Final fine-tunings
+```tsx
+import { createBrowserRouter, Navigate } from "react-router-dom";
+// ...
+// ...
+// ...
+const router = createBrowserRouter([
+  { path: "/", element: <Navigate to="/account/projects" replace /> },
+  {
+    path: "/signin", 
+    element: <Signin />
+  },
+  // ...
+  // ...
+  // Protected Routes
+  {
+    path: "account",
+    element: (
+      <ProtectedRoute>
+        <AccountLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <Navigate to="/account/projects" replace /> },
+      {
+        path: "projects",
+        element: (<Projects />)
+      },
+      // ...
+      // ...
+    ],
+  },
+]);  
+```
+So, we've fixed these issues by redirecting the users, using `Navigate` from React Router.
+
+Now everything looks to be in order, as we expected.
+
+So, that's it for this lesson, see you in the next one.
