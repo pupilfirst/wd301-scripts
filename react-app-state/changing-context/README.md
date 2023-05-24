@@ -30,3 +30,87 @@ So now the rest of our application, can receive this object, that has the `theme
 So now any component, can reach out to our context, get access to the current `theme` and a function to change it very easily.
 
 And in order to implement that, we will create a new Custom Provider component. So, lets get started.
+
+### Step 1: Creating a custom provider
+In this step, we are going to update our existing ThemeContext (i.e the src/context/theme.ts file), to define the custom provider. And this Provider would be nothing but a simple React component.
+
+```tsx
+import React, { createContext, useState } from "react";
+const ThemeContext = createContext('light')
+
+const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const [theme, setTheme] = useState('light');
+
+  const valueToShare = {
+    theme: theme,
+    changeThemeTo: setTheme
+  };
+
+  return (
+    <ThemeContext.Provider value={valueToShare}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+export { ThemeContext, ThemeProvider };
+```
+So, here 
+- we've imported the `useState` hook, as I mentioned earlier that we've to deal with some state management.
+- then we've defined the new component called `ThemeProvider`, and there are accessing the `children` property from props.
+- after that we are using the `useState` hook to define a simple state called `theme`, with default value set to 'light'.
+- then I've defined a const called `valueToShare`, means the values that we would like to share through context. Now for the sake of understanding I've kept this simple name, though you can change it based on your need. Now, we've defined the `valueToShare` const as a simple JS object, which has two properties, `theme` and `changeThemeTo`. So here we are passing the `theme`, and the `setTheme` function to change the state or theme value.
+- Now we can share the `valueToShare` object with the rest of our application.
+- Then comes the important part, where we're returning the `<ThemeContext.Provider>` with value set to `valueToShare`. And then we are wrapping the `{children}` with the `<ThemeContext.Provider>`. 
+- So are you getting the point? The code we've written in our `src/index.tsx` file, means where we've wrapped our App component with `<ThemeContext.Provider>`, we've now moved that piece of code here.
+- And finally we are exporting both `ThemeContext` and `ThemeProvider` from this file.
+  
+Now as we are writing JSX code here, so we've to update the filename as well. We've to rename it as `theme.tsx`, instead of `theme.ts`.
+
+Then, we've to fix the default value in the `createContext()`. We've to change it from a simple string to an object.
+```tsx
+interface ThemeContextProps {
+  theme: string;
+  changeThemeTo: (color: string) => void;
+}
+
+const ThemeContext = createContext<ThemeContextProps>({
+  theme: 'light',
+  changeThemeTo: () => {}
+});
+```
+So the default value object now have two properties: `theme` which is a string and `changeThemeTo` which is a function. To make it TypeScript compatible, I've also defined an interface called `ThemeContextProps` to define the type of properties in this object.
+
+So, our step 1 is complete and we've successfully defined the custom provider.
+> This is the complete file
+```tsx
+// src/context/theme.tsx
+import React, { createContext, useState } from "react";
+
+interface ThemeContextProps {
+  theme: string;
+  changeThemeTo: (color: string) => void;
+}
+
+const ThemeContext = createContext<ThemeContextProps>({
+  theme: 'light',
+  changeThemeTo: () => {}
+});
+
+const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const [theme, setTheme] = useState('light');
+
+  const valueToShare = {
+    theme,
+    changeThemeTo: setTheme
+  };
+
+  return (
+    <ThemeContext.Provider value={valueToShare}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+export { ThemeContext, ThemeProvider };
+```
