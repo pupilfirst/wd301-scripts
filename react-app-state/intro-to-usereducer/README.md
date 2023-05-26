@@ -7,134 +7,245 @@ React provides a number of powerful features that allow developers to create hig
 The `useReducer` hook is:
 1. an alternative to the useState hook (to some extent). 
 2. they are both hooks that are meant to produce state.
-3. and whenever the state changes, the component is going to automatically rerender.
+3. and whenever the state changes, the component is going to automatically re-render.
 
-The big difference between useState and useReducer is in the steps involved in implementing state management using both of these hooks. The useReducer hook  is most useful when you have multiple pirces of state that are very closely related to each other.
+The big difference between `useState` and `useReducer` is in the steps involved in implementing state management using both of these hooks. The `useReducer` hook  is most useful when you have multiple pieces of state that are very closely related to each other. 
 
-### Let's create a new Component and learn to use the useReducer hook.
+Now, let me explain what do I mean by that. Say, in our Smarter Tasks application, we have to implement a component to show the list of all projects, right? Now that component can be implemented using both `useState` and `useReducer` hook. So, the plan is: first, I'll create the ProjectList component using `useState`, and then I'll recreate the same component using the `useReducer` hook. After that, I'll explain the differences.
 
-Using the useReducer hook in React is quite simple. First, we will create a new component called `Counter.tsx` in the `src` folder. 
+To start with, we will create a new component called `ProjectList.tsx` in the `src/pages/projects` folder. 
 
-
-1. Then we will import the `useReducer` hook from the 'react' library:
-```js
-import React, { useReducer } from 'react';
-
-// Dialogue 1: Next we will define our Counter component
-const Counter = () => {
-
-  // Dialogue 2: Then inside the component, I'll write a const, and inside a square bracket I'll write state, dispatch. Then we will use the useReducer hook, where the first argument is going to be something caled **reducer** and the second argument will be an object with properties like `count` and `message`.
-  const [state, dispatch] = useReducer(reducer, {
-    count: 0,
-    valueToAdd: 0
-  });
-  
-}
-```
-
-
-
-### What is useReducer in React?
-The useReducer hook is a built-in hook in React that provides a way to manage complex state transitions in your application. As I said before, it is similar to the `useState` hook, but instead of managing a single state value, it manages a state object and allows you **to dispatch actions to update the state**.
-
-The `useReducer` hook is based on the concept of a **reducer** function, which is a pure function that takes the *current state* and an *action* as input and returns a new state. The reducer function is responsible for updating the state based on the action that is dispatched.
-
-The useReducer hook takes two arguments: the **reducer** function and the **initial state**. The initial state is the default state that is used when the component is first rendered. The reducer function is a pure function that takes the current state and an action as input and returns a new state.
-
-### Let's create a new Component and learn to use the useReducer hook.
-
-Using the useReducer hook in React is quite simple. First, we will create a component called `Counter.tsx` in the src `folder`. 
-
-1. Then we will import the `useReducer` hook from the 'react' library:
-```tsx
-import React, { useReducer } from 'react';
-
-// Dialogue 1: Next we will define our Counter component
-const Counter = () => {
-
-  // Dialogue 2: Then inside the component, I'll write a const, and inside a square bracket I'll write state, dispatch. Then we will use the useReducer hook, where the first argument is going to be something caled **reducer** and the second argument will be an object with properties like `count` and `message`.
-  const [state, dispatch] = useReducer(reducer, {
-    count: 0,
-    valueToAdd: 0
-  });
-  
-}
-```
-
-2. Next, we will define the `reducer` function
+And then we'll do the first implementation using the `useState` hook. 
 
 ```tsx
-// Dialogue 1: the reducer function will take two arguments, `state` and `action`. And for now, I;m going to keep it empty.
-const reducer = (state, action) => {
+import React, { useState, useEffect } from 'react';
+import { API_ENDPOINT } from '../../config/constants';
 
-}
-```
-> Action: Now go back to browser: we can expect some errors.
-
-1. Then we will define the initial state of our component using an object:
-
-```js
-const initialState = {
-  count: 0,
-  message: 'Hello world!'
-};
-```
-
-3. Then, we have to define the reducer function that will be used to manage state transitions.:
-
-```javascript
-type State = { count: number }
-
-type Action = { type: 'INCREMENT' } | { type: 'DECREMENT' }
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return { ...state, count: state.count + 1 };
-    case 'DECREMENT':
-      return { ...state, count: state.count - 1 };
-    case 'setMessage':
-      return { ...state, message: action.payload };
-    default:
-      throw new Error();
-  }
+interface Project {
+  id: number;
+  name: string;
 }
 
-```
+const ProjectList: React.FC = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-In this example, the `reducer` function takes a `state` object with a `count` property and an `action` object with a `type` property. If the action type is "INCREMENT", the reducer function returns a new state object with the count property incremented by 1. If the action type is "DECREMENT", the reducer function returns a new state object with the count property decremented by 1. If the action type is `setMessage`, then it sets a message to the state object. But, if the action `type` is not recognized, the reducer function throws an error.
+  useEffect(() => {
+    // Fetch the list of projects here
+    fetchProjects();
+  }, []);
 
-4. Now as we have defined our reducer function, we can use the `useReducer` hook to manage state in our component.
-
-```javascript
-const Counter = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  
-  const increment = () => {
-    dispatch({ type: "INCREMENT" });
-  }
-
-  const decrement = () => {
-    dispatch({ type: "DECREMENT" });
-  }
+  const fetchProjects = async () => {
+    const token = localStorage.getItem("authToken") ?? "";
+    
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${API_ENDPOINT}/projects`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
+      });
+      const data = await response.json();
+      setProjects(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Error fetching projects:', error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div>
-      <p>Count: {state.count}</p>
-      <button onClick={increment}>Increment</button>
-      <button onClick={decrement}>Decrement</button>
-      <input type="text" value={state.message} onChange={(e) => dispatch({ type: 'setMessage', payload: e.target.value })} />
+      <h2>Project List</h2>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <ul>
+          {projects.map(project => (
+            <li key={project.id}>{project.name}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
+};
+
+export default ProjectList;
+```
+Here, 
+- we have two component states, `projects` and `isLoading`. 
+- The `projects` state handles the array of projects which we are fetching from the API.
+- The `isLoading` state is used to show a `Loading...` text, when the API call is in progress.
+- In the `fetchProjects` function we are using the two setter functions `setIsLoading` and `setProjects` to update local component state.
+- And finally we are showing the list of projects.
+
+Now we can import this component in `src/pages/projects/index.tsx` file to load the list of projects there:
+```tsx
+import ProjectList from "./ProjectList";
+
+const Projects = () => {
+  return (
+    <>
+      <h2>Projects</h2>
+      <ProjectList />
+    </>
+  )
+}
+
+export default Projects;
+```
+
+Now let's go to the browser to see if the list of projects is coming or not.
+> Open http://localhost:3000/account/projects in browser to see the projects, also open the browser console.
+So, as you can see, in the network console, the API call for `/projects` path is working and we are getting the successful response. Now as our current database is empty, that's why the projects list is not coming.
+
+To fix it, we can add one or two projects from Postman REST client.
+> Action: Add 2 projects for current organisation
+
+Now let's go back to the browser to see if this is working.
+> Action: Re-Open http://localhost:3000/account/projects in browser
+And yes! this time the project names are showing up. Great!
+
+Now, this implementation looks quite straight-forward, isn't it?
+
+Now the same component can be implemented using the `useReducer` hook. Let's do that
+
+### Re-building the ProjectList component, using the useReducer hook.
+
+1. First, we'll remove the implementation of `useState`. To start with I'll remove the import statement of `useState` hook, then:
+```tsx
+import React, { useEffect } from 'react';
+
+interface Project {
+  id: number;
+  name: string;
+}
+
+const ProjectList = () => {
+  // >>> Dialogue 1: Then I'm going to comment out the useState hooks
+
+  // const [projects, setProjects] = useState<Project[]>([]);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // ...
+  // ...
+
+  // >>> Dialogue 2: Then I'm going to comment out the places wherever I've used `setIsLoading` and `setProjects` setter methods.
+  const fetchProjects = async () => {
+    const token = localStorage.getItem("authToken") ?? "";
+    
+    try {
+      // setIsLoading(true);
+      const response = await fetch(`${API_ENDPOINT}/projects`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
+      });
+      const data = await response.json();
+      // setProjects(data);
+      // setIsLoading(false);
+    } catch (error) {
+      console.log('Error fetching projects:', error);
+      // setIsLoading(false);
+    }
+  };
+
+  // ...
+  // ...
+  
 }
 ```
 
-In this example, the `Counter` component uses the `useReducer` hook to manage its state. The state object contains two properties, `count` and `message`, and the `reducer` function defines three actions to modify the state: `INCREMENT`, `DECREMENT`, and `setMessage`. The `dispatch` function is used to trigger the **actions** and update the **state**.
+2. Next, we will import the `useReducer` hook from the 'react' library:
+```tsx
+import React, { useEffect, useReducer } from 'react';
+// ...
+// ...
+const ProjectList = () => {
 
+  // >>> Dialogue 2: Then inside the component, I'll write a const, and inside a square bracket I'll write state, dispatch. Then we will use the `useReducer` hook, where the first argument is going to be something caled **reducer** and the second argument will be an object with properties like `projects` and `isLoading`.
+  const [state, dispatch] = useReducer(reducer, {
+    projects: [],
+    isLoading: false
+  });
+  
+}
+```
 
-### So to summarize, when useReducer hook can be useful?
-There are several benefits to using the useReducer hook in React. One of the main benefits is that it allows us to manage complex state transitions in a more structured and efficient manner. By using the `reducer` function to manage state transitions, we can keep your code organized and easy to read.
+3. Then right above my component, I'm going to define a new arrow function called `reducer`.
+```tsx
+import React, { useEffect, useReducer } from 'react';
+// ...
+// ...
 
-Another benefit of using the useReducer hook is that it allows us to encapsulate state and state transitions within a single component. This makes it easier to manage state changes and reduces the likelihood of introducing bugs into your code.
+// >>> Dialogue 1:  This is going to take in arguments of state and action.
+const reducer = (state, action) => {
+  // >>> Dialogue 2: And then right now, I'm going to leave this thing empty.
+}
+const ProjectList = () => {
 
-So, that's it for this lesson, see you in the next one.
+  const [state, dispatch] = useReducer(reducer, {
+    projects: [],
+    isLoading: false
+  });
+  // ...
+  // ...
+}
+```
+
+> Action: Now go back to browser: we can expect some errors.
+
+If you would save the file right now and go back over to your browser, you're definitely going to see some errors because, in our JS, we are still referring to `projects` and `isLoading`. But those variables are no longer defined inside of our file.
+
+But, before fixing that, I want to highlight how `useReducer` is similar to `useState`. Just take a look at this diagram.
+
+![usestate-vs-usereducer.png](usestate-vs-usereducer.png)
+
+> Action: we will explain the diagram, so highlight the section as per the text. First we will explain the left hand side of the diagram
+So on the top of this diagram, we have the code that we had just a moment ago around `useState`, and at the bottom is the new code that we just put in for `useReducer`. So immediately we're going to see that there are some common elements between these two different hooks.
+
+Whenever we call `useState` or `useReducer`, we get back an array with two elements inside of it. So with the first useState hook, element one is `projects`, and element two is `setProjects`. Then with the second useState, we've the first element `isLoading`, and `setIsLoading` as second element. And down in the useReducer element one is `state` element two is `dispatch`.
+
+In both cases, the first variable that we get back inside that array or that first element is our **state variable**. That's our data. That's the thing that is going to somehow change over time. And the second element in that array is a function that we're going to use to change our state.
+
+So up here we have to `setProjects` and `setIsLoading`, and down here with in `useReducer`, we are always going to use the same name for this function. **We're always going to call it dispatch**.
+
+**Dispatch** works a little bit differently than our setter functions. This `dispatch` function is going to be a major focus in how we figure out how to use the `useReducer` hook.
+
+> Action: Now we will explain the right hand side of the diagram
+In useState, whenever we call it, we can put in some initial value for that piece of state. 
+
+We can do the same thing with `useReducer` by providing the initial value as a second argument to the `use reducer ` hook. So in our case, our state is going to start off as an object with **an empty projects list** and **isLoading set to false**.
+
+Now these are similarities between two hooks. But, next we will focus on the differences.
+1. Whenever we make use of the `useState` hook, we're going to call you state multiple times for each individual piece of state we want to declare. As you've already seen, we have one state variable called **projects**, and another is `isLoading`. And we usually try to keep these pieces of state as simple as possible. So they will be hopefully a number, a string, some very simple value.
+
+But when we make use of useReducer, we do the opposite. We try to create just one single state variable and we call it **state**. That's what we did just a moment ago. We created a piece of state, we call it very simply **state**. And we make that state variable an **object**, so that object can have many different properties inside of it, like:
+```js
+{
+  projects: [],
+  isLoading: true
+}
+```
+So here we are taking all the state properties that are required to make our component work correctly, and we're combining it all together into one single object. So this means that when we call the useReducer right now, we get back that state variable that is an object. And it's going to have properties like projects, which is going to be an empty array, because that's what our initial value is right now by default. And it's going to have a `isLoading` set to `false`.
+
+So now inside our component, if we ever want to get access to the projects, we can refer to `state.projects`.
+
+So back in our component, we can update the JSX accordingly
+
+```tsx
+  return (
+    <div>
+      <h2>Project List</h2>
+      {state.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <ul>
+          {state.projects.map(project => (
+            <li key={project.id}>{project.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+```
+
+Alright, that's quite a lot for a single lesson. But we've learned the similarities and differences between `useReducer` and `useState` hook. Next, we've to complete the implementation of the `reducer` function. So, see you in the next one.
