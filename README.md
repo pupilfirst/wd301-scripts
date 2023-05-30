@@ -61,7 +61,7 @@ This work is licensed under a
 
 ### Typescript Overview
 - [Introduction](./typescript-fundamentals/introduction-to-ts/README.md)
-- [Executing TS code]](./typescript-fundamentals/executing-ts-code/README.md)
+- [Executing TS code](./typescript-fundamentals/executing-ts-code/README.md)
 
 ### What is Type System?
 - [Type System](./typescript-fundamentals/type-system/README.md)
@@ -130,43 +130,34 @@ This work is licensed under a
 ## L5. React Router
 
 ### React Router
-- Introducing React Router
-- How it works
-- Navigating with router
+- [Introducing React Router](./react-router/introduction-to-react-router/README.md)
+- [Always visible components](./react-router/always-visible-components/README.md)
+- [Path parameters](./react-router/path-params/README.md)
+- [Programmatic Navigation](./react-router/programmatic-navigation-redirection/README.md)
 
-### Always visible components
-
-### Path Parameters
-
-### Programmatic Navigation
-- Redirections
-
-### Links and URLs
-
-### Deploy the app to Netlify
 
 ### Milestone 
 
 ## L6. Making API Request with React
 
-- [Introduction to our API Service](https://github.com/pupilfirst/wd301-scripts/pull/154)
+- [Introduction to our API Service](./making-api-requests/intro-to-api-service/README.md)
 
 ### Making API calls
-- [Fetching data](https://github.com/pupilfirst/wd301-scripts/pull/155)
-- [Handling Request with Async Await](https://github.com/pupilfirst/wd301-scripts/pull/156)
-- [Submit Form data to API](https://github.com/pupilfirst/wd301-scripts/pull/157)
+- [Fetching data](./making-api-requests/fetching-data/README.md)
+- [Handling Request with Async Await](./making-api-requests/handling-data-with-async-await/README.md)
+- [Submit Form data to API](./making-api-requests/submit-form-data/README.md)
 
 ### Add user authentication
-- [User sign up](https://github.com/pupilfirst/wd301-scripts/pull/159)
-- [User sign in](https://github.com/pupilfirst/wd301-scripts/pull/158)
-- [Persisting user session](https://github.com/pupilfirst/wd301-scripts/pull/160)
-- [Managing current user](https://github.com/pupilfirst/wd301-scripts/pull/161)
+- [User sign up](./making-api-requests/user-signup/README.md)
+- [User sign in](./making-api-requests/user-signin/README.md)
+- [Persisting user session](./making-api-requests/persisting-user-session/README.md)
+- [Managing current user](./making-api-requests/manage-current-user/README.md)
 
 ### Implementing a conditional render
-- [Public and private pages using react-router]()
+- [Public and private pages using react-router](./making-api-requests/private-and-public-page/README.md)
 
 # Milestone
-- [Milestone specification](https://github.com/pupilfirst/wd301-scripts/pull/163)
+- [Milestone specification](./making-api-requests/milestone/README.md)
 
 
 ## L7. More with UI & State Modelling
