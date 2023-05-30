@@ -67,5 +67,163 @@ And for a perticular action type, for example "API_CALL_END", where we have to u
 
 So that's it. That's the solution. That's how we're going to tell the `reducer`, exactly what kind of update to our state it needs to make. 
 
+> Action: Open VS code
+
 ### Ok, now let's try implement this inside our `ProjectList` component.
 
+So, now back in our editor, we will complete the implementation of `ProjectList` component using the useReducer hook. So let's get started.
+
+> Action: Open src/pages/projects/ProjectList.tsx
+
+#### Step 1: Fixing some TS issues
+Before moving forward with our reducer implementation, we have to fix some TypeScript issues, which our VS Code is highlighting. So, first we will define two interfaces `State` and `Action` in the ProjectList component:
+```tsx
+// src/pages/projects/ProjectList.tsx
+
+// ...
+// ...
+
+interface State {
+  projects: Project[];
+  isLoading: boolean;
+}
+
+interface Action {
+  type: string;
+  payload?: any;
+}
+```
+
+Next, we will use these interfaces in the `reducer` function:
+```tsx
+const reducer = (state: State, action: Action): State => {
+  return state;
+}
+```
+Here we are returning `state` by default, as I've already mentioned earlier that the reducer function must return the state, otherwise it's going to be set to `undefined`.
+
+#### Step 2: Dispatching proper actions to reducers
+So, whenever the API call starts, we will dispatch an action with type **"API_CALL_START"**
+```tsx
+  // ...
+  const fetchProjects = async () => {
+    const token = localStorage.getItem("authToken") ?? "";
+    
+    try {
+      dispatch({ type: "API_CALL_START" });
+      // ...
+      // ...
+    }
+    // ...
+  }
+  // ...
+```
+
+Then depending on this action type **"API_CALL_START"**, we will update our `reducer` function to set `isLoading` property of state to `true`:
+```tsx
+const reducer = (state: State, action: Action): State => {
+  if (action.type === "API_CALL_START") {
+    return {
+      ...state,
+      isLoading: true
+    }
+  }
+  return state;
+}
+```
+
+Next, we will dispatch another action with type **"API_CALL_END"**, and in this case we will update our state with the response coming from the API endpoint.
+```tsx
+    // ...
+    try {
+      dispatch({ type: "API_CALL_START" });
+
+      const response = await fetch(`${API_ENDPOINT}/projects`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
+      });
+      const data = await response.json();
+      dispatch({ type: "API_CALL_END", payload: data });
+    }
+    // ...
+```
+Now depending on this action type **"API_CALL_END"**, we will update our `reducer` function to set `isLoading` property of state to `false` (as we hand to hide the progressbar), and the `projects` property with the action `payload`:
+```tsx
+const reducer = (state: State, action: Action): State => {
+  if (action.type === "API_CALL_START") {
+    return {
+      ...state,
+      isLoading: true
+    }
+  }
+  if (action.type === "API_CALL_END") {
+    return {
+      ...state,
+      isLoading: false,
+      projects: action.payload,
+    }
+  }
+  return state;
+}
+```
+
+Now, if something goes wrong with the API call, we can show a error message to the user. For that we can dispatch an action type, say **"API_CALL_ERROR"**.
+```tsx
+    try {
+      // ...
+      // ...
+    } catch (error) {
+      console.log('Error fetching projects:', error);
+      dispatch({ type: "API_CALL_ERROR" });
+    }
+```
+And in state, we can set the `isLoading` to `false`.
+```tsx
+  if (action.type === "API_CALL_ERROR") {
+    return {
+      ...state,
+      isLoading: false
+    }
+  }
+```
+Now in this case, if you would like to show an error message to user, we can add a `errorMessage` property to the state and update it's value accordingly. We will skip that part for now.
+
+So, now if you would go back to the browser...
+> Open http://localhost:3000/account/projects in browser
+
+Yes! the list of projects is coming. 
+
+#### Step 3: Re-fractoring reducer function with `switch-case`
+Now there is a small scope of improvement that we can do in our `reducer` function. Here in reducer function we currently have a series of `if-statements`. Though we can replace that with **switch statements**.
+```tsx
+const reducer = (state: State, action: Action): State => {
+  // >>> Dialogue one: In switch statement, we will check the action type and return corresponsing state, like we were doing in the if-statements.
+  switch (action.type) {
+    case "API_CALL_START":
+      return {
+        ...state,
+        isLoading: true
+      };   
+    case "API_CALL_END":
+      return {
+        ...state,
+        isLoading: false,
+        projects: action.payload,
+      };      
+    case "API_CALL_ERROR":
+      return {
+        ...state,
+        isLoading: true
+      };           
+    default:
+      return state;
+  }
+}
+```
+Now you might ask, why we've replaced the *if-statement* with the *switch-case*? Well, there were nothing wrong with the *if-statement*, using *switch-case* is just a design choice we are making to keep our code clean and readable.
+
+It's time for one final check, in the browser
+> Open http://localhost:3000/account/projects in browser
+
+And yes! everything is working as expected.
+So, finally, we've completed the implementation of `useReducer()`.
