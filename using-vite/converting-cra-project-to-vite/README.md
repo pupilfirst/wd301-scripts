@@ -83,6 +83,69 @@ You should also specify the `type` as `module` in `package.json` so that all `.j
 }
 ```
 
+## Configuring output directory
+
+`Vite` by default outputs the build to `dist` folder relative to the project root. You can customize this by adding `outDir` key under `build` in `vite.config.js` file.
+
+```js
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default ({ mode }) => {
+  return defineConfig({
+    build: {
+      outDir: "build",
+    },
+    plugins: [react()],
+    define: {
+      "process.env.NODE_ENV": `"${mode}"`,
+    },
+  });
+};
+```
+
+## Configuring Tailwind CSS
+
+Install necessary packages
+
+```sh
+npm install -D tailwindcss postcss autoprefixer
+```
+
+Add default configuration files:
+
+```sh
+npx tailwindcss init -p
+```
+
+Edit `tailwind.config.js` to mark the entry point:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+## Accessing environment variables
+
+`Vite` exposes environment variables under `import.meta.env`. You should change any existing `process.env` to `import.meta.env` in your source code.
+
+To prevent accidentally leaking env variables to the client, only variables prefixed with VITE\_ are exposed to your Vite-processed code. e.g. for the following env variables:
+
+```
+VITE_SOME_KEY=123
+DB_PASSWORD=foobar
+```
+
+Only `VITE_SOME_KEY` will be exposed as `import.meta.env.VITE_SOME_KEY` to your client source code, but `DB_PASSWORD` will not.
+
+Reference: [Vite env mode](https://vitejs.dev/guide/env-and-mode.html)
+
 ## optionally move development dependencies
 
 You can also move packages like `typescript`, `@types/node` etc to development dependencies.
