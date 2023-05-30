@@ -1,6 +1,7 @@
 # Text
 In this lesson, we will learn the rules and steps involved in using the **useReducer** hook.
 
+# Script
 As I said before, the `useReducer` hook is similar to the `useState` hook, but instead of managing a single state value, **it manages a state object** and allows you **to dispatch actions to update the state**.
 
 Now, the real challenge around the useReducer hook, is understanding how we update our states. Let me explain it by a diagram:
@@ -64,4 +65,6 @@ Now, I want to go over a couple of rules around the `reducer` function, and that
 2. **If we return nothing, then our new state is going to be undefined.** 
       Means, in that case, React is going to say, Oh, you returned nothing, you returned undefined. Well, then your new state is going to be undefined. So we need to always make sure in a `reducer` function that we return some reasonable value, which can be used by our components.
 3. Our reducer function **is never ever going to use anything like `async await`** and it's never going to make any requests. It's not going to have any **promises**. It's also not going to have any reference to outside variables. In other words, we want our `reducer` function to only operate on these incoming arguments of `state` and `action`.
+
+So, that's it for this lesson, see you in the next one.
 
