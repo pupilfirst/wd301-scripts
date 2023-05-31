@@ -222,8 +222,33 @@ const reducer = (state: State, action: Action): State => {
 ```
 Now you might ask, why we've replaced the *if-statement* with the *switch-case*? Well, there were nothing wrong with the *if-statement*, using *switch-case* is just a design choice we are making to keep our code clean and readable.
 
-It's time for one final check, in the browser
+Ok, now let's do a check in the browser
+> Open http://localhost:3000/account/projects in browser
+It's working.
+
+#### Step 4: Now let's fix the UI
+Now our project list looks very basic, to fix it we will use card layout in the ProjectList component:
+```tsx
+  return (
+    <div>
+      {state.isLoading ? (
+        <div>Loading...</div> // You can replace this with a progress bar component
+      ) : (
+        <div className="grid gap-4 grid-cols-4 mt-5">
+          {state.projects.map(project => (
+            <div key={project.id} className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+              <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">{project.name}</h5>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+```
+
+Now let's do a final check, in the browser.
 > Open http://localhost:3000/account/projects in browser
 
-And yes! everything is working as expected.
-So, finally, we've completed the implementation of `useReducer()`.
+So.... yes! everything is working as expected.
+
+And, finally, we've completed the implementation of `useReducer()`.
