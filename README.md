@@ -214,7 +214,3 @@ This work is licensed under a
 
 ## Capstone Project
 
-## API Doc
-API doc: https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/pupilfirst/smart-tasks-api/main/public/smarter-tasks-openapi.yaml
-
-Open API Spec: https://raw.githubusercontent.com/pupilfirst/smart-tasks-api/main/public/smarter-tasks-openapi.yaml
