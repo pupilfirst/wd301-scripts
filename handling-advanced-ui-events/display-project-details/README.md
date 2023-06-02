@@ -92,6 +92,33 @@ If no valid project is found, we will render a text `No such Project!`. If a pro
 
 Save the file.
 
+Now, we will create a wrapper component to provide context value to `ProjectDetails` component.
+
+Create a file `src/pages/project_details/index.tsx` with following content.
+
+```tsx
+import React from "react";
+
+import ProjectDetails from "./ProjectDetails";
+
+import { ProjectProvider } from "../../contexts/ProjectContext";
+import { Outlet } from "react-router-dom";
+
+const ProjectDetailsIndex: React.FC = () => {
+  return (
+    <ProjectProvider>
+      <ProjectDetails />
+      <Outlet />
+    </ProjectProvider>
+  );
+};
+
+export default ProjectDetailsIndex;
+
+```
+
+We have added an `Outlet` component so that we can plug the modal window used to create tasks in it.
+
 Now, we have to use this component in the routes.
 
 Open `src/routes/index.tsx`. We will import this component.
