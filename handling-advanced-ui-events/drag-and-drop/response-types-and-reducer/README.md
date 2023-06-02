@@ -1,6 +1,6 @@
 # Text
 
-In this lesson, we will learn how to add drag and drop feature to our project.
+In this lesson, we will create TypeScript types to model the API response.
 
 Let's take a look at the API response for listing a task.
 
