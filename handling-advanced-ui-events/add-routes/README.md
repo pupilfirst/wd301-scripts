@@ -24,13 +24,13 @@ to be
     { index: true, element: <Projects /> },
     {
       path: ":projectID",
-      element: <>Show project details</>,
+      element: <>Show project details <Outlet /></>,
     }
   ]
 }
 ```
 
-Here, we have added a nested route with url `:projectID` and will render a fragment with text `Show project details` when this url is visited.
+Here, we have added a nested route with url `:projectID` and will render a fragment with text `Show project details` when this url is visited. We will add an `Outlet` to render any nested components.
 
 Similarly, we can create routes to render tasks details, creating a new task. So the `routes/index.tsx` will look like:
 
@@ -41,7 +41,7 @@ Similarly, we can create routes to render tasks details, creating a new task. So
     { index: true, element: <Projects /> },
     {
       path: ":projectID",
-      element: <>Show project details</>,
+      element: <>Show project details <Outlet /></>,
       children: [
         { index: true, element: <></> },
         {
