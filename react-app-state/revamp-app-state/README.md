@@ -29,7 +29,7 @@ So, as you can see in the diagram, we will create a `Projects Context Provider` 
 ### The Implementation Plan
 To design our application state, we will follow this folder structure:
 ![state-folder-str.png](app-state.png)
-1. Inside the `src` folder, we already have a `context` folder. As we are going to use the **Context API** to handle the applicatoin state, we will use this `context` folder as home to our app-level state.
+1. Inside the `src` folder, we already have a `context` folder. As we are going to use the **Context API** to handle the application state, we will use this `context` folder as home to our app-level state.
 2. Inside the `src/context` folder, we will create sub-folders for different modules. For example, now we are dealing with projects, so we will create a folder called `projects`. Whenever we will work with, say, `members` or `tasks`, we will create separate folder for that as well.
 > Action: Create folder `projects`, inside the `src/context` folder
 
