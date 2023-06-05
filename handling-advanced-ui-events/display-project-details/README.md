@@ -118,7 +118,7 @@ export default ProjectDetailsIndex;
 
 ```
 
-We have added an `Outlet` component so that we can plug the modal window used to create tasks in it.
+We have added an `Outlet` component so that we can plug the modal window which will be used to create tasks in it.
 
 Now, we have to use this component in the routes.
 
