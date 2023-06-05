@@ -78,6 +78,7 @@ const ProjectDetails = () => {
         <h2 className="text-2xl font-medium tracking-tight text-slate-700">
           {selectedProject?.name}
         </h2>
+      </div>
     </>
   );
 };
