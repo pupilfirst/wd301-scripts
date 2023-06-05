@@ -42,7 +42,7 @@ Now if you visit the project details page, you will see a `New Task` button. If 
 
 Next, we will render a modal window, which will accept `title`, `description`, `dueDate` and `assignee` from user and then create a task.
 
-Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create another folder named `newTask`. create a file named `NewTask.tsx` in `src/pages/tasks/newTask` folder with following content.
+Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content.
 
 ```tsx
 import { Dialog, Transition } from "@headlessui/react";
@@ -213,30 +213,9 @@ This is very similar to the modal window used to create a new project. Here, we 
 
 To create a task, we are sending the API request when the form is submitted. In this component also, we do some sanity checks like, whether the project id in the url is valid or not.
 
-Next, we will create a wrapper component to provide project details to this component using `context`.
-
-Let's create a file named `index.tsx` in `src/pages/tasks/newTask` with following content.
-
-```tsx
-import React from "react";
-
-import NewTask from "./NewTask";
-import { ProjectProvider } from "../../../contexts/ProjectContext";
-
-const NewTaskModal: React.FC = () => {
-  return (
-    <ProjectProvider>
-      <NewTask />
-    </ProjectProvider>
-  );
-};
-
-export default NewTaskModal;
-```
-
 We use `context` to pass down already fetched project list to the `NewTask` component.
 
-Save the file.
+
 
 Next we need to update the `src/routes/index.tsx` to render this component for a new task route.
 
@@ -245,7 +224,7 @@ Open `src/routes/index.tsx` in VS Code.
 Import the `NewTaskModal` component.
 
 ```tsx
-import NewTaskModal from "../pages/tasks/newTask";
+import NewTaskModal from "../pages/tasks/NewTask";
 ```
 
 Next, we will ask router to render this component for new task url.
