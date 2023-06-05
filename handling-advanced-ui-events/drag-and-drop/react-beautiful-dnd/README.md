@@ -246,8 +246,8 @@ const ProjectDetailsIndex: React.FC = () => {
     <ProjectProvider>
       <TaskActionProvider>
         <ProjectDetails />
+        <Outlet />
       </TaskActionProvider>
-      <Outlet />
     </ProjectProvider>
   );
 };
