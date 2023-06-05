@@ -30,6 +30,7 @@ const ProjectDetails = () => {
             New Task
           </button>
         </Link>
+      </div>
     </>
   );
 };
