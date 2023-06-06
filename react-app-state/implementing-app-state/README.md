@@ -565,3 +565,5 @@ Alright! finally we're ready to test the enrire projects module. Let's do it.
 So, as you can see, after creating a project, the new project is showing up in the projects list, automatically. Right? 
 
 This is what we intended to build since the beginning, and finally we've achieved it, with the help of application-level state.
+
+Alright, so this became quite a long lesson. See you in the next one.
