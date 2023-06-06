@@ -566,4 +566,29 @@ So, as you can see, after creating a project, the new project is showing up in t
 
 This is what we intended to build since the beginning, and finally we've achieved it, with the help of application-level state.
 
-Alright, so this became quite a long lesson. See you in the next one.
+# Text
+So, finally we've copmpleted the implementation of projects module and it's working as expected. In this level, we've learned a lot of new concepts like:
+- What is context?
+- What is useReducer?
+- How to use context and useReducer together to design app-level state? etc.
+
+We've written a lot of code and we've also structured the code well. We've spearated different concerns in differend subfolders inside the `src` directory. In that process, lot of old code became absolete. It's time to remove them. Let's do it.
+
+So, as part of cleanup activity, we will remove the following files:
+```
+src/Form.tsx
+src/Header.tsx
+src/HomePage.tsx
+src/ReactPlayground.tsx
+src/Signin.tsx
+src/Task.tsx
+src/TaskApp.tsx
+src/TaskCard.css
+src/TaskDetailsPage.tsx
+src/TaskForm.tsx
+src/TaskList.tsx
+src/pages/dashboard/index.tsx
+src/types.ts
+```
+
+Alright, it looks like we're done for this level. See you in the next one.
