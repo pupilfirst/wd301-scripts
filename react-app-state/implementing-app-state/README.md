@@ -348,9 +348,22 @@ Now, let's check if the projects page is working our browser or not:
 And, as you can see, the list of projects are coming.
 So, we've successfully accessed projects from application-level state.
 
-### Step 7: Fixing the NewProject component
-Currently the `NewProject` component contains the entire project creation logic. Though we can move the API call to the `POST /projects` endpoint, to a new function called `addProject` inside the `src/context/projects/actions.ts` file.
+
+### Step 7: Fixing an old problem in NewProject component
+Now do you remember, at the end of [Create Project](#) lesson, I've raised an UX problem?
+That is, after we create a new project, we had to manually refresh the whole page, to see the new project  in the projects list? And we could not solve it then, because we were using the component-level state. But now as we've successfully implemented the app-level state, let's try to fix it.
+
+So we will start with the `NewProject` component to revamp the entire project creation logic.
+
+#### Step 7.1
+First, we will move the code that we've written to make the API call to `POST /projects` endpoint. We will move it to a new function called `addProject`, inside the `src/context/projects/actions.ts` file.
 ```ts
+// src/context/projects/actions.ts
+
+// ...
+// ...
+
+// Dialogue 1: Here, first I'll define a new async function called `addProject`. Then I'll add `dispatch` as first argument, as we need this to dispatch action objects to our projects reducer. The second argument is `args`, where we'll pass the new project data.
 export const addProject = async (dispatch: any, args: any) => {
 
   try {
@@ -359,7 +372,8 @@ export const addProject = async (dispatch: any, args: any) => {
     const response = await fetch(`${API_ENDPOINT}/projects`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
-      body: JSON.stringify(args),
+      // Dialogue 2: Next, I'll passed the `args` here
+      body: JSON.stringify(args), 
     });
 
     if (!response.ok) {
@@ -372,11 +386,182 @@ export const addProject = async (dispatch: any, args: any) => {
       return { ok: false, error: data.errors[0].message }
     }
 
+    // Dialogue 3: And if everything goes well with the API call, we will dispatch an action, with `type` set to `ADD_PROJECT_SUCCESS` and in `payload` we will send the new project `data`.
     dispatch({ type: 'ADD_PROJECT_SUCCESS', payload: data });
+
+    // Dialogue 4: Next, I'll return a status called "ok", with value `true`  as everything went well.
     return { ok: true }
   } catch (error) {
     console.error('Operation failed:', error);
+  // Dialogue 5: And for error I'll return status called "ok", with value `false`.
     return { ok: false, error }
   }
 };
 ```
+
+#### Step 7.2: Updating projects reducer to handle a new action type `ADD_PROJECT_SUCCESS`.
+Next, we will update our projects reducer function, to handle a new action type `ADD_PROJECT_SUCCESS`.
+```tsx
+// src/context/projects/reducer.ts
+// ...
+// ...
+
+// Dialogue 1: I'll define the action type ADD_PROJECT_SUCCESS and payload format.
+export type ProjectsActions = 
+  | { type: 'FETCH_PROJECTS_REQUEST' }
+  | { type: 'FETCH_PROJECTS_SUCCESS'; payload: Project[] }
+  | { type: 'FETCH_PROJECTS_FAILURE'; payload: string }
+  | { type: 'ADD_PROJECT_SUCCESS'; payload: Project }
+
+// ...
+// ...
+
+// Dialogue 2: Then, in switch-case, I'll add a condition check for new case type 'ADD_PROJECT_SUCCESS'.
+  switch (action.type) {
+    // ...
+    // ...
+    case 'ADD_PROJECT_SUCCESS':
+      // Dialogue 3: Here I'll insert new new project object, which is coming in this `action.payload`, to the `projects` array present in state.
+      return { ...state, projects: [...state.projects, action.payload] };  
+    // ...
+    // ...            
+    default:
+      return state;
+  }      
+
+```
+
+Alright, our action and reducer is now ready. Next, we've to update the `NewProject` component to adapt with this change:
+#### Step 7.3: Fixing NewProject component
+```tsx
+// src/pages/projects/NewProject.tsx
+
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react'
+import { useForm, SubmitHandler } from "react-hook-form";
+// Dialogue 1: First I'll import the addProject function
+import { addProject } from '../../context/projects/actions';
+// Dialogue 2: Then I'll import the useProjectsDispatch hook from projects context
+import { useProjectsDispatch } from "../../context/projects/context";
+
+type Inputs = {
+  name: string
+};
+
+const NewProject = () => {
+  let [isOpen, setIsOpen] = useState(false)
+  // Dialogue 3: Next, I'll add a new state to handle errors.
+  const [error, setError] = useState(null)
+
+  // Dialogue 4: Then I'll call the useProjectsDispatch function to get the dispatch function for projects 
+  const dispatchProjects = useProjectsDispatch();
+
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
+  const openModal = () => {
+    setIsOpen(true)
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const { name } = data
+
+    // Dialogue 5: Next, I'll call the addProject function with two arguments: `dispatchProjects` and an object with `name` attribute. As it's an async function, we will await for the response.
+    const response = await addProject(dispatchProjects, { name })
+
+    // Dialogue 6: Then denepding on response, I'll either close the modal...
+    if (response.ok) {
+      setIsOpen(false)
+    } else {
+      // Dialogue 7: Or I'll set the error.
+      setError(response.error as React.SetStateAction<null>)
+    }
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={openModal}
+        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+      >
+        New Project
+      </button>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Create new project
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      {/* Dialogue 8: I'll show the error, if it exists.*/}
+                      {error &&
+                        <span>{error}</span>
+                      }
+                      <input
+                        type="text"
+                        placeholder='Enter project name...'
+                        autoFocus
+                        {...register('name', { required: true })}
+                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                          errors.name ? 'border-red-500' : ''
+                        }`}
+                      />
+                      {errors.name && <span>This field is required</span>}
+                      <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                        Submit
+                      </button>
+                      <button type="submit" onClick={closeModal} className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                        Cancel
+                      </button>
+                    </form>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>    
+    </>
+  )
+}
+
+export default NewProject;
+```
+
+Alright! finally we're ready to test the enrire projects module. Let's do it.
+> Open http://localhost:3000 in browser and create a project.
+
+So, as you can see, after creating a project, the new project is showing up in the projects list, automatically. Right? 
+
+This is what we intended to build since the beginning, and finally we've achieved it, with the help of application-level state.
