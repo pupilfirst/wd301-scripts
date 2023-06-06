@@ -216,7 +216,7 @@ export default AccountLayout;
 ```
 
 ### Step 4: Finding a way to show contents of child component
-Now our account layout is almost ready, but it has one problem. We haven't defined how the route specific contents will show up here. Means we have to give a placeholder for rendering child components.
+Now our account layout is almost ready, but it has one problem. We haven't defined how the route specific contents will show up here. This means we have to give a placeholder for rendering child components.
 
 And for that, we will use a special component called, `Outlet` from the react-router-dom library. `Outlet` is primarily used in nested route configurations to define the location where child components should be rendered.
 
