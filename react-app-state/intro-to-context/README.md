@@ -7,7 +7,7 @@ In our app, we currently have a `App` component, and inside the App component we
 
 ![props-drilling](props-drilling.png)
 
-So, as shown in the image, we have to pass the `theme` props from App component to the `Appbar` component, then the same props needs to be passed to the `PrimaryLinks`, or `UserLinks` component. And that is only one side of component tree, on the another side, where we've the `main` container, there more child components will come in future, where we have to show UI elements like: lists, tables, forms, buttons etc. And can you imagine, in that case we've to pass down the *theme* information as props to multiple layers of child components. And there is nothing wrong with that, but it's tedeaous job.
+So, as shown in the image, we have to pass the `theme` props from App component to the `Appbar` component, then the same props needs to be passed to the `PrimaryLinks`, or `UserLinks` component. And that is only one side of component tree, on the another side, where we've the `main` container, there more child components will come in future, where we have to show UI elements like: lists, tables, forms, buttons etc. And can you imagine, in that case we've to pass down the *theme* information as props to multiple layers of child components. There is nothing wrong with that, but it's tedious job.
 
 So, to help with this kind of situation, React introduced a concept called Context, using which we can share information or data in the form of numbers, strings, arrays and so on, or functions across different levels components inside of our application. Context is kind of like an alternative to the props system. Props is all about communication between a parent and an immediate child.
 
