@@ -53,7 +53,7 @@ Now, let's create types to model this shape.
 
 We will use a `union` type to model the coloumns.
 
-Open `src/reducers/types.ts` file in VS Code and add the following entry to it.
+Open `src/context/task/types.ts` file in VS Code and add the following entry to it.
 
 ```ts
 export type AvailableColoumns = "pending" | "in_progress" | "done";
@@ -99,6 +99,12 @@ export type TaskDetails = {
 };
 ```
 
+We can rewrite the `TaskDetailsPayload` to re use the `TaskDetails` type. TypeScript provides a utility type called `Omit`, which helps in creating a new type by list of attributes of already existing type. We just need to discard `id` `assignee`, `state` from `TaskDetails` type.
+
+```tsx
+export type TaskDetailsPayload = Omit<TaskDetails, "id" | "assignee" | "state">;
+```
+
 Tasks in the response can then be modelled as
 
 ```ts
@@ -130,7 +136,7 @@ export interface TaskListState {
 
 You can also use a `type` here instead of an `interface`.
 
-At first, we will work with static data and make sure our drag and drop works. Let's create a file `initialData.ts` in `src/reducers` with following content.
+At first, we will work with static data and make sure our drag and drop works. Let's create a file `initialData.ts` in `src/context/task` folder with following content.
 
 ```ts
 import { ProjectData } from "./types";
@@ -175,7 +181,7 @@ const initialData: ProjectData = {
 export default initialData;
 ```
 
-Now, we will create a `reducer` that will be used to manage the state. Create a file named `tasks.tsx` in `src/reducers` with following content.
+Now, we will use this initial state in our `taskReducer`. Let's open `src/context/task/reducer` and update the initial state.
 
 ```tsx
 import { Reducer } from "react";
@@ -192,25 +198,30 @@ export const initialState: TaskListState = {
 };
 ```
 
-We have now defined an initial state. Next, we need to define the actions available and the reducer itself.
+We have now defined an initial state. Next, we need to update the actions available and the reducer itself.
 
 We will use an `enum` to model the available actions, so that we don't deal with any [magic strings](https://deviq.com/antipatterns/magic-strings)
 
 ```ts
 export enum TaskListAvailableAction {
+  CREATE_TASK_REQUEST = "CREATE_TASK_REQUEST",
+  CREATE_TASK_SUCCESS = "CREATE_TASK_SUCCESS",
+  CREATE_TASK_FAILURE = "CREATE_TASK_FAILURE",
+
   REORDER_TASKS = "REORDER_TASKS",
 }
 
 // Define the action types and payload
-export type TaskActions = {
-  type: TaskListAvailableAction.REORDER_TASKS;
-  payload: ProjectData;
-};
+export type TaskActions =
+  | { type: TaskListAvailableAction.CREATE_TASK_REQUEST }
+  | { type: TaskListAvailableAction.CREATE_TASK_SUCCESS }
+  | { type: TaskListAvailableAction.CREATE_TASK_FAILURE; payload: string }
+  | { type: TaskListAvailableAction.REORDER_TASKS; payload: ProjectData };
 ```
 
-For now, we will only have a single action `REORDER_TASKS`, which will have a payload of type `ProjectData` with updated orderings of tasks.
+We will add the action `REORDER_TASKS`, which will have a payload of type `ProjectData` with updated orderings of tasks.
 
-Next we will define the reducer itself.
+Next we will update the reducer itself.
 
 ```tsx
 export const taskReducer: Reducer<TaskListState, TaskActions> = (
@@ -218,6 +229,18 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
   action
 ) => {
   switch (action.type) {
+    case TaskListAvailableAction.CREATE_TASK_REQUEST:
+      return { ...state, isLoading: true };
+    case TaskListAvailableAction.CREATE_TASK_SUCCESS:
+      return { ...state, isLoading: false };
+    case TaskListAvailableAction.CREATE_TASK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        errorMessage: action.payload,
+      };
+
     case TaskListAvailableAction.REORDER_TASKS:
       return { ...state, isLoading: false, projectData: action.payload };
     default:
