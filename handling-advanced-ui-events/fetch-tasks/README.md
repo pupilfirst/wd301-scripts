@@ -2,44 +2,9 @@
 
 In this lesson, we will replace static task data with the list of tasks retrieved from API server.
 
-Open `TaskContext.tsx` in VS Code.
+Open `src/context/task/types.ts` in VS Code.
 
-Let's add capability to fetch tasks to the context. We will add `refreshTasks` method to the `TaskContextType`.
-
-```tsx
-interface TaskContextType {
-  taskListState: TaskListState;
-  reorderTasks: (data: ProjectData) => void;
-  refreshTasks: () => void;
-}
-
-export const TaskActionsContext = createContext<TaskContextType>({
-  taskListState: initialState,
-  reorderTasks: (data: ProjectData) => {},
-  refreshTasks: () => {},
-});
-```
-
-Let's retrieve the `projectID` from route using `useParams` hook. Let's import it from `react-router-dom` package.
-
-```tsx
-export const TaskActionProvider: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
-  const [state, dispatch] = useReducer<
-    React.Reducer<TaskListState, TaskActions>
-  >(taskReducer, initialState);
-  let { projectID } = useParams();
-
-  // ...
-};
-```
-
-Switch to `src/reducers/task.tsx`. We will add actions to the enum.
-
-- FETCH_TASKS_REQUEST
-- FETCH_TASKS_SUCCESS
-- FETCH_TASKS_FAILURE
+Let's add capability to fetch tasks.
 
 ```tsx
 export enum TaskListAvailableAction {
@@ -47,18 +12,21 @@ export enum TaskListAvailableAction {
   FETCH_TASKS_SUCCESS = "FETCH_TASKS_SUCCESS",
   FETCH_TASKS_FAILURE = "FETCH_TASKS_FAILURE",
 
+  CREATE_TASK_REQUEST = "CREATE_TASK_REQUEST",
+  CREATE_TASK_SUCCESS = "CREATE_TASK_SUCCESS",
+  CREATE_TASK_FAILURE = "CREATE_TASK_FAILURE",
+
   REORDER_TASKS = "REORDER_TASKS",
 }
-```
 
-We will also update `TaskActions` to reflect the newly availble actions.
-
-```tsx
 export type TaskActions =
   | { type: TaskListAvailableAction.REORDER_TASKS; payload: ProjectData }
   | { type: TaskListAvailableAction.FETCH_TASKS_REQUEST }
   | { type: TaskListAvailableAction.FETCH_TASKS_SUCCESS; payload: ProjectData }
-  | { type: TaskListAvailableAction.FETCH_TASKS_FAILURE; payload: string };
+  | { type: TaskListAvailableAction.FETCH_TASKS_FAILURE; payload: string }
+  | { type: TaskListAvailableAction.CREATE_TASK_REQUEST }
+  | { type: TaskListAvailableAction.CREATE_TASK_SUCCESS }
+  | { type: TaskListAvailableAction.CREATE_TASK_FAILURE; payload: string };
 ```
 
 We will also update the reducer to update the state:
@@ -80,6 +48,17 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
         isError: true,
         errorMessage: action.payload,
       };
+    case TaskListAvailableAction.CREATE_TASK_REQUEST:
+      return { ...state, isLoading: true };
+    case TaskListAvailableAction.CREATE_TASK_SUCCESS:
+      return { ...state, isLoading: false };
+    case TaskListAvailableAction.CREATE_TASK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        errorMessage: action.payload,
+      };
     case TaskListAvailableAction.REORDER_TASKS:
       return { ...state, isLoading: false, projectData: action.payload };
     default:
@@ -88,17 +67,17 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 };
 ```
 
-Switch back to `TaskContext.tsx`
-Import the API endpoint from `constants.ts`
+Save the file.
 
-```tsx
-import { API_ENDPOINT } from "../config/constants";
-```
+Switch to `src/context/task/action.tsx`
 
 We will now create a function called `refreshTasks` which will trigger a request to API server and fetches the task list for a given `projectID`.
 
 ```tsx
-const refreshTasks = useCallback(async () => {
+export const refreshTasks = async (
+  dispatch: TasksDispatch,
+  projectID: string
+) => {
   const token = localStorage.getItem("authToken") ?? "";
   try {
     dispatch({ type: TaskListAvailableAction.FETCH_TASKS_REQUEST });
@@ -130,31 +109,79 @@ const refreshTasks = useCallback(async () => {
       payload: "Unable to load tasks",
     });
   }
-}, [projectID]);
+};
 ```
 
-We here make use of `useCallback` hook, which caches the function definition based on dependency array. Otherwise, the function will get recreated on each re-render.
+Now, we will trigger this `fetchTasks` when the `ProjectDetails` component gets mounted using `useEffect` hook. Switch to `src/pages/project_details/ProjectDetails.tsx`.
 
-Now, we will trigger this `fetchTasks` when the component gets mounted using `useEffect` hook. We will also have to import `useEffect` from `react`.
+Let's import `useTasksDispatch` and `useTasksState`
 
 ```tsx
-useEffect(() => {
-  refreshTasks();
-}, [refreshTasks]);
+import { useTasksDispatch, useTasksState } from "../../context/task/context";
 ```
 
-Add the `refreshTasks` function to the context.
+We will also import `refreshTasks` from `actions.ts`.
 
 ```tsx
-<TaskActionsContext.Provider
-  value={{
-    taskListState: state,
-    reorderTasks,
-    refreshTasks,
-  }}
->
-  {children}
-</TaskActionsContext.Provider>
+import { refreshTasks } from "../../context/task/actions";
+```
+
+Now, we will make use of the `useEffect` hook to trigger `refreshTasks`.
+
+```tsx
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+
+import { useTasksDispatch, useTasksState } from "../../context/task/context";
+
+import DragDropList from "./DragDropList";
+import { refreshTasks } from "../../context/task/actions";
+import { useProjectsState } from "../../context/projects/context";
+
+const ProjectDetails = () => {
+  const tasksState = useTasksState();
+  const taskDispatch = useTasksDispatch();
+  const projectState = useProjectsState();
+  let { projectID } = useParams();
+  useEffect(() => {
+    if (projectID) refreshTasks(taskDispatch, projectID);
+  }, [projectID, taskDispatch]);
+  const selectedProject = projectState?.projects.filter(
+    (project) => `${project.id}` === projectID
+  )?.[0];
+
+  if (!selectedProject) {
+    return <>No such Project!</>;
+  }
+
+  if (tasksState.isLoading) {
+    return <>Loading...</>;
+  }
+  return (
+    <>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-medium tracking-tight text-slate-700">
+          {selectedProject.name}
+        </h2>
+        <Link to={`tasks/new`}>
+          <button
+            id="newTaskBtn"
+            className="rounded-md bg-blue-600 px-4 py-2 m-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          >
+            New Task
+          </button>
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 gap-2">
+        <DragDropList data={tasksState.projectData} />
+      </div>
+    </>
+  );
+};
+
+export default ProjectDetails;
 ```
 
 Save the file. Now, the tasks for a project will get listed properly. And they can be moved around the lists as well.
+
+See you in the next lesson.
