@@ -4,7 +4,7 @@ In this lesson, we will display the details of a task when user clicks on it.
 
 Currently, we have a placeholder component that renders `Show Task Details` text when a `/accounts/projects/:projectID/tasks/:taskID` route is visited.
 
-Let's add available actions to `src/context/task/types.ts` file. Also we will update the `taskReducer` to handle dispatches to these actions.
+Let's add update actions to `src/context/task/types.ts` file. Also we will update the `taskReducer` to handle dispatches to these actions.
 
 ```tsx
 export enum TaskListAvailableAction {
@@ -400,5 +400,27 @@ Update the component to be rendered on visiting task details page.
 Save the file.
 
 Now, if we click on any task, it will display a modal window and the task details are already populated within it. We can change the title or description. When we click on update or submit the form, it will send a `PATCH` request and the task list will get refreshed automatically.
+
+One other feature missing is updating the state of a task when it is dragged and dropped into a different list. Let's resolve that also.
+
+Open `DragDropList.tsx` and import `updateTask` from `action.ts`
+
+```tsx
+import { reorderTasks, updateTask } from "../../context/task/actions";
+```
+
+Now, we just need to invoke the `updateTask` after changing the status of the task when drag and drop action is ended. We do that in `onDragEnd` function. We only need to update the state of task if the `startKey` and `finishKey` are different.
+
+```tsx
+const onDragEnd: OnDragEndResponder = async (result) => {
+  // ...
+  reorderTasks(taskDispatch, newState);
+  const updatedTask = props.data.tasks[updatedItems[0]];
+  updatedTask.state = finishKey;
+  await updateTask(taskDispatch, projectID ?? "", updatedTask);
+};
+```
+
+Save the file. Now the status of the task will also persist once it is moved around the lists.
 
 Currently, we haven't added the capability to assign a task to a user yet. We will do that in the next lesson.
