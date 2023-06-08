@@ -161,14 +161,14 @@ const initialData: ProjectData = {
   },
   tasks: {
     "1": {
-      id: "1",
+      id: 1,
       title: "Sample Task",
       description: "Sample description about the task which is to be completed",
       dueDate: "",
       state: "in_progress",
     },
     "2": {
-      id: "2",
+      id: 2,
       title: "Another Sample Task",
       description: "Sample description about the task which is to be completed",
       dueDate: "",
