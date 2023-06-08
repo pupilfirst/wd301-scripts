@@ -50,11 +50,11 @@ const Coloumn: React.FC<Props> = (props) => {
     <Container>
       <Title>{props.coloumn.title}</Title>
       <Droppable droppableId={props.coloumn.id}>
-          <TaskList>
-            {props.tasks.map((task) => (
-              <Task key={task.id} task={task} />
-            ))}
-          </TaskList>
+        <TaskList>
+          {props.tasks.map((task) => (
+            <Task key={task.id} task={task} />
+          ))}
+        </TaskList>
       </Droppable>
     </Container>
   );
@@ -315,6 +315,14 @@ We will
 - Then we will insert the id at `destination.index`.
 - Then we will update the `coloumns` key in the state with this newly computed coloumn ordering.
 - Finally invoke `reorderTasks` with the new state.
+
+We will also have to import `AvailableColoumns` type.
+
+```tsx
+import { AvailableColoumns, ProjectData } from "../../context/task/types";
+```
+
+`onDragEnd` will look like:
 
 ```tsx
 const onDragEnd: OnDragEndResponder = (result) => {
