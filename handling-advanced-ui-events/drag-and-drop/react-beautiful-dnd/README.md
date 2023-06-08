@@ -26,10 +26,12 @@ Now, we will render the tasks in different coloumns based on their state.
 
 Let's create a file `src/pages/project_details/DragDropList.tsx`
 
-We will create `DragDropList` component, and each list be wrapped in a `Container` component. We do it in such a way to make any future customizations simple.
+We will create `DragDropList` component, and each list be wrapped in a `Container` component. We do it in such a way to make any future customizations simple. We will import `ProjectData` type and a `Coloumn` component, which we will create shortly, in `DragDropList.tsx`.
 
 ```tsx
 import React from "react";
+import { ProjectData } from "../../context/task/types";
+import Coloumn from "./Coloumn";
 
 const Container = (props: React.PropsWithChildren) => {
   return <div className="flex">{props.children}</div>;
@@ -111,7 +113,7 @@ Let's import `Task` component in `Coloumn.tsx` file.
 import Task from "./Task";
 ```
 
-Now, open `Task.tsx` and split it into a container and child component. We will also add a `Link` to navigate to task detail page, when the user clicks on it. We will remove the code to delete a task for the time being. We will also include an `index` s prop for the `Task` component.
+Now, open `Task.tsx` and split it into a container and child component. We will also add a `Link` to navigate to task detail page, when the user clicks on it. We will remove the code to delete a task for the time being. We will also include an `index` prop for the `Task` component.
 
 ```tsx
 import React from "react";
@@ -193,16 +195,20 @@ const tasksState = useTasksState();
 We will show a loading component if the tasks are being fetched.
 
 ```tsx
-if (taskListState.isLoading) {
+if (tasksState.isLoading) {
   return <>Loading...</>;
 }
 ```
 
-And finally, we will render the `DragDropList` component and pass the `projectData` as the prop.
+And finally, we will render the `DragDropList` component and pass the `projectData` as the prop. We will also have to import the `DragDropList` component.
 
 ```tsx
+import DragDropList from "./DragDropList";
+
+// ...
+
 <div className="grid grid-cols-1 gap-2">
-  <DragDropList data={taskListState.projectData} />
+  <DragDropList data={tasksState.projectData} />
 </div>
 ```
 
