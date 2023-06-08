@@ -4,9 +4,13 @@
 To complete this milestone, you have to make the following changes in the *Smarter Tasks (PMS)* React application:
 1. You have to implement the members page (i.e. /account/members) with the following features:
 * As a logged-in user, one should be able to view a list of all members. Use the [`GET /users` API endpoint](https://wd301-api.pupilfirst.school/#/Users/get_users) to get the list of all users of an organisation.
-* There should be an option to create a new user with the following details: name, email and password. Use the [`POST /users` API endpoint](https://wd301-api.pupilfirst.school/#/Users/post_users) to create a new user for your organisation.  
-* There should be an option to remove a user from an organisation. Use the [`DELETE /users/{id}` endpoint](https://wd301-api.pupilfirst.school/#/Users/delete_users__id_) to delete any user by ID.
-2. Update the signup and signin form components to use [React Hook Form](https://react-hook-form.com/), like we did in the new project form.
+* In the member listing page, for each member, **name** and **email ID** should be visible.
+2. In the member listing page, there should be an option to create a new user with the following details: name, email and password. Use the [`POST /users` API endpoint](https://wd301-api.pupilfirst.school/#/Users/post_users) to create a new user for your organisation.  
+* You have to open the new member form in a dialog, and then if the API endpoint responds back with any validation error, then show that message properly.
+* After successfully creating the user, close the dialog and re-render the members list without refreshing the whole page.
+3. In the member listing page, there should be an option to remove a user from an organisation. Use the [`DELETE /users/{id}` endpoint](https://wd301-api.pupilfirst.school/#/Users/delete_users__id_) to delete any user by ID.
+* So, every member card, should be a delete icon button. On that button click open a confirmation dialog for this delete action. Once confirmed, delete the selected user and remove his/her card from the members listing page.
+4. Update the signup and signin form components to use [React Hook Form](https://react-hook-form.com/), like we did in the new project form.
 
 ### Repo structure
 At this point in the course, this is how your repo should be structured:
