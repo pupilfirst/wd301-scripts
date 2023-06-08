@@ -178,6 +178,51 @@ Switch back to `actions.ts`.
 
 In this file, we provide a `dispatch`, `projectID`, and `task` to create a new task. We are sending a POST request to `{API_ENDPOINT}/projects/{projectID}/tasks/` as mentioned in [Create Task API doc](https://wd301-api.pupilfirst.school/#/Tasks/post_projects__projectId__tasks)
 
+Next, we need to create a context, so that we can pass around the state and actions to components. Open `src/context/task/context.tsx` and create `TasksStateContext` and `TasksDispatchContext`. We will also create `useTasksState` and `useTasksDispatch` hooks to make it easier to use.
+
+```tsx
+import React, { createContext, useContext, useReducer } from "react";
+import { taskReducer, initialState } from "./reducer";
+import { TaskListState, TasksDispatch } from "./types";
+const TasksStateContext = createContext<TaskListState>(initialState);
+const TasksDispatchContext = createContext<TasksDispatch>(() => {});
+export const TasksProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
+  const [state, dispatch] = useReducer(taskReducer, initialState);
+  return (
+    <TasksStateContext.Provider value={state}>
+      <TasksDispatchContext.Provider value={dispatch}>
+        {children}
+      </TasksDispatchContext.Provider>
+    </TasksStateContext.Provider>
+  );
+};
+export const useTasksState = () => useContext(TasksStateContext);
+export const useTasksDispatch = () => useContext(TasksDispatchContext);
+```
+
+Next, we will use this context to pass the list of tasks to the `ProjectDetail` component.
+
+Open `index.tsx` file from `src/pages/project_details` folder in VS Code and import the newly created context in it.
+
+```tsx
+import { TasksProvider } from "../../context/task/context";
+```
+
+Wrap the `ProjectDetails` component with this context.
+
+```tsx
+const ProjectDetailsIndex: React.FC = () => {
+  return (
+    <TasksProvider>
+      <ProjectDetails />
+      <Outlet />
+    </TasksProvider>
+  );
+};
+```
+
 Now, we have to create the modal window component.
 Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content.
 
