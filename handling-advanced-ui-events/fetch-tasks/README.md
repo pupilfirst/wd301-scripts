@@ -182,6 +182,6 @@ const ProjectDetails = () => {
 export default ProjectDetails;
 ```
 
-Save the file. Now, the tasks for a project will get listed properly. And they can be moved around the lists as well.
+Save the file. Now, the tasks for a project will get listed properly. And they can be moved around the lists as well. But if you reload the page, after moving a task from one list to another, you can see, the task is still been shown at it's previous position. We will fix this later.
 
 See you in the next lesson.
