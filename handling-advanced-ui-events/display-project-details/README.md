@@ -113,8 +113,10 @@ import { Outlet } from "react-router-dom";
 
 const ProjectDetailsIndex: React.FC = () => {
   return (
+    <>
       <ProjectDetails />
       <Outlet />
+    </>
   );
 };
 
