@@ -43,10 +43,7 @@ We will then create the `DragDropList` component. It will accept the project det
 We will map over `coloumn` ID from the `coloumnOrder` and then render the tasks in a `Coloumn` component.
 
 ```tsx
-const DragDropList = (props: {
-  data: ProjectData;
-  reorderTasks: (data: ProjectData) => void;
-}) => {
+const DragDropList = (props: { data: ProjectData }) => {
   return (
     <Container>
       {props.data.coloumnOrder.map((colID) => {
@@ -66,7 +63,7 @@ Let's create the `Coloumn` component. Create a file named `Coloumn.tsx`.
 ```tsx
 import React from "react";
 
-import { ColoumnData, TaskDetails } from "../../reducers/types";
+import { ColoumnData, TaskDetails } from "../../context/task/types";
 
 const Container = (props: React.PropsWithChildren) => {
   return (
@@ -119,7 +116,7 @@ Now, open `Task.tsx` and split it into a container and child component. We will 
 ```tsx
 import React from "react";
 
-import { TaskDetails } from "../../reducers/types";
+import { TaskDetails } from "../../context/task/types";
 import "./TaskCard.css";
 import { Link } from "react-router-dom";
 
@@ -182,52 +179,32 @@ export default Task;
 
 Next, we have to create a context that can be used to provide the list of tasks, when a project detail page is visited.
 
-Create a file named `TaskContext.tsx` in `src/contexts` with following content.
+Open the file named `context.tsx` in `src/contexts/task`. Then add the following content.
 
 ```tsx
-import React, { createContext, useReducer } from "react";
-import { ProjectData, TaskListState } from "../reducers/types";
-import {
-  initialState,
-  taskReducer,
-  TaskActions,
-  TaskListAvailableAction,
-} from "../reducers/tasks";
+import React, { createContext, useContext, useReducer } from "react";
+import { taskReducer, initialState } from "./reducer";
+import { TaskListState, TasksDispatch } from "./types";
 
-interface TaskContextType {
-  taskListState: TaskListState;
-  reorderTasks: (data: ProjectData) => void;
-}
+const TasksStateContext = createContext<TaskListState>(initialState);
+const TasksDispatchContext = createContext<TasksDispatch>(() => {});
 
-export const TaskActionsContext = createContext<TaskContextType>({
-  taskListState: initialState,
-  reorderTasks: (data: ProjectData) => {},
-});
-
-export const TaskActionProvider: React.FC<React.PropsWithChildren> = ({
+export const TasksProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer<
-    React.Reducer<TaskListState, TaskActions>
-  >(taskReducer, initialState);
-  const reorderTasks = (data: ProjectData) => {
-    dispatch({
-      type: TaskListAvailableAction.REORDER_TASKS,
-      payload: data,
-    });
-  };
+  const [state, dispatch] = useReducer(taskReducer, initialState);
 
   return (
-    <TaskActionsContext.Provider
-      value={{
-        taskListState: state,
-        reorderTasks,
-      }}
-    >
-      {children}
-    </TaskActionsContext.Provider>
+    <TasksStateContext.Provider value={state}>
+      <TasksDispatchContext.Provider value={dispatch}>
+        {children}
+      </TasksDispatchContext.Provider>
+    </TasksStateContext.Provider>
   );
 };
+
+export const useTasksState = () => useContext(TasksStateContext);
+export const useTasksDispatch = () => useContext(TasksDispatchContext);
 ```
 
 Next, we will use this context to pass the list of tasks to the `ProjectDetail` component.
@@ -235,7 +212,7 @@ Next, we will use this context to pass the list of tasks to the `ProjectDetail` 
 Open `index.tsx` file from `src/pages/project_details` folder in VS Code and import the newly created context in it.
 
 ```tsx
-import { TaskActionProvider } from "../../contexts/TaskContext";
+import { TasksProvider } from "../../context/task/context";
 ```
 
 Wrap the `ProjectDetails` component with this context.
@@ -243,27 +220,24 @@ Wrap the `ProjectDetails` component with this context.
 ```tsx
 const ProjectDetailsIndex: React.FC = () => {
   return (
-    <ProjectProvider>
-      <TaskActionProvider>
-        <ProjectDetails />
-        <Outlet />
-      </TaskActionProvider>
-    </ProjectProvider>
+    <TasksProvider>
+      <ProjectDetails />
+      <Outlet />
+    </TasksProvider>
   );
 };
 ```
 
-Switch to `src/pages/project_details/ProjectDetails.tsx` file and use the context to retrieve the task list. Let's import the `TaskActionsContext` first. We will also import the `DragDropList` component to render the tasks.
+Switch to `src/pages/project_details/ProjectDetails.tsx` file and use the context to retrieve the task list. Let's import the `useTasksState` first. We will also import the `DragDropList` component to render the tasks.
 
 ```tsx
-import { TaskActionsContext } from "../../contexts/TaskContext";
-import DragDropList from "./DragDropList";
+import { useTasksState } from "../../context/task/context";
 ```
 
 Now, we can extract required data from the context.
 
 ```tsx
-const { reorderTasks, taskListState } = useContext(TaskActionsContext);
+const tasksState = useTasksState();
 ```
 
 We will show a loading component if the tasks are being fetched.
@@ -274,41 +248,45 @@ if (taskListState.isLoading) {
 }
 ```
 
-And finally, we will render the `DragDropList` component and pass the `projectData`, `reorderTasks` as the props.
+And finally, we will render the `DragDropList` component and pass the `projectData` as the prop.
 
 ```tsx
 <div className="grid grid-cols-1 gap-2">
-  <DragDropList data={taskListState.projectData} reorderTasks={reorderTasks} />
+  <DragDropList data={taskListState.projectData} />
 </div>
 ```
 
 So the `ProjectDetails` component looks like:
 
 ```tsx
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ProjectContext } from "../../contexts/ProjectContext";
-import { TaskActionsContext } from "../../contexts/TaskContext";
-import DragDropList from "./DragDropList";
-const ProjectDetails = () => {
-  const { projects } = useContext(ProjectContext);
-  const { reorderTasks, taskListState } = useContext(TaskActionsContext);
 
+import { useTasksState } from "../../context/task/context";
+import DragDropList from "./DragDropList";
+import { useProjectsState } from "../../context/projects/context";
+
+const ProjectDetails = () => {
+  const tasksState = useTasksState();
+  const projectState = useProjectsState();
   let { projectID } = useParams();
-  const selectedProject = projects.filter(
+
+  const selectedProject = projectState?.projects.filter(
     (project) => `${project.id}` === projectID
   )?.[0];
+
   if (!selectedProject) {
     return <>No such Project!</>;
   }
-  if (taskListState.isLoading) {
+
+  if (tasksState.isLoading) {
     return <>Loading...</>;
   }
   return (
     <>
       <div className="flex justify-between">
         <h2 className="text-2xl font-medium tracking-tight text-slate-700">
-          {selectedProject?.name}
+          {selectedProject.name}
         </h2>
         <Link to={`tasks/new`}>
           <button
@@ -320,14 +298,12 @@ const ProjectDetails = () => {
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-2">
-        <DragDropList
-          data={taskListState.projectData}
-          reorderTasks={reorderTasks}
-        />
+        <DragDropList data={tasksState.projectData} />
       </div>
     </>
   );
 };
+
 export default ProjectDetails;
 ```
 
