@@ -253,4 +253,12 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 
 We will update the state with new ordering whenever `REORDER_TASKS` action is dispatched.
 
+To actually invoke it, we need to add a `reorderTasks` function in `action.ts`. Let's open `src/context/task/action.ts` and add it.
+
+```tsx
+export const reorderTask = (dispatch: TasksDispatch, newState: ProjectData)  => {
+  dispatch({type: TaskListAvailableAction.REORDER_TASKS, payload: newState})
+}
+```
+
 See you in the next lesson.
