@@ -292,6 +292,23 @@ const startKey = source.droppableId as AvailableColoumns;
 const finishKey = destination.droppableId as AvailableColoumns;
 ```
 
+Before going further, we will have to import `reorderTasks` from `action.ts` as well as `useTasksDispatch` from `src/context/task/context`.
+
+```tsx
+import { useTasksDispatch } from "../../context/task/context";
+import { reorderTasks } from "../../context/task/actions";
+```
+
+Let's get the value out of task context.
+
+```tsx
+const DragDropList: React.FC<{ data: ProjectData }> = (props) => {
+  const taskDispatch = useTasksDispatch();
+  const { projectID } = useParams();
+  // ...
+};
+```
+
 Next, we will create the new ordering or new state once a task is dropped. We will use the `spread` operator to preserve any previous state, which we are not currently interested.
 
 We will
@@ -334,7 +351,7 @@ const onDragEnd: OnDragEndResponder = (result) => {
       [newColoumn.id]: newColoumn,
     },
   };
-  props.reorderTasks(newState);
+  reorderTasks(taskDispatch, newState);
   return;
 };
 ```
@@ -376,7 +393,7 @@ const onDragEnd: OnDragEndResponder = (result) => {
         [newColoumn.id]: newColoumn,
       },
     };
-    props.reorderTasks(newState);
+    reorderTasks(taskDispatch, newState);
     return;
   }
   // else the item is being dropped to a different list
@@ -388,8 +405,8 @@ If the lists are different, we will have to create new entries for those `coloum
 ```tsx
 const DragDropList = (props: {
   data: ProjectData;
-  reorderTasks: (data: ProjectData) => void;
 }) => {
+  const taskDispatch = useTasksDispatch();
   const onDragEnd: OnDragEndResponder = (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) {
@@ -422,7 +439,7 @@ const DragDropList = (props: {
           [newColoumn.id]: newColoumn,
         },
       };
-      props.reorderTasks(newState);
+      reorderTasks(taskDispatch, newState);
       return;
     }
     // start and finish list are different
@@ -451,10 +468,10 @@ const DragDropList = (props: {
         [newFinish.id]: newFinish,
       },
     };
-    props.reorderTasks(newState);
+    reorderTasks(taskDispatch, newState);
   };
 ```
 
-Save the file. Now, we should be able to drag and drop items between different lists. When we drag and drops the tasks or changes its order, new state is computed and is passed to the `TaskContext` by invoking `props.reorderTasks`. This will trigger the `dispatch` for `TaskListAvailableAction.REORDER_TASKS` with updated payload. The `reducer` will then updated the state with latest data and renders the lists with updated state.
+Save the file. Now, we should be able to drag and drop items between different lists. When we drag and drops the tasks or changes its order, new state is computed and is passed to the task context by invoking `reorderTasks` action. This will trigger the `dispatch` for `TaskListAvailableAction.REORDER_TASKS` with updated payload. The `reducer` will then updated the state with latest data and renders the lists with updated state.
 
 See you in the next lesson.
