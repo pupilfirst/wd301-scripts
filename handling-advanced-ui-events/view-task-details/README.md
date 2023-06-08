@@ -4,7 +4,7 @@ In this lesson, we will display the details of a task when user clicks on it.
 
 Currently, we have a placeholder component that renders `Show Task Details` text when a `/accounts/projects/:projectID/tasks/:taskID` route is visited.
 
-Let's add available actions to `src/reducers/tasks.tsx` file. Also we will update the `taskReducer` to handle dispatches to these actions.
+Let's add available actions to `src/context/task/types.ts` file. Also we will update the `taskReducer` to handle dispatches to these actions.
 
 ```tsx
 export enum TaskListAvailableAction {
@@ -41,7 +41,11 @@ export type TaskActions =
   | { type: TaskListAvailableAction.UPDATE_TASK_REQUEST }
   | { type: TaskListAvailableAction.UPDATE_TASK_SUCCESS }
   | { type: TaskListAvailableAction.UPDATE_TASK_FAILURE; payload: string };
+```
 
+Let's update the reducer as well. Open `src/context/task/reducer.ts`
+
+```tsx
 export const taskReducer: Reducer<TaskListState, TaskActions> = (
   state = initialState,
   action
@@ -100,93 +104,56 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 };
 ```
 
-Let's open the `TaskContext.tsx` file.
+Save the file.
 
-We will add a function to update a task to `TaskContextType` and add default implementation in `TaskActionsContext`
-
-```tsx
-interface TaskContextType {
-  taskListState: TaskListState;
-  reorderTasks: (data: ProjectData) => void;
-  addTask: (task: TaskDetailsPayload) => void;
-  refreshTasks: () => void;
-  deleteTask: (task: TaskDetails) => void;
-  updateTask: (task: TaskDetails) => void;
-}
-
-export const TaskActionsContext = createContext<TaskContextType>({
-  taskListState: initialState,
-  reorderTasks: (data: ProjectData) => {},
-  refreshTasks: () => {},
-  deleteTask: (task) => {},
-  addTask: (taskPayload) => {},
-  updateTask: (task) => {},
-});
-```
-
-Next, we will add API call to update a task. Once we update, we will then issue a `refreshTasks` call to fetch the latest list of tasks.
+Now, let's open the `src/context/task/action.ts` file. We will add [API call to update a task](https://wd301-api.pupilfirst.school/#/Tasks/patch_projects__projectId__tasks__id_). Once we update, we will then issue a `refreshTasks` call to fetch the latest list of tasks.
 
 ```tsx
-const updateTask = useCallback(
-  async (task: TaskDetails) => {
-    const token = localStorage.getItem("authToken") ?? "";
-    try {
-      dispatch({ type: TaskListAvailableAction.UPDATE_TASK_REQUEST });
-      const response = await fetch(
-        `${API_ENDPOINT}/projects/${projectID}/tasks/${task.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(task),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update task");
+export const updateTask = async (
+  dispatch: TasksDispatch,
+  projectID: string,
+  task: TaskDetails
+) => {
+  const token = localStorage.getItem("authToken") ?? "";
+  try {
+    dispatch({ type: TaskListAvailableAction.UPDATE_TASK_REQUEST });
+    const response = await fetch(
+      `${API_ENDPOINT}/projects/${projectID}/tasks/${task.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(task),
       }
-      dispatch({ type: TaskListAvailableAction.UPDATE_TASK_SUCCESS });
-      refreshTasks();
-    } catch (error) {
-      console.error("Operation failed:", error);
-      dispatch({
-        type: TaskListAvailableAction.UPDATE_TASK_FAILURE,
-        payload: "Unable to update task",
-      });
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to update task");
     }
-  },
-  [projectID, refreshTasks]
-);
+    dispatch({ type: TaskListAvailableAction.UPDATE_TASK_SUCCESS });
+    refreshTasks(dispatch, projectID);
+  } catch (error) {
+    console.error("Operation failed:", error);
+    dispatch({
+      type: TaskListAvailableAction.UPDATE_TASK_FAILURE,
+      payload: "Unable to update task",
+    });
+  }
+};
 ```
 
-Then, we will include this newly created function in the context provider.
-
-```tsx
-<TaskActionsContext.Provider
-  value={{
-    taskListState: state,
-    reorderTasks,
-    refreshTasks,
-    deleteTask,
-    addTask,
-    updateTask,
-  }}
->
-  {children}
-</TaskActionsContext.Provider>
-```
-
-Now, we will create a component to actually render the details of a task. Let's create a file named `TaskDetails.tsx` in `src/pages/tasks` folder with following content.
+Now, we will create a component to actually render the details of a task. Let's create a file named `TaskDetails.tsx` in `src/pages/tasks` folder with following content. The component is very similar to `NewTask` component, except, we hydrate the initial values like title, due date, description etc. based on the task.
 
 ```tsx
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_ENDPOINT } from "../../config/constants";
-import { ProjectContext } from "../../contexts/ProjectContext";
-import { TaskActionsContext } from "../../contexts/TaskContext";
+import { useTasksDispatch, useTasksState } from "../../context/task/context";
+import { updateTask } from "../../context/task/actions";
+
+import { useProjectsState } from "../../context/projects/context";
 
 const formatDateForPicker = (isoDate: string) => {
   const dateObj = new Date(isoDate);
@@ -203,22 +170,23 @@ const TaskDetails = () => {
 
   let { projectID, taskID } = useParams();
   let navigate = useNavigate();
-  const { projects } = useContext(ProjectContext);
-  const { refreshTasks, taskListState, updateTask } =
-    useContext(TaskActionsContext);
+  const projectState = useProjectsState();
+  const taskListState = useTasksState();
+  const taskDispatch = useTasksDispatch();
 
-  const selectedProject = projects.filter(
+  const selectedProject = projectState?.projects.filter(
     (project) => `${project.id}` === projectID
-  )?.[0];
+  )[0];
 
-  const selectedTask = taskListState.projectData.tasks?.[taskID || ""];
+  const selectedTask = taskListState.projectData.tasks[taskID ?? ""];
   const [title, setTitle] = useState(selectedTask.title);
   const [description, setDescription] = useState(selectedTask.description);
   const [dueDate, setDueDate] = useState(
-    formatDateForPicker(selectedTask.dueDate || "")
+    formatDateForPicker(selectedTask.dueDate)
   );
-  if (!selectedProject || !selectedTask) {
-    return <>No such Project or Task!</>;
+
+  if (!selectedProject) {
+    return <>No such Project!</>;
   }
 
   function closeModal() {
@@ -228,6 +196,13 @@ const TaskDetails = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    updateTask(taskDispatch, projectID ?? "", {
+      ...selectedTask,
+      title: title ?? "",
+      description: description ?? "",
+      dueDate,
+    });
+    closeModal();
   };
 
   return (
@@ -298,7 +273,6 @@ const TaskDetails = () => {
                         }}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
-
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -331,12 +305,17 @@ Here, we wire up the details of a task to input fields and sets up handlers to u
 
 Save the file.
 
-Next, we can invoke the `updateTask` when the form is submitted.
+Next, we can invoke the `updateTask` when the form is submitted. We will make use of the null coelecing operator (`??`) to provide default values.
 
 ```tsx
 const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
-  updateTask({ ...selectedTask, title, description, dueDate });
+  updateTask(taskDispatch, projectID ?? "", {
+    ...selectedTask,
+    title: title ?? "",
+    description: description ?? "",
+    dueDate,
+  });
   closeModal();
 };
 ```
@@ -348,18 +327,23 @@ Next, we will create a container component to display a loading status if the da
 Let's create a file named `TaskDetailsContainer.tsx` with following content:
 
 ```tsx
-import { useContext } from "react";
-import { ProjectContext } from "../../contexts/ProjectContext";
-import { TaskActionsContext } from "../../contexts/TaskContext";
+import React from "react";
+import { useProjectsState } from "../../context/projects/context";
+import { useTasksState } from "../../context/task/context";
 import TaskDetails from "./TaskDetails";
+import { useParams } from "react-router-dom";
 
 const TaskDetailsContainer = () => {
-  const { isLoading } = useContext(ProjectContext);
-  const { taskListState } = useContext(TaskActionsContext);
-
+  let { taskID } = useParams();
+  const projectState = useProjectsState();
+  const taskListState = useTasksState();
   const isFetchingTasks = taskListState.isLoading;
-  if (isFetchingTasks || isLoading) {
+  const selectedTask = taskListState.projectData.tasks?.[taskID || ""];
+  if (isFetchingTasks || !projectState || projectState?.isLoading) {
     return <>Loading...</>;
+  }
+  if (!selectedTask) {
+    return <>No such task!</>;
   }
 
   return <TaskDetails />;
@@ -368,7 +352,7 @@ const TaskDetailsContainer = () => {
 export default TaskDetailsContainer;
 ```
 
-We will display a `Loading...` text if the requests has not yet completed fetching data.
+Save the file. This will display a `Loading...` text if the requests has not yet completed fetching data.
 
 Now, we will use this in the `src/routes/index.tsx` to render task details.
 
@@ -383,6 +367,7 @@ Update the component to be rendered on visiting task details page.
 ```tsx
 {
   path: "projects",
+  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
@@ -396,12 +381,12 @@ Update the component to be rendered on visiting task details page.
             { index: true, element: <Navigate to="../" /> },
             {
               path: "new",
-              element: <NewTaskModal />,
+              element: <NewTask />,
             },
             {
               path: ":taskID",
               children: [
-                { index: true, element: <TaskDetailsContainer />},
+                { index: true, element: <TaskDetailsContainer /> },
               ],
             },
           ],
