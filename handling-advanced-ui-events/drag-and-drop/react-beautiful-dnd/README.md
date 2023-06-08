@@ -177,57 +177,7 @@ const Task = (
 export default Task;
 ```
 
-Next, we have to create a context that can be used to provide the list of tasks, when a project detail page is visited.
-
-Open the file named `context.tsx` in `src/contexts/task`. Then add the following content.
-
-```tsx
-import React, { createContext, useContext, useReducer } from "react";
-import { taskReducer, initialState } from "./reducer";
-import { TaskListState, TasksDispatch } from "./types";
-
-const TasksStateContext = createContext<TaskListState>(initialState);
-const TasksDispatchContext = createContext<TasksDispatch>(() => {});
-
-export const TasksProvider: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
-  const [state, dispatch] = useReducer(taskReducer, initialState);
-
-  return (
-    <TasksStateContext.Provider value={state}>
-      <TasksDispatchContext.Provider value={dispatch}>
-        {children}
-      </TasksDispatchContext.Provider>
-    </TasksStateContext.Provider>
-  );
-};
-
-export const useTasksState = () => useContext(TasksStateContext);
-export const useTasksDispatch = () => useContext(TasksDispatchContext);
-```
-
-Next, we will use this context to pass the list of tasks to the `ProjectDetail` component.
-
-Open `index.tsx` file from `src/pages/project_details` folder in VS Code and import the newly created context in it.
-
-```tsx
-import { TasksProvider } from "../../context/task/context";
-```
-
-Wrap the `ProjectDetails` component with this context.
-
-```tsx
-const ProjectDetailsIndex: React.FC = () => {
-  return (
-    <TasksProvider>
-      <ProjectDetails />
-      <Outlet />
-    </TasksProvider>
-  );
-};
-```
-
+Next, we will use the context to get the list of tasks in our component.
 Switch to `src/pages/project_details/ProjectDetails.tsx` file and use the context to retrieve the task list. Let's import the `useTasksState` first. We will also import the `DragDropList` component to render the tasks.
 
 ```tsx
