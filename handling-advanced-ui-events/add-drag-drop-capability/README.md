@@ -450,7 +450,7 @@ const DragDropList = (props: {
     // start and finish list are different
 
     const startTaskIDs = Array.from(start.taskIDs);
-    startTaskIDs.splice(source.index, 1);
+    const updatedItems = startTaskIDs.splice(source.index, 1);
 
     const newStart = {
       ...start,
