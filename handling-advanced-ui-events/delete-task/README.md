@@ -90,7 +90,12 @@ Now, we will add the actual API call to delete a task as said in the [API doc](h
 
 Let's open `src/context/task/action.ts`. We will add `deleteTask` function which takes a `TasksDispatch`, `projectID`, `task` as it's arguments. We will dispatch a `DELETE_TASKS_REQUEST` before sending the request. And dispatch `DELETE_TASKS_SUCCESS` or `DELETE_TASKS_FAILURE` when the request ends. We will also trigger a `refreshTasks` when the request succeeds.
 
+You have to update the import statement so that `TaskDetails` type is available.
+
 ```tsx
+import { TaskDetails } from "./types";
+
+// ...
 export const deleteTask = async (
   dispatch: TasksDispatch,
   projectID: string,
