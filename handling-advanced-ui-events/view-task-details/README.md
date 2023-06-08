@@ -196,12 +196,7 @@ const TaskDetails = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    updateTask(taskDispatch, projectID ?? "", {
-      ...selectedTask,
-      title: title ?? "",
-      description: description ?? "",
-      dueDate,
-    });
+    
     closeModal();
   };
 
@@ -412,12 +407,18 @@ import { reorderTasks, updateTask } from "../../context/task/actions";
 Now, we just need to invoke the `updateTask` after changing the status of the task when drag and drop action is ended. We do that in `onDragEnd` function. We only need to update the state of task if the `startKey` and `finishKey` are different.
 
 ```tsx
+import { useParams } from "react-router-dom";
+
+// ...
+
+const taskDispatch = useTasksDispatch();
+const { projectID } = useParams();
 const onDragEnd: OnDragEndResponder = async (result) => {
   // ...
   reorderTasks(taskDispatch, newState);
   const updatedTask = props.data.tasks[updatedItems[0]];
   updatedTask.state = finishKey;
-  await updateTask(taskDispatch, projectID ?? "", updatedTask);
+  updateTask(taskDispatch, projectID ?? "", updatedTask);
 };
 ```
 
