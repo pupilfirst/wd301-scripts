@@ -93,8 +93,8 @@ const Coloumn: React.FC<Props> = (props) => {
     <Container>
       <Title>{props.coloumn.title}</Title>
       <TaskList>
-        {props.tasks.map((task, idx) => (
-          <Task key={task.id} task={task} index={idx} />
+        {props.tasks.map((task) => (
+          <Task key={task.id} task={task}  />
         ))}
       </TaskList>
     </Container>
@@ -170,7 +170,6 @@ const Container: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
 const Task = (
   props: React.PropsWithChildren<{
     task: TaskDetails;
-    index: number;
   }>
 ) => {
   return <Container task={props.task} />;
