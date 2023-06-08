@@ -7,26 +7,34 @@ Let's open `src/pages/project_details/ProjectDetails.tsx` in VS Code.
 We will add a `button` wrapped in `Link` to navigate to `tasks/new` url, so that we can render a modal window. The button should have `newTaskBtn` as it's `id`.
 
 ```tsx
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { useProjectsState } from "../../context/projects/context";
 
 const ProjectDetails = () => {
-  const { projects } = useContext(ProjectContext);
+  const projectState = useProjectsState();
   let { projectID } = useParams();
-  const selectedProject = projects.filter(
+
+  const selectedProject = projectState?.projects.filter(
     (project) => `${project.id}` === projectID
   )?.[0];
+
   if (!selectedProject) {
     return <>No such Project!</>;
   }
+
   return (
     <>
       <div className="flex justify-between">
         <h2 className="text-2xl font-medium tracking-tight text-slate-700">
-          {selectedProject?.name}
+          {selectedProject.name}
         </h2>
-         <Link to={`tasks/new`}>
-          <button id="newTaskBtn" className="rounded-md bg-blue-600 px-4 py-2 m-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+        <Link to={`tasks/new`}>
+          <button
+            id="newTaskBtn"
+            className="rounded-md bg-blue-600 px-4 py-2 m-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          >
             New Task
           </button>
         </Link>
@@ -34,6 +42,8 @@ const ProjectDetails = () => {
     </>
   );
 };
+
+export default ProjectDetails;
 ```
 
 Save the file.
@@ -42,69 +52,170 @@ Now if you visit the project details page, you will see a `New Task` button. If 
 
 Next, we will render a modal window, which will accept `title`, `description`, `dueDate` and `assignee` from user and then create a task.
 
+We have to first create and setup a context, actions and reducer like we did while creating a project.
+
+Let's create a folder `task` in `src/context`. We will next create empty files `actions.ts`, `context.tsx`, `reducer.ts`, and `types.ts`.
+
+Open `src/context/task/types.ts` and add required actions. We will also create a `TaskListState` to hold loading status of API requests and a `TasksDispacth` type to be used with context.
+
+```ts
+export interface TaskListState {
+  isLoading: boolean;
+  isError: boolean;
+  errorMessage: string;
+}
+
+export enum TaskListAvailableAction {
+  CREATE_TASK_REQUEST = "CREATE_TASK_REQUEST",
+  CREATE_TASK_SUCCESS = "CREATE_TASK_SUCCESS",
+  CREATE_TASK_FAILURE = "CREATE_TASK_FAILURE",
+}
+
+export type TaskActions =
+  | { type: TaskListAvailableAction.CREATE_TASK_REQUEST }
+  | { type: TaskListAvailableAction.CREATE_TASK_SUCCESS }
+  | { type: TaskListAvailableAction.CREATE_TASK_FAILURE; payload: string };
+
+export type TasksDispatch = React.Dispatch<TaskActions>;
+```
+
+Save the file.
+
+Next, we need to create a reducer. Open `src/context/task/reducer.ts`.
+
+```tsx
+import { Reducer } from "react";
+import { TaskListAvailableAction, TaskListState, TaskActions } from "./types";
+// Define the initial state
+export const initialState = {
+  isLoading: false,
+  isError: false,
+  errorMessage: "",
+};
+export const taskReducer: Reducer<TaskListState, TaskActions> = (
+  state = initialState,
+  action
+) => {
+  switch (action.type) {
+    case TaskListAvailableAction.CREATE_TASK_REQUEST:
+      return { ...state, isLoading: true };
+    case TaskListAvailableAction.CREATE_TASK_SUCCESS:
+      return { ...state, isLoading: false };
+    case TaskListAvailableAction.CREATE_TASK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        errorMessage: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+```
+
+Now we have our reducer ready.
+
+Next, we need to add the actual API call that needs to be invoked to create a task.
+
+Let's open `src/context/task/actions.ts`
+
+```tsx
+import { API_ENDPOINT } from "../../config/constants";
+import {
+  TaskDetailsPayload,
+  TaskListAvailableAction,
+  TasksDispatch,
+} from "./types";
+
+export const addTask = async (
+  dispatch: TasksDispatch,
+  projectID: string,
+  task: TaskDetailsPayload
+) => {
+  const token = localStorage.getItem("authToken") ?? "";
+  try {
+    dispatch({ type: TaskListAvailableAction.CREATE_TASK_REQUEST });
+    const response = await fetch(
+      `${API_ENDPOINT}/projects/${projectID}/tasks/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(task),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to create task");
+    }
+    dispatch({ type: TaskListAvailableAction.CREATE_TASK_SUCCESS });
+  } catch (error) {
+    console.error("Operation failed:", error);
+    dispatch({
+      type: TaskListAvailableAction.CREATE_TASK_FAILURE,
+      payload: "Unable to create task",
+    });
+  }
+};
+```
+
+Save the file.
+
+Here, we don't have `TaskDetailsPayload` type yet, so let's define it in `types.ts`
+
+```tsx
+export type TaskDetailsPayload = {
+  title: string;
+  description: string;
+  dueDate: string;
+};
+```
+
+Switch back to `actions.ts`.
+
+In this file, we provide a `dispatch`, `projectID`, and `task` to create a new task. We are sending a POST request to `{API_ENDPOINT}/projects/{projectID}/tasks/` as mentioned in [Create Task API doc](https://wd301-api.pupilfirst.school/#/Tasks/post_projects__projectId__tasks)
+
+Now, we have to create the modal window component.
 Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content.
 
 ```tsx
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, useContext } from "react";
+import { Fragment, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_ENDPOINT } from "../../../config/constants";
-import { ProjectContext } from "../../../contexts/ProjectContext";
-
+import { useProjectsState } from "../../context/projects/context";
+import { useTasksDispatch } from "../../context/task/context";
+import { addTask } from "../../context/task/actions";
 const NewTask = () => {
   let [isOpen, setIsOpen] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
-
   let { projectID } = useParams();
   let navigate = useNavigate();
-  const { projects } = useContext(ProjectContext);
-  const selectedProject = projects.filter(
+  const projectState = useProjectsState();
+  const taskDispatch = useTasksDispatch();
+  const selectedProject = projectState?.projects.filter(
     (project) => `${project.id}` === projectID
   )?.[0];
-
   if (!selectedProject) {
     return <>No such Project!</>;
   }
-
   function closeModal() {
     setIsOpen(false);
     navigate("../../");
   }
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const token = localStorage.getItem("authToken") ?? "";
-
     try {
-      const response = await fetch(
-        `${API_ENDPOINT}/projects/${projectID}/tasks`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ title, description, dueDate }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to create task");
-      }
-
-      // extract the response body as JSON data
-      await response.json();
-
-      // Close modal
-      setIsOpen(false);
-      navigate("../../");
+      addTask(taskDispatch, projectID ?? "", { title, description, dueDate });
+      closeModal();
     } catch (error) {
       console.error("Operation failed:", error);
     }
   };
-
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -120,7 +231,6 @@ const NewTask = () => {
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
-
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
@@ -177,7 +287,6 @@ const NewTask = () => {
                         }}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
-
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -203,7 +312,6 @@ const NewTask = () => {
     </>
   );
 };
-
 export default NewTask;
 ```
 
@@ -215,16 +323,14 @@ To create a task, we are sending the API request when the form is submitted. In 
 
 We use `context` to pass down already fetched project list to the `NewTask` component.
 
-
-
 Next we need to update the `src/routes/index.tsx` to render this component for a new task route.
 
 Open `src/routes/index.tsx` in VS Code.
 
-Import the `NewTaskModal` component.
+Import the `NewTask` component.
 
 ```tsx
-import NewTaskModal from "../pages/tasks/NewTask";
+import NewTask from "../pages/tasks/NewTask";
 ```
 
 Next, we will ask router to render this component for new task url.
@@ -232,6 +338,7 @@ Next, we will ask router to render this component for new task url.
 ```tsx
 {
   path: "projects",
+  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
@@ -242,8 +349,11 @@ Next, we will ask router to render this component for new task url.
         {
           path: "tasks",
           children: [
-            { index: true, element: <Navigate to="../" replace /> },
-            { path: "new", element: <NewTaskModal /> },
+            { index: true, element: <Navigate to="../" /> },
+            {
+              path: "new",
+              element: <NewTask />,
+            },
             {
               path: ":taskID",
               children: [{ index: true, element: <>Show Task Details</> }],
