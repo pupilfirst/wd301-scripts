@@ -123,7 +123,7 @@ export type ProjectData = {
 };
 ```
 
-We will use `useReducer` hook to manage the state. So, we need to add another type for it. In this state, we will have the API response, then some flags whether the data is currently loading or has errored etc.
+We will use `useReducer` hook to manage the state. So, we already have defined `TaskListState` as the state's type. In the state, we have the API response, then some flags whether the data is currently loading or has errored etc. We will also add the `ProjectData` type to it.
 
 ```ts
 export interface TaskListState {
@@ -181,7 +181,7 @@ const initialData: ProjectData = {
 export default initialData;
 ```
 
-Now, we will use this initial state in our `taskReducer`. Let's open `src/context/task/reducer` and update the initial state.
+Now, we will use this initial state in our `taskReducer`. Let's open `src/context/task/reducer.ts` and update the initial state.
 
 ```tsx
 import { Reducer } from "react";
@@ -200,7 +200,9 @@ export const initialState: TaskListState = {
 
 We have now defined an initial state. Next, we need to update the actions available and the reducer itself.
 
-We will use an `enum` to model the available actions, so that we don't deal with any [magic strings](https://deviq.com/antipatterns/magic-strings)
+Switch to `types.ts` and add an entry `REORDER_TASKS`
+
+We use an `enum` to model the available actions, so that we don't deal with any [magic strings](https://deviq.com/antipatterns/magic-strings)
 
 ```ts
 export enum TaskListAvailableAction {
