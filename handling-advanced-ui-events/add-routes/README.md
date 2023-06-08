@@ -71,4 +71,82 @@ If you visit `/accounts/projects/1/tasks/new`, you will see `Show Modal window t
 
 Instead if you visit `/accounts/projects/1/tasks/2`, you will see `Show Task Details` text being rendered. We will also display task details as a modal window over the project details.
 
-See you in the next lesson.
+We will now do some refactoring and create a `ProjectContainer` component. This component will be responsible to fetch the list of projects, when it is mounted. And we will set every other project related routes as children of this component.
+
+Let's create a file named `ProjectContainer.tsx` in `src/pages/projects` folder.
+
+This component will simply invoke the `fetchProjects` action and will provide an `Outlet` component to render any child nodes.
+
+```tsx
+import React, { useEffect } from "react";
+import { useProjectsDispatch } from "../../context/projects/context";
+import { fetchProjects } from "../../context/projects/actions";
+import { Outlet } from "react-router-dom";
+
+const ProjectContainer = () => {
+  const projectDispatch = useProjectsDispatch();
+  useEffect(() => {
+    fetchProjects(projectDispatch);
+  }, [projectDispatch]);
+  return <Outlet />;
+};
+
+export default ProjectContainer;
+```
+
+Let's use this in our routes.
+
+Open `src/routes/index.tsx` and import the newly created component.
+
+```tsx
+import ProjectContainer from "../pages/projects/ProjectContainer";
+```
+
+Now, edit the `project` path to render this component.
+
+```tsx
+{
+  path: "projects",
+  element: <ProjectContainer />,
+  children: [
+    { index: true, element: <Projects /> },
+    {
+      path: ":projectID",
+      element: <>Show project details <Outlet /></>,
+      children: [
+        { index: true, element: <></> },
+        {
+          path: "tasks",
+          children: [
+            { index: true, element: <Navigate to="../" replace /> },
+            { path: "new", element: <>Show Modal window to create a task</> },
+            {
+              path: ":taskID",
+              children: [{ index: true, element: <>Show Task Details</> }],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+},
+```
+
+We can now remove the code to fetch projects from `src/pages/projects/ProjectList.tsx` as fetching project is now done in a parent component.
+
+```tsx
+import React from "react";
+import ProjectListItems from "./ProjectListItems";
+
+const ProjectList: React.FC = () => {
+  return (
+    <div className="grid gap-4 grid-cols-4 mt-5">
+      <ProjectListItems />
+    </div>
+  );
+};
+
+export default ProjectList;
+```
+
+Save the file. Now everything should work as before. See you in the next lesson.
