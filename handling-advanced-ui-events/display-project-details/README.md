@@ -2,7 +2,7 @@
 
 Now that we have added routes to display project, details, let's add a hyper link to the project name. So when a user clicks on it, they will be taken to detail page of the corresponding project.
 
-Open `src/pages/projects/ProjectList.tsx` in VS Code.
+Open `src/pages/projects/ProjectListItems.tsx` in VS Code.
 
 To create a hyperlink, we will use `Link` component from `react-router-dom` package. It will essentially be rendered as `anchor` tag in final html.
 
@@ -17,31 +17,39 @@ import { Link } from "react-router-dom";
 We will wrap the `h5` component to make it a hyperlink. It will be linked to `id` of the project.
 
 ```tsx
-const ProjectsList = () => {
-  const { projects, isLoading } = useContext(ProjectContext);
+import React from "react";
+import { useProjectsState } from "../../context/projects/context";
+import { Link } from "react-router-dom";
+
+export default function ProjectListItems() {
+  let state: any = useProjectsState();
+  const { projects, isLoading, isError, errorMessage } = state;
+  console.log(projects);
+
+  if (projects.length === 0 && isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>{errorMessage}</span>;
+  }
 
   return (
-    <div className="grid gap-4 grid-cols-3 grid-rows-3 mt-5">
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          {projects.map((project) => (
-            <Link
-              key={project.id}
-              to={`${project.id}`}
-              className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-            >
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {project.name}
-              </h5>
-            </Link>
-          ))}
-        </>
-      )}
-    </div>
+    <>
+      {projects.map((project: any) => (
+        <Link
+          key={project.id}
+          to={`${project.id}`}
+          className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        >
+          <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+            {project.name}
+          </h5>
+        </Link>
+      ))}
+    </>
   );
-};
+}
 ```
 
 Save the file. Now if you hover over the projects, you will see it is a hyperlink. If you click on it, it will render the `Show project details`.
@@ -57,15 +65,15 @@ In this component, we will extract the value of `projectID`, then filter it out 
 Add the following content to `ProjectDetails.tsx`
 
 ```tsx
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ProjectContext } from "../../contexts/ProjectContext";
-
+import { useProjectsState } from "../../context/projects/context";
 
 const ProjectDetails = () => {
-  const { projects } = useContext(ProjectContext);
+  const projectState = useProjectsState();
   let { projectID } = useParams();
-  const selectedProject = projects.filter(
+
+  const selectedProject = projectState?.projects.filter(
     (project) => `${project.id}` === projectID
   )?.[0];
 
@@ -76,7 +84,7 @@ const ProjectDetails = () => {
     <>
       <div className="flex justify-between">
         <h2 className="text-2xl font-medium tracking-tight text-slate-700">
-          {selectedProject?.name}
+          {selectedProject.name}
         </h2>
       </div>
     </>
@@ -84,7 +92,6 @@ const ProjectDetails = () => {
 };
 
 export default ProjectDetails;
-
 ```
 
 Here we use [`optional chaining`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) to get first element from the filtered project list. If the array is empty due to an invalid id, it will return undefined.
@@ -93,7 +100,7 @@ If no valid project is found, we will render a text `No such Project!`. If a pro
 
 Save the file.
 
-Now, we will create a wrapper component to provide context value to `ProjectDetails` component.
+Now, we will create a wrapper component so that we will be able to render child elements like a modal window for creating a task. We will use the `Outlet` component to help us with this.
 
 Create a file `src/pages/project_details/index.tsx` with following content.
 
@@ -102,15 +109,12 @@ import React from "react";
 
 import ProjectDetails from "./ProjectDetails";
 
-import { ProjectProvider } from "../../contexts/ProjectContext";
 import { Outlet } from "react-router-dom";
 
 const ProjectDetailsIndex: React.FC = () => {
   return (
-    <ProjectProvider>
       <ProjectDetails />
       <Outlet />
-    </ProjectProvider>
   );
 };
 
@@ -133,6 +137,7 @@ Then we will replace the component to be rendered in the route.
 ```tsx
 {
   path: "projects",
+  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
