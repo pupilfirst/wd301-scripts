@@ -50,14 +50,11 @@ const Coloumn: React.FC<Props> = (props) => {
     <Container>
       <Title>{props.coloumn.title}</Title>
       <Droppable droppableId={props.coloumn.id}>
-        {(provided) => (
-          <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+          <TaskList>
             {props.tasks.map((task) => (
               <Task key={task.id} task={task} />
             ))}
-            {provided.placeholder}
           </TaskList>
-        )}
       </Droppable>
     </Container>
   );
@@ -72,7 +69,7 @@ This is because, `Droppable` component expects a function as it's child and we a
 
 Let's modify the `Coloumn` component to adhere to the requirement. The function should have the signature `(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => ReactElement<HTMLElement, string | JSXElementConstructor<any>>`.
 
-The first argument in the function, `provided` will have two attributes - `innerRef` and `droppableProps`, that should be passed along as props to the target element which is to be made droppable. We will use the `spread` operator to pass along the `provided.droppableProps` to our `TaskList` component.
+The first argument in the function, `provided` will have two attributes - `innerRef` and `droppableProps`, that should be passed along as props to the target element which is to be made droppable. We will use the `spread` operator to pass along the `provided.droppableProps` to our `TaskList` component. We need to add `provided.placeholder` to support as a placeholder for enabling drop capability.
 
 ```tsx
 const Coloumn: React.FC<Props> = (props) => {
