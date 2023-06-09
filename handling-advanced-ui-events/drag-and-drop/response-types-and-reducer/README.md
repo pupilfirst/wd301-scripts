@@ -29,18 +29,22 @@ We can see the reponse is of the following shape.
   },
   "tasks": {
     "1": {
-      "id": "1",
+      "id": 1,
       "title": "Sample Task",
       "description": "Sample description about the task which is to be completed",
       "dueDate": "",
-      "state": "in_progress"
+      "state": "in_progress",
+      "assignee": null,
+      "assignedUserName": null
     },
     "2": {
-      "id": "2",
+      "id": 2,
       "title": "Another Sample Task",
       "description": "Sample description about the task which is to be completed",
       "dueDate": "",
-      "state": "pending"
+      "state": "pending",
+      "assignee": null,
+      "assignedUserName": null
     }
   },
   "coloumnOrder": ["pending", "in_progress", "done"]
@@ -96,6 +100,8 @@ export type TaskDetails = {
   description: string;
   dueDate: string;
   state: AvailableColoumns;
+  assignee?: number,
+  assignedUserName?: string
 };
 ```
 
@@ -166,6 +172,8 @@ const initialData: ProjectData = {
       description: "Sample description about the task which is to be completed",
       dueDate: "",
       state: "in_progress",
+      assignee: undefined,
+      assignedUserName: undefined
     },
     "2": {
       id: 2,
@@ -173,6 +181,8 @@ const initialData: ProjectData = {
       description: "Sample description about the task which is to be completed",
       dueDate: "",
       state: "pending",
+      assignee: undefined,
+      assignedUserName: undefined
     },
   },
   coloumnOrder: ["pending", "in_progress", "done"],
