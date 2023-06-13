@@ -107,13 +107,13 @@ Import `forwardRef`
 import React, { forwardRef } from "react";
 ```
 
-Use `forwardRef` to provide a ref passed as `prop` from any parent component. We will attach the passed `ref` on to the `div` tag.
+Use `forwardRef` to provide a ref passed as `prop` from any parent component. We will attach the passed `ref` on to the `div` tag. We will also spread the passed along `props` on the `div` tag.
 
 ```tsx
 const TaskList = forwardRef<HTMLDivElement | null, React.PropsWithChildren>(
   (props: React.PropsWithChildren, ref) => {
     return (
-      <div ref={ref} className="grow min-h-100 dropArea">
+      <div ref={ref} className="grow min-h-100 dropArea" {...props}>
         {" "}
         {props.children}
       </div>
