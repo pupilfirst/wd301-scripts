@@ -7,10 +7,13 @@ To complete this milestone, you have to make the following changes in the _Smart
 - As a logged-in user, one should be able to view a list of comments in the task details page. Use the [`GET /projects/{project_id}/tasks/{task_id}/comments` API endpoint](https://wd301-api.pupilfirst.school/#/Tasks/get_projects__project_id__tasks__task_id__comments) to get the list of comments for a task.
 
 - The comments of a task should be listed in chronologically reverse order based on timestamp.
+- For each comment a class named `comment` should be added, so that, the automated tests can identify comments.
 
 2. In the task detail page, there should be an option to create a new comment. Use the [`POST /projects/{project_id}/tasks/{task_id}/comments` API endpoint](https://wd301-api.pupilfirst.school/#/Tasks/post_projects__project_id__tasks__task_id__comments) to create a new comment for the task.
 
 - The comment should have `Name` of the user who did the comment, formatted `timestamp` of when the comment was made against the task, and the actual `comment` itself.
+- The `input` element to add the comment should have id `commentBox`.
+- The submit button to add a new comment should have the id `addCommentBtn`.
 
 ### Repo structure
 
@@ -27,6 +30,11 @@ At this point in the course, this is how your repo should be structured:
 |   |   ├── config
 |   |   |   └── constants.ts
 |   |   ├── context
+|   |   |   ├── comment/
+|   |   |   |   ├── actions.ts
+|   |   |   |   ├── context.tsx
+|   |   |   |   └── reducer.ts
+|   |   |   |   ├── types.ts
 |   |   |   ├── members/
 |   |   |   |   ├── actions.ts
 |   |   |   |   ├── context.tsx
