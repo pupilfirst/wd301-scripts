@@ -144,16 +144,20 @@ export const updateTask = async (
 };
 ```
 
-Now, we will create a component to actually render the details of a task. Let's create a file named `TaskDetails.tsx` in `src/pages/tasks` folder with following content. The component is very similar to `NewTask` component, except, we hydrate the initial values like title, due date, description etc. based on the task.
+Now, we will create a component to actually render the details of a task. Let's create a file named `TaskDetails.tsx` in `src/pages/tasks` folder with following content. The component is very similar to `NewTask` component, except, we hydrate the initial values like title, due date, description etc. based on the task. We will also create a type `TaskFormUpdatePayload` to represent the data that is being sent to server for updating a task.
 
 ```tsx
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useTasksDispatch, useTasksState } from "../../context/task/context";
 import { updateTask } from "../../context/task/actions";
 
 import { useProjectsState } from "../../context/projects/context";
+import { TaskDetailsPayload } from "../../context/task/types";
+
+type TaskFormUpdatePayload = TaskDetailsPayload;
 
 const formatDateForPicker = (isoDate: string) => {
   const dateObj = new Date(isoDate);
@@ -179,11 +183,17 @@ const TaskDetails = () => {
   )[0];
 
   const selectedTask = taskListState.projectData.tasks[taskID ?? ""];
-  const [title, setTitle] = useState(selectedTask.title);
-  const [description, setDescription] = useState(selectedTask.description);
-  const [dueDate, setDueDate] = useState(
-    formatDateForPicker(selectedTask.dueDate)
-  );
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TaskFormUpdatePayload>({
+    defaultValues: {
+      title: selectedTask.title,
+      description: selectedTask.description,
+      dueDate: formatDateForPicker(selectedTask.dueDate),
+    },
+  });
 
   if (!selectedProject) {
     return <>No such Project!</>;
@@ -194,9 +204,7 @@ const TaskDetails = () => {
     navigate("../../");
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    
+  const onSubmit: SubmitHandler<TaskFormUpdatePayload> = async (data) => {
     closeModal();
   };
 
@@ -235,37 +243,29 @@ const TaskDetails = () => {
                     Task Details
                   </Dialog.Title>
                   <div className="mt-2">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                       <input
                         type="text"
                         required
                         placeholder="Enter title"
-                        name="name"
-                        id="name"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        id="title"
+                        {...register("title", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
                         type="text"
                         required
                         placeholder="Enter description"
-                        name="description"
                         id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        {...register("description", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
                         type="date"
                         required
                         placeholder="Enter due date"
-                        name="dueDate"
                         id="dueDate"
-                        value={dueDate}
-                        onChange={(e) => {
-                          setDueDate(e.target.value);
-                        }}
+                        {...register("dueDate", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <button
@@ -303,13 +303,10 @@ Save the file.
 Next, we can invoke the `updateTask` when the form is submitted. We will make use of the null coelecing operator (`??`) to provide default values.
 
 ```tsx
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
+const onSubmit: SubmitHandler<TaskFormUpdatePayload> = async (data) => {
   updateTask(taskDispatch, projectID ?? "", {
     ...selectedTask,
-    title: title ?? "",
-    description: description ?? "",
-    dueDate,
+    ...data,
   });
   closeModal();
 };
