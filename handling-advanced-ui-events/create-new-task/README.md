@@ -50,7 +50,7 @@ Save the file.
 
 Now if you visit the project details page, you will see a `New Task` button. If you click on it, it will take you to `/accounts/project/:projectID/tasks/new` route.
 
-Next, we will render a modal window, which will accept `title`, `description`, `dueDate` and `assignee` from user and then create a task.
+Next, we will render a modal window, which will accept `title`, `description`, and `dueDate` from user and then create a task.
 
 We have to first create and setup a context, actions and reducer like we did while creating a project.
 
@@ -224,22 +224,28 @@ const ProjectDetailsIndex: React.FC = () => {
 ```
 
 Now, we have to create the modal window component.
-Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content.
+Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content. We will use `react-hook-form` to manage the form.
 
 ```tsx
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useProjectsState } from "../../context/projects/context";
 import { useTasksDispatch } from "../../context/task/context";
 import { addTask } from "../../context/task/actions";
+import { TaskDetailsPayload } from "../../context/task/types";
+
 const NewTask = () => {
   let [isOpen, setIsOpen] = useState(true);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
+
   let { projectID } = useParams();
   let navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TaskDetailsPayload>();
   const projectState = useProjectsState();
   const taskDispatch = useTasksDispatch();
   const selectedProject = projectState?.projects.filter(
@@ -252,10 +258,9 @@ const NewTask = () => {
     setIsOpen(false);
     navigate("../../");
   }
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit: SubmitHandler<TaskDetailsPayload> = async (data) => {
     try {
-      addTask(taskDispatch, projectID ?? "", { title, description, dueDate });
+      addTask(taskDispatch, projectID ?? "", data);
       closeModal();
     } catch (error) {
       console.error("Operation failed:", error);
@@ -295,16 +300,14 @@ const NewTask = () => {
                     Create new Task
                   </Dialog.Title>
                   <div className="mt-2">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                       <input
                         type="text"
                         required
                         placeholder="Enter title"
                         autoFocus
-                        name="name"
-                        id="name"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        id="title"
+                        {...register("title", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
@@ -312,10 +315,8 @@ const NewTask = () => {
                         required
                         placeholder="Enter description"
                         autoFocus
-                        name="description"
                         id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        {...register("description", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
@@ -323,13 +324,8 @@ const NewTask = () => {
                         required
                         placeholder="Enter due date"
                         autoFocus
-                        name="dueDate"
                         id="dueDate"
-                        value={dueDate}
-                        onChange={(e) => {
-                          console.log(e.target.value);
-                          setDueDate(e.target.value);
-                        }}
+                        {...register("dueDate", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <button
