@@ -60,6 +60,14 @@ Now, we will also import an icon to display which item is currently selected in 
 import CheckIcon from "@heroicons/react/24/outline/CheckIcon";
 ```
 
+We will now update `TaskFormUpdatePayload` to hold assigned user as well. We can use the _union_ operation to combine two types.
+
+```tsx
+type TaskFormUpdatePayload = TaskDetailsPayload & {
+  selectedPerson: string;
+};
+```
+
 Next, we need to get the list of members. We have a context which already provides it. So let's import it as well.
 
 ```tsx
@@ -72,17 +80,24 @@ Let's use this hook to retrieve list of members.
 const memberState = useMembersState();
 ```
 
-Next, we will add a state to track which member is currently selected for a task. We will assign an empty string if a task currently is unassigned.
+Next, we will add a state to track which member is currently selected for a task. We will assign an empty string if a task currently is unassigned. We will not use `react-hook-form` to render the user selection dropdown for simplicity.
 
 ```tsx
-const [title, setTitle] = useState(selectedTask.title);
-const [description, setDescription] = useState(selectedTask.description);
 const [selectedPerson, setSelectedPerson] = useState(
   selectedTask.assignedUserName ?? ""
 );
-const [dueDate, setDueDate] = useState(
-  formatDateForPicker(selectedTask.dueDate)
-);
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm<TaskFormUpdatePayload>({
+  defaultValues: {
+    title: selectedTask.title,
+    description: selectedTask.description,
+    selectedPerson: selectedTask.assignedUserName,
+    dueDate: formatDateForPicker(selectedTask.dueDate),
+  },
+});
 ```
 
 Now, we will use the `Listbox` component and render members as available options after the due date.
@@ -92,12 +107,8 @@ Now, we will use the `Listbox` component and render members as available options
     type="date"
     required
     placeholder="Enter due date"
-    name="dueDate"
     id="dueDate"
-    value={dueDate}
-    onChange={(e) => {
-      setDueDate(e.target.value);
-    }}
+    {...register("dueDate", { required: true })}
     className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
   />
   <h3><strong>Assignee</strong></h3>
@@ -153,16 +164,13 @@ One last piece is actually sending this user id back to server when we send the 
 We will find out member with the selected name, then use their `id` as `assignee` key in the payload. Here, we make use of `optional chaining`, to return `undefined`, whenever a matching entry doesn't exist.
 
 ```tsx
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
+const onSubmit: SubmitHandler<TaskFormUpdatePayload> = async (data) => {
   const assignee = memberState?.members?.filter(
     (member) => member.name === selectedPerson
   )?.[0];
   updateTask(taskDispatch, projectID ?? "", {
     ...selectedTask,
-    title: title ?? "",
-    description: description ?? "",
-    dueDate,
+    ...data,
     assignee: assignee?.id,
   });
   closeModal();
