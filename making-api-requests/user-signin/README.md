@@ -33,7 +33,7 @@ export default Signin;
 Let's add this new `Signin` component in our `App` component, i.e., _App.tsx_ file.
 ```tsx
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import NotFound from "./NotFound";
 import Signup from './pages/signup';
 // Dialogue 1: First, we've to import the Signin component
@@ -41,16 +41,16 @@ import Signin from './pages/signin';
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
+    <div>
+      <Routes>
         <Route exact path="/" element={<Signup />} />
         <Route exact path="/signup" element={<Signup />} />
         { /* Dialogue 2: Then we will add route for signin path and render Signin page there */}
         <Route exact path="/signin" element={<Signin/>} />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/notfound" />} />
-      </Switch>
-    </Router>
+      </Routes>
+    </div>
   );
 };
 export default App;
