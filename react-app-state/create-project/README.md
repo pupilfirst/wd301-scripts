@@ -74,7 +74,7 @@ const NewProject = () => {
   // Dialogue 4: Then we will use useState hook to handle local state for dialog component
   let [isOpen, setIsOpen] = useState(false)
 
-  // Dialogue 5: Then we add the openModal function
+  // Dialogue 5: Then we add the openModal function. If you don't know, Modal and Dialog are almost same thing.
   const openModal = () => {
     setIsOpen(true)
   }
@@ -160,6 +160,10 @@ Yes! the dialog is opening.
 ### Step 4: Let's create the "New Project" form
 Next, we will design the form with only one field for project `name`.
 ```tsx
+// src/pages/projects/NewProject.tsx
+
+  // ...
+  // ...
   <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
     <Dialog.Title
       as="h3"
@@ -187,6 +191,7 @@ Now, lets go back the the browser to check, if the form is coming or not.
 ### Step 5: Add the event handler for input field.
 Then, we have to add an event handler to get the input field value, on `onChange` event.
 ```tsx
+// src/pages/projects/NewProject.tsx
 // ...
 // ...
 
@@ -200,6 +205,8 @@ const [name, setName] = useState('');
 ### Step 6: Handle form submission.
 Next, we've to handle the `onSubmit` event of the form.
 ```tsx
+// src/pages/projects/NewProject.tsx
+
 // Dialogue 1: We will define a handleSubmit function to process form data on submission
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
@@ -229,6 +236,8 @@ Next, we've to make tha API call with form data, to create the new project. So, 
 
 So, as you can see, we just have to pass the project name as part of the request body. And as this is a secured endpoint, in that case we've to pass the user token as `Authorization` header.
 ```tsx
+// src/pages/projects/NewProject.tsx
+
 // ...
 
 // Dialogue 1: First, I'll import the `API_ENDPOINT` constant from the config folder
@@ -257,6 +266,8 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
 Now to prevent any unexpected error, I'll wrap this API call with a `try-catch` block
 ```tsx
+// src/pages/projects/NewProject.tsx
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("authToken") ?? "";
@@ -297,6 +308,8 @@ Yes! The new project is getting listed here.
 
 Now we've to close the dialog, once we get a successful response on form submission.
 ```tsx
+// src/pages/projects/NewProject.tsx
+
 try {
   // Dialogue 1: For that, at the end of the try block, I'll call the `setIsOpen` function and set the value to `false` to close the modal.
   setIsOpen(false)
@@ -306,6 +319,8 @@ try {
 ### Step 8: Fixing the UI
 Now the form UI looks kind of basic, which we can improve using some TailwindCSS classes. Let's do that
 ```tsx
+// src/pages/projects/NewProject.tsx
+
 <form onSubmit={handleSubmit}>
   <input type="text" required placeholder='Enter project name...' autoFocus name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
   <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
