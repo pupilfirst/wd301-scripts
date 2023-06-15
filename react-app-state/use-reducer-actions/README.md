@@ -63,7 +63,7 @@ const reducer = (state, action) => {
   return state;
 }
 ```
-And for a perticular action type, for example "API_CALL_END", where we have to update the `projects` property, we can access and use the `payload` property, which is coming with the action object.
+And for a particular action type, for example "API_CALL_END", where we have to update the `projects` property, we can access and use the `payload` property, which is coming with the action object.
 
 So that's it. That's the solution. That's how we're going to tell the `reducer`, exactly what kind of update to our state it needs to make. 
 
