@@ -40,6 +40,8 @@ So, here we simply called `createContext`, and we got something back called the 
 - The first property is called **Provider**.
 - And the second is called **Consumer**.
 
+You can do a `console.log(ThemeContext)` and see them in browser console.
+
 These are both React components. The **Consumer** is not used very often, so we're not going to worry about it too much. The **Provider** is a React component that we use to specify what data we are trying to share with the rest of our application.
 
 To render this **Provider** component somewhere inside of our application we would write out something like:
@@ -53,6 +55,7 @@ Okay, so that's step one, just to create the context.
 
 ### Step 2: Setting the value
 So now in step two, we have to specify the data that we are going to share.
+> Note: There is no need to write the following code snippet. We will show it as part of a presentation. The actual implementation will start from next lesson.
 ```tsx
 <ThemeContext.Provider value='dark'>
   <Appbar />
@@ -81,7 +84,8 @@ Okay, So now move forward to the step number three.
 ### Step 3: Consume the data
 In this step, we're going to consume the data from a component and use it in some way. This is also just a little bit complicated, but mostly just because it involves a lot of code.
 
-In order to access the context data in a component, we will import a function from React called `useContext`.
+In order to access the context data in any component, we will import a function from React called `useContext`.
+> Note: There is no need to write the following code snippet. We will show it as part of a presentation. The actual implementation will start from next lesson.
 ```tsx
 import { useContext } from 'react'
 import ThemeContext from "./ThemeContext"
