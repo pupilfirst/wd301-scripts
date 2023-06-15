@@ -572,7 +572,7 @@ So, finally we've copmpleted the implementation of projects module and it's work
 - What is useReducer?
 - How to use context and useReducer together to design app-level state? etc.
 
-We've written a lot of code and we've also structured the code well. We've spearated different concerns in differend subfolders inside the `src` directory. In that process, lot of old code became absolete. It's time to remove them. Let's do it.
+We've written a lot of code and we've also structured the code well. We've separated different concerns in differend subfolders inside the `src` directory. In that process, lot of old code became absolete. It's time to remove them. Let's do it.
 
 So, as part of cleanup activity, we will remove the following files:
 ```
