@@ -30,6 +30,7 @@ To use context in a React app, we have to follow three simple steps:
 
 ### Step 1: Creating the context
 So first step is very easy. To create our context, we'll usually make a new file, and then inside that file we will import a function from React called `createContext()`.
+> Note: There is no need to write the following code snippet. We will show it as part of a presentation. The actual implementation will start from next lesson.
 ```tsx
 import { createContext } from 'react';
 
