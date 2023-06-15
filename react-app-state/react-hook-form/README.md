@@ -20,7 +20,7 @@ With useState, validating and handling form errors typically require additional 
 
 
 ### Available solutions
-To address the limitations and issues associated with managing form fields using useState, the React community have developed some very useful libraries to handle forms, effortlessly:
+To address the limitations and issues associated with managing form fields using `useState`, the React community have developed some very useful libraries to handle forms, effortlessly:
 
 1. [React Hook Form](https://react-hook-form.com/):
 > Action: open the [URL](https://react-hook-form.com/) in browser
