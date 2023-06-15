@@ -65,7 +65,7 @@ So, here
 - So are you getting the point? The code we've written in our `src/index.tsx` file, means where we've wrapped our App component with `<ThemeContext.Provider>`, we've now moved that piece of code here.
 - And finally we are exporting both `ThemeContext` and `ThemeProvider` from this file.
   
-Now as we are writing JSX code here, so we've to update the filename as well. We've to rename it as `theme.tsx`, instead of `theme.ts`.
+Now, as we are writing JSX code here, we've to update the filename accordingly. We've to rename it as `theme.tsx`, instead of `theme.ts`. This is important, as it enables TypeScript to validate the correctness of JSX syntax and provide improved type checking and autocompletion support within our React component. Therefore, it is always recommended to use the `.tsx` extension for React component files when working with TypeScript.
 
 Then, we've to fix the default value in the `createContext()`. We've to change it from a simple string to an object.
 ```tsx
