@@ -9,7 +9,7 @@ Now, the real challenge around the useReducer hook, is understanding how we upda
 ![rules](./rules.png)
 > Action: Open the diagram and start bthe explanation
 
-So here on the left hand side we have to useState hook. Which updates the state in a preety much simple and straightforward way. We have a **set** function, which expects a new value to update the state. And once the state updates, our component gets re-rendered automatically.
+So here on the left hand side we have the `useState` hook, which updates the state in a pretty much simple and straightforward way. We have a **set** function, which expects a new value to update the state. And once the state updates, our component gets re-rendered automatically.
 
 > Action: Next explain the RHS of the diagram
 But with useReducer, the situation is a bit complicated.
