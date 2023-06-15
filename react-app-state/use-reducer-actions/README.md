@@ -1,7 +1,7 @@
 # Script
 In this lesson, we will learn about one last important topic around reducer function, and it's about the **action** object. So, let me start with a problem statement.
 
-Inside of our component, there are many different things or events can happen, when we need to update our state. We may need to update our state on the first render of our component, or may on a button click, or maybe when user types something in an input field. And with every one of those interactions, we need to update our state in some way. Because we are making use of the userReducer, the only way that we can update our state is by calling `dispatch`.
+Inside of our component, many different events can happen when we need to update our state. We may need to update our state on the first render of our component, or may on a button click, or maybe when user types something in an input field. And with every one of those interactions, we need to update our state in some way. Because we are making use of the userReducer, the only way that we can update our state is by calling `dispatch`.
 
 ![useReducerAction](useReducer-Action-Object.png)
 
