@@ -9,12 +9,12 @@ Now, the real challenge around the useReducer hook, is understanding how we upda
 ![rules](./rules.png)
 > Action: Open the diagram and start the explanation
 
-So here on the left hand side we have to useState hook. Which updates the state in a preety much simple and straightforward way. We have a **set** function, which expects a new value to update the state. And once the state updates, our component gets re-rendered automatically.
+So here on the left hand side we have the `useState` hook, which updates the state in a pretty much simple and straightforward way. We have a **set** function, which expects a new value to update the state. And once the state updates, our component gets re-rendered automatically.
 
 > Action: Next explain the RHS of the diagram
 But with useReducer, the situation is a bit complicated.
 
-So everything starts off with us calling the `dispatch` function. We get the `dispatch` function from the array, where we call the `useReducer` hook. It's the second element in that array. That `dispatch` function helps us to update the state. So any time we need to update our state, means  anytime we need to get our component to re-render when we are using useReducer, we are going to call `dispatch`.
+Let's now look at the right side of the diagram. Everything starts off with us calling the `dispatch` function. We get the `dispatch` function from the array, where we call the `useReducer` hook. It's the second element in that array. That `dispatch` function helps us to update the state. So any time we need to update our state, which means anytime we need to get our component to re-render when we are using useReducer, we are going to call `dispatch`.
 
 When we would call `dispatch`, something really kind of strange is going to happen, as React looks for the `reducer` function that we've defined at the top of the file.
 
