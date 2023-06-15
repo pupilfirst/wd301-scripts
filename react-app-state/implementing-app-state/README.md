@@ -9,7 +9,7 @@ interface Project {
   name: string;
 }
 
-// Dialogue 1: I'll rename this interface from State to ProjectsState. And I'll also export the interface.
+// Dialogue 1: I'll rename the interface in the `ProjectList` component from `State` to `ProjectsState`. And I'll also export the interface.
 export interface ProjectsState {
   projects: Project[];
   isLoading: boolean;
