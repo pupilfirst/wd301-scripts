@@ -105,3 +105,6 @@ Then I'm simply printing the `currentTheme` value, inside a `div`. And so in thi
 So, that was a quick introduction to the context system and this is just the beginning, as there's even more complex stuff present on this topic that we will learn gradually.
 
 So, we are all set to code our first Context implementation, see you in the next lesson.
+
+# Text
+In the next lesson, we'll apply our newfound knowledge of React context to create an exceptional feature for our Smarter Tasks application: a fully functional dark mode and light mode theme switcher. Don't miss out! See you in the next lesson!
