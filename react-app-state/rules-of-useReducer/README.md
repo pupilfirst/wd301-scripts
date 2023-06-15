@@ -66,6 +66,8 @@ Now, I want to go over a couple of rules around the `reducer` function, and that
       Means, in that case, React is going to say, Oh, you returned nothing, you returned `undefined`. Well, then your new state is going to be `undefined`. So we need to always make sure in a `reducer` function that we return some reasonable value, which can be used by our components.
 3. Our reducer function **is never ever going to use anything like `async await`** and it's never going to make any requests. It's not going to have any **promises**. It's also not going to have any reference to outside variables. In other words, we want our `reducer` function to only operate on these incoming arguments of `state` and `action`.
 
+So, these three points are very important, and you've t always keep them in mind whenever you would design any application or component level state using the `useReducer` hook.
+
 ### Summary
 So, to summarize:
 in this lesson, we've learned the role of the `reducer` function and the process of state updates. We've also leaened, how `useReducer` manages state objects and dispatches actions for updates, providing a structured alternative to `useState`. Key points, such as returning meaningful values from the reducer function and avoiding asynchronous operations, are also highlighted.
