@@ -11,7 +11,7 @@ So, as shown in the image, we have to pass the `theme` props from App component 
 
 So, to help with this kind of situation, React introduced a concept called Context, using which we can share information or data in the form of numbers, strings, arrays and so on, or functions across different levels components inside of our application. Context is kind of like an alternative to the props system. Props is all about communication between a parent and an immediate child.
 
-But with the contact system, we can share data across many different components, even if they don't have a direct link to each other.
+But with the context system, we can share data across many different components, even if they don't have a direct link to each other.
 
 ![context](context.png)
 
