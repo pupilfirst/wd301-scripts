@@ -113,3 +113,6 @@ The only problem is that right now, if we want to change that value, we would ha
 
 So if we would change it to 'dark', then it will show up in browser as well. So it is clear that we can use context to share information across different components, but having to manually change this value.
 Obviously, that is not going to work, and we have to think of some better way of updating that value in some other way.
+
+# Text
+In the next lesson, we will discover how to programmatically change the context value in React. This technique will empower you to dynamically update and manipulate context data within your application. Don't miss out on this valuable insight. See you in the next lesson!
