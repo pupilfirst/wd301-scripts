@@ -216,16 +216,16 @@ In useState, whenever we call it, we can put in some initial value for that piec
 We can do the same thing with `useReducer` by providing the initial value as a second argument to the `use reducer ` hook. So in our case, our state is going to start off as an object with **an empty projects list** and **isLoading set to false**.
 
 Now these are similarities between two hooks. But, next we will focus on the differences.
-1. Whenever we make use of the `useState` hook, we're going to call you state multiple times for each individual piece of state we want to declare. As you've already seen, we have one state variable called **projects**, and another is `isLoading`. And we usually try to keep these pieces of state as simple as possible. So they will be hopefully a number, a string, some very simple value.
+1. Whenever we make use of the `useState` hook, we're going to call `useState` multiple times for each individual piece of state we want to declare. As you've already seen, we have one state variable called **`projects`**, and another is `isLoading`. And we usually try to keep these pieces of state as simple as possible. So they will be hopefully a number, a string, some very simple value.
 
-But when we make use of useReducer, we do the opposite. We try to create just one single state variable and we call it **state**. That's what we did just a moment ago. We created a piece of state, we call it very simply **state**. And we make that state variable an **object**, so that object can have many different properties inside of it, like:
+But when we make use of `useReducer`, we do the opposite. We try to create just one single state variable and we call it **state**. That's what we did just a moment ago. We created a piece of state, we call it very simply **state**. And we make that state variable an **object**, so that object can have many different properties inside of it, like:
 ```js
 {
   projects: [],
   isLoading: true
 }
 ```
-So here we are taking all the state properties that are required to make our component work correctly, and we're combining it all together into one single object. So this means that when we call the useReducer right now, we get back that state variable that is an object. And it's going to have properties like projects, which is going to be an empty array, because that's what our initial value is right now by default. And it's going to have a `isLoading` set to `false`.
+So here we are taking all the state properties that are required to make our component work correctly, and we're combining it all together into one single object. So this means that when we call the `useReducer` right now, we get back that state variable that is an object. And it's going to have properties like `projects`, which is going to be an empty array, because that's what our initial value is right now by default. And it's going to have a `isLoading` set to `false`.
 
 So now inside our component, if we ever want to get access to the projects, we can refer to `state.projects`.
 
@@ -248,4 +248,15 @@ So back in our component, we can update the JSX accordingly
   );
 ```
 
-Alright, that's quite a lot for a single lesson. But we've learned the similarities and differences between `useReducer` and `useState` hook. Next, we've to complete the implementation of the `reducer` function. So, see you in the next one.
+### Conclusion
+Alright, that's quite a lot for a single lesson. But we've learned the similarities and differences between `useReducer` and `useState` hook. So, let me summarize the key points once again:
+
+1. Both `useState` and `useReducer` are hooks used for managing state in React components.
+2. The `useState` hook is simpler and commonly used for managing individual pieces of state, while the `useReducer` hook is more suitable for managing complex state that is closely related to each other.
+3. When using `useState`, you call it multiple times to declare individual state variables, and each variable has its own setter function.
+4. When using `useReducer`, you typically create a single state variable and use the dispatch function to update the state.
+5. With `useState`, the state is typically a simple value like a string or a number, while with `useReducer`, the state can be an object with multiple properties.
+6. Both hooks automatically trigger a re-render when the state changes.
+7. And finally, the `useReducer` hook provides a more centralized and organized approach to managing complex state in React components compared to the simpler `useState` hook.
+
+So, that's it for this lesson. Next, we've to complete the implementation of the `reducer` function. See you there.
