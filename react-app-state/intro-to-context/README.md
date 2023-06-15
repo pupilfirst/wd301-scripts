@@ -1,5 +1,5 @@
 # Script
-In this lesson, we are going to learn about an interesting concept in React, called **context**. 
+In this lesson, we are going to learn about an interesting concept in React, called **context**.  I will use some code snippets to explain the context to you here to understand what's happening. You will work on actual implementation from the next lesson.
 
 To understand it better, we will start with a problem statement, from our `Smarter Tasks` apps's point of view.
 
