@@ -1,5 +1,11 @@
 # Text
-In this lesson, we will use React context to build a dark-mode-light-mode theme switcher. So let's gets started.
+In the previous lesson, we covered the fundamental concepts of React Context and explored the steps involved in creating, providing, and consuming context. Building upon that knowledge, in this lesson, we will put our learning into practice by developing a theme switcher that allows users to toggle between dark mode and light mode.
+
+# Script
+
+In today's world, it has become common for modern websites to offer the option of switching between different color schemes, providing convenience to users based on their preferences. From this point forward, we will embark on the exciting journey of constructing this feature from scratch using React Context.
+
+Are you ready? Let's dive right in!
 
 ### Step 1: Defining the ThemeContext
 So, before defining our `ThemeContext`, I would like to create a `context` folder inside the `src` directory. So, from now onwards we will keep all of our app contexts here only. 
