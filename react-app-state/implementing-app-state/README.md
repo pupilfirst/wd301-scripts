@@ -2,7 +2,7 @@
 In this lesson we will implement our application state, so let's get started.
 
 ### Step 1: Preparing the reducer
-So, to start with the implementation, first we will move the `reducer` function from the `ProjectList` component to the `src/context/projects/reducer.ts` file.
+So, to start with the implementation, first we will copy the entire `reducer` function from the `ProjectList` component to the `src/context/projects/reducer.ts` file.
 ```ts
 interface Project {
   id: number;
@@ -566,6 +566,8 @@ So, as you can see, after creating a project, the new project is showing up in t
 
 This is what we intended to build since the beginning, and finally we've achieved it, with the help of application-level state.
 
+So, that's it for this video, see you in the next one.
+
 # Text
 So, finally we've copmpleted the implementation of projects module and it's working as expected. In this level, we've learned a lot of new concepts like:
 - What is context?
@@ -591,4 +593,4 @@ src/pages/dashboard/index.tsx
 src/types.ts
 ```
 
-Alright, it looks like we're done for this level. See you in the next one.
+Alright, it looks like we're done for this level. Bye!
