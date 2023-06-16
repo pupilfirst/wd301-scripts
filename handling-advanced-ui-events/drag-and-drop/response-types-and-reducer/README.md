@@ -76,7 +76,7 @@ Each entry in a column i.e.,
 can be modelled as follows.
 
 ```ts
-export type ColoumnData = {
+export type ColumnData = {
   id: string;
   title: string;
   taskIDs: string[];
