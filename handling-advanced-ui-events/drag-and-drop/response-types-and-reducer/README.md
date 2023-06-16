@@ -55,7 +55,7 @@ We have three columns ie, `pending`, `in_progress`, and `done`. We have `columnO
 
 Now, let's create types to model this shape.
 
-We will use a `union` type to model the coloumns.
+We will use a `union` type to model the columns.
 
 Open `src/context/task/types.ts` file in VS Code and add the following entry to it.
 
@@ -86,8 +86,8 @@ export type ColumnData = {
 Then the whole `column` key in the response can be modelled as:
 
 ```ts
-export type Coloumns = {
-  [k in AvailableColoumns]: ColoumnData;
+export type Columns = {
+  [k in AvailableColumns]: ColumnData;
 };
 ```
 
@@ -99,7 +99,7 @@ export type TaskDetails = {
   title: string;
   description: string;
   dueDate: string;
-  state: AvailableColoumns;
+  state: AvailableColumns;
   assignee?: number,
   assignedUserName?: string
 };
@@ -124,8 +124,8 @@ Finally, the entire API response can be modelled as:
 ```ts
 export type ProjectData = {
   tasks: Tasks;
-  coloumns: Coloumns;
-  coloumnOrder: AvailableColoumns[];
+  columns: Columns;
+  columnOrder: AvailableColumns[];
 };
 ```
 
@@ -148,7 +148,7 @@ At first, we will work with static data and make sure our drag and drop works. L
 import { ProjectData } from "./types";
 
 const initialData: ProjectData = {
-  coloumns: {
+  columns: {
     pending: {
       id: "pending",
       title: "Pending",
@@ -185,7 +185,7 @@ const initialData: ProjectData = {
       assignedUserName: undefined
     },
   },
-  coloumnOrder: ["pending", "in_progress", "done"],
+  columnOrder: ["pending", "in_progress", "done"],
 };
 
 export default initialData;
