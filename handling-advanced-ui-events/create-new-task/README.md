@@ -118,7 +118,7 @@ Now we have our reducer ready.
 
 Next, we need to add the actual API call that needs to be invoked to create a task.
 
-Let's open `src/context/task/actions.ts`
+Let's open `src/context/task/actions.ts` and update it as per the following code.
 
 ```tsx
 import { API_ENDPOINT } from "../../config/constants";
