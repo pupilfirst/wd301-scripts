@@ -60,7 +60,7 @@ We will use a `union` type to model the coloumns.
 Open `src/context/task/types.ts` file in VS Code and add the following entry to it.
 
 ```ts
-export type AvailableColoumns = "pending" | "in_progress" | "done";
+export type AvailableColumns = "pending" | "in_progress" | "done";
 ```
 
 Each entry in a coloumn ie,
