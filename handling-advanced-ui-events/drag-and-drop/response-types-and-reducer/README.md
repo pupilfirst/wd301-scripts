@@ -10,7 +10,7 @@ We can see the reponse is of the following shape.
 
 ```json
 {
-  "coloumns": {
+  "columns": {
     "pending": {
       "id": "pending",
       "title": "Pending",
