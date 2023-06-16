@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 `Link` component takes a `to` prop, which will be the `href` of final `a` tag that will be rendered. We will pass `id` as the value of `to` prop. Then the final url will be a relative url which will be `/account/projects/:projectID`. Whenever we are creating a list of items in React, we will have to pass a `key` prop also. It is with value of the `key`, react uniquely identifies a component in a tree.
 
-We will wrap the `h5` component to make it a hyperlink. It will be linked to `id` of the project.
+We will wrap the `h5` component to make it a hyperlink. It will be linked to `id` of the project. This is how `src/pages/projects/ProjectListItems.tsx` will look like.
 
 ```tsx
 import React from "react";
