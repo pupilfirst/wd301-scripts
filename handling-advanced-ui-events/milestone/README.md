@@ -64,7 +64,7 @@ At this point in the course, this is how your repo should be structured:
 |   |   |   |   ├── MemberListItems.tsx
 |   |   |   |   ├── NewMember.tsx
 |   |   |   ├── project_details/
-|   |   |   |   ├── Coloumn.tsx
+|   |   |   |   ├── Column.tsx
 |   |   |   |   ├── DragDropList.tsx
 |   |   |   |   ├── index.tsx
 |   |   |   |   └── ProjectDetails.tsx
