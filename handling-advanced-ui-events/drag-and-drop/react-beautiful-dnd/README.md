@@ -22,16 +22,16 @@ To get intellisense for TypeScript, we will also install the type definitions fo
 npm install @types/react-beautiful-dnd --save-dev
 ```
 
-Now, we will render the tasks in different coloumns based on their state.
+Now, we will render the tasks in different columns based on their state.
 
 Let's create a file `src/pages/project_details/DragDropList.tsx`
 
-We will create `DragDropList` component, and each list be wrapped in a `Container` component. We do it in such a way to make any future customizations simple. We will import `ProjectData` type and a `Coloumn` component, which we will create shortly, in `DragDropList.tsx`.
+We will create `DragDropList` component, and each list be wrapped in a `Container` component. We do it in such a way to make any future customizations simple. We will import `ProjectData` type and a `Column` component, which we will create shortly, in `DragDropList.tsx`.
 
 ```tsx
 import React from "react";
 import { ProjectData } from "../../context/task/types";
-import Coloumn from "./Coloumn";
+import Column from "./Column";
 
 const Container = (props: React.PropsWithChildren) => {
   return <div className="flex">{props.children}</div>;
@@ -42,16 +42,16 @@ const Container = (props: React.PropsWithChildren) => {
 
 We will then create the `DragDropList` component. It will accept the project details and a function `reorderTasks` as it's props.
 
-We will map over `coloumn` ID from the `coloumnOrder` and then render the tasks in a `Coloumn` component.
+We will map over `column` ID from the `columnOrder` and then render the tasks in a `Column` component.
 
 ```tsx
 const DragDropList = (props: { data: ProjectData }) => {
   return (
     <Container>
-      {props.data.coloumnOrder.map((colID) => {
-        const coloumn = props.data.coloumns[colID];
-        const tasks = coloumn.taskIDs.map((taskID) => props.data.tasks[taskID]);
-        return <Coloumn key={coloumn.id} coloumn={coloumn} tasks={tasks} />;
+      {props.data.columnOrder.map((colID) => {
+        const column = props.data.columns[colID];
+        const tasks = column.taskIDs.map((taskID) => props.data.tasks[taskID]);
+        return <Column key={column.id} column={column} tasks={tasks} />;
       })}
     </Container>
   );
@@ -60,12 +60,12 @@ const DragDropList = (props: { data: ProjectData }) => {
 export default DragDropList;
 ```
 
-Let's create the `Coloumn` component. Create a file named `Coloumn.tsx`.
+Let's create the `Column` component. Create a file named `Column.tsx`.
 
 ```tsx
 import React from "react";
 
-import { ColoumnData, TaskDetails } from "../../context/task/types";
+import { ColumnData, TaskDetails } from "../../context/task/types";
 
 const Container = (props: React.PropsWithChildren) => {
   return (
@@ -84,14 +84,14 @@ const TaskList = (props: React.PropsWithChildren) => {
 };
 
 interface Props {
-  coloumn: ColoumnData;
+  column: ColumnData;
   tasks: TaskDetails[];
 }
 
-const Coloumn: React.FC<Props> = (props) => {
+const Column: React.FC<Props> = (props) => {
   return (
     <Container>
-      <Title>{props.coloumn.title}</Title>
+      <Title>{props.column.title}</Title>
       <TaskList>
         {props.tasks.map((task) => (
           <Task key={task.id} task={task}  />
@@ -101,13 +101,13 @@ const Coloumn: React.FC<Props> = (props) => {
   );
 };
 
-export default Coloumn;
+export default Column;
 ```
 
 We will reuse the `Task` component from earlier levels. But we will modify the component a include a container.
 Copy `Task.tsx`, `TaskCard.css` into `src/pages/project_details` folder from `thrash` folder.
 
-Let's import `Task` component in `Coloumn.tsx` file.
+Let's import `Task` component in `Column.tsx` file.
 
 ```tsx
 import Task from "./Task";
@@ -262,6 +262,6 @@ const ProjectDetails = () => {
 export default ProjectDetails;
 ```
 
-Now save the file. We can see the tasks as being rendered as lists. You can add some dummy data in `initialData.ts` and refresh the page to see them populating correctly in the coloumns.
+Now save the file. We can see the tasks as being rendered as lists. You can add some dummy data in `initialData.ts` and refresh the page to see them populating correctly in the columns.
 
 See you in the next lesson.
