@@ -36,7 +36,6 @@ You will have to import `Outlet` from `react-router-dom` to use it.
 
 ```tsx
 import { Outlet } from "react-router-dom";
-
 ```
 
 Similarly, we can create routes to render tasks details, creating a new task. So the `routes/index.tsx` will look like:
@@ -139,7 +138,7 @@ Now, edit the `project` path to render this component.
 },
 ```
 
-We can now remove the code to fetch projects from `src/pages/projects/ProjectList.tsx` as fetching project is now done in a parent component.
+We can now remove the code to fetch projects from `src/pages/projects/ProjectList.tsx` as fetching project is now done in a parent component. So `ProjectList.tsx` will look like:
 
 ```tsx
 import React from "react";
