@@ -83,7 +83,7 @@ export type ColumnData = {
 };
 ```
 
-Then the whole `coloumn` key in the response can be modelled as:
+Then the whole `column` key in the response can be modelled as:
 
 ```ts
 export type Coloumns = {
