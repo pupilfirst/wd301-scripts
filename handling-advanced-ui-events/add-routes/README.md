@@ -4,7 +4,7 @@ Currently we can see the list of projects that are created. We will learn how to
 
 Switch to VS Code and open `smarter-tasks/src/routes/index.tsx`.
 
-We will first add a route to view detail view of a project. The URL patter we will use is: `/account/projects/:projectID`, where `:projectID` denotes the `id` of a project. Visiting `/account/projects/1` will render details of a project with `id` 1.
+We will first add a route to view detail view of a project. The URL pattern we will use is: `/account/projects/:projectID`, where `:projectID` denotes the `id` of a project. Visiting `/account/projects/1` will render details of a project with `id` 1.
 
 We will change following route
 
