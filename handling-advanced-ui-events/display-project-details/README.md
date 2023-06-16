@@ -1,6 +1,6 @@
 # Text
 
-Now that we have added routes to display project, details, let's add a hyper link to the project name. So when a user clicks on it, they will be taken to detail page of the corresponding project.
+Now that we have added routes to display project, details, let's add a hyperlink to the project name. So when a user clicks on it, they will be taken to detail page of the corresponding project.
 
 Open `src/pages/projects/ProjectListItems.tsx` in VS Code.
 
