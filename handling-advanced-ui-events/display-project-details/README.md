@@ -12,7 +12,7 @@ Let's import it first.
 import { Link } from "react-router-dom";
 ```
 
-`Link` component takes a `to` prop, which will be the `href` of final `a` tag that will be rendered. We will pass `id` as the value of `to` prop. Then the final ur will be a relative url which will be `/account/projects/:projectID`. Whenever we are creating a list of items in React, we will have to pass a `key` prop also. It is with value of the `key`, react uniquely identifies a component in a tree.
+`Link` component takes a `to` prop, which will be the `href` of final `a` tag that will be rendered. We will pass `id` as the value of `to` prop. Then the final url will be a relative url which will be `/account/projects/:projectID`. Whenever we are creating a list of items in React, we will have to pass a `key` prop also. It is with value of the `key`, react uniquely identifies a component in a tree.
 
 We will wrap the `h5` component to make it a hyperlink. It will be linked to `id` of the project.
 
