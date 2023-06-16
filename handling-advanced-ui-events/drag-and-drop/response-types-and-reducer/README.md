@@ -63,7 +63,7 @@ Open `src/context/task/types.ts` file in VS Code and add the following entry to 
 export type AvailableColumns = "pending" | "in_progress" | "done";
 ```
 
-Each entry in a coloumn ie,
+Each entry in a column i.e.,
 
 ```json
 {
