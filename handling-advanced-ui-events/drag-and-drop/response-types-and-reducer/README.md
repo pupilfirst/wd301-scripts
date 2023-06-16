@@ -51,7 +51,7 @@ We can see the response is of the following shape.
 }
 ```
 
-We have three coloumns ie, `pending`, `in_progress`, and `done`. We have `coloumnOrder`, which can be used to control in what order the lists must be rendered. Then we have the tasks which can be accessed using their `id`.
+We have three columns ie, `pending`, `in_progress`, and `done`. We have `columnOrder`, which can be used to control in what order the lists must be rendered. Then we have the tasks which can be accessed using their `id`.
 
 Now, let's create types to model this shape.
 
