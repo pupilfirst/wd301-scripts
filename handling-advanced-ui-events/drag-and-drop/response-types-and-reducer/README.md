@@ -6,7 +6,7 @@ Let's take a look at the API response for listing a task.
 
 > Visit [List task API](https://wd301-api.pupilfirst.school/#/Tasks/get_projects__projectId__tasks)
 
-We can see the reponse is of the following shape.
+We can see the response is of the following shape.
 
 ```json
 {
