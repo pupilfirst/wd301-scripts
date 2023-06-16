@@ -47,7 +47,7 @@ We can see the response is of the following shape.
       "assignedUserName": null
     }
   },
-  "coloumnOrder": ["pending", "in_progress", "done"]
+  "columnOrder": ["pending", "in_progress", "done"]
 }
 ```
 
