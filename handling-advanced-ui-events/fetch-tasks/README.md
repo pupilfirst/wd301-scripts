@@ -8,6 +8,7 @@ Let's add capability to fetch tasks.
 
 ```tsx
 export enum TaskListAvailableAction {
+  // Add actions for fetching tasks from server
   FETCH_TASKS_REQUEST = "FETCH_TASKS_REQUEST",
   FETCH_TASKS_SUCCESS = "FETCH_TASKS_SUCCESS",
   FETCH_TASKS_FAILURE = "FETCH_TASKS_FAILURE",
@@ -37,6 +38,7 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
   action
 ) => {
   switch (action.type) {
+    // Update reducer to handle the actions dispatched on fetching tasks.
     case TaskListAvailableAction.FETCH_TASKS_REQUEST:
       return { ...state, isLoading: true };
     case TaskListAvailableAction.FETCH_TASKS_SUCCESS:
