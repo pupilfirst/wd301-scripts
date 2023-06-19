@@ -16,10 +16,10 @@ We will wrap the `Container` within `DragDropContext`.
 return (
   <DragDropContext onDragEnd={onDragEnd}>
     <Container>
-      {props.data.coloumnOrder.map((colID) => {
-        const coloumn = props.data.coloumns[colID];
-        const tasks = coloumn.taskIDs.map((taskID) => props.data.tasks[taskID]);
-        return <Coloumn key={coloumn.id} coloumn={coloumn} tasks={tasks} />;
+      {props.data.columnOrder.map((colID) => {
+        const column = props.data.columns[colID];
+        const tasks = column.taskIDs.map((taskID) => props.data.tasks[taskID]);
+        return <Column key={column.id} column={column} tasks={tasks} />;
       })}
     </Container>
   </DragDropContext>
@@ -32,7 +32,7 @@ We will add a function `onDragEnd` to pass as prop to `DragDropContext` componen
 const onDragEnd: OnDragEndResponder = (result) => {};
 ```
 
-Next, we have to modify the `Coloumn` component to make it accept a dropped item. Switch to `Coloumn.tsx` file.
+Next, we have to modify the `Column` component to make it accept a dropped item. Switch to `Column.tsx` file.
 
 To support the drop feature, we will have to import `Droppable` component from `react-beautiful-dnd`.
 
@@ -42,14 +42,14 @@ import { Droppable } from "react-beautiful-dnd";
 
 `Droppable` component takes a `droppableId` as prop, which should be unique. It is with this `droppableId`, different drop locations are identified, when a drag and drop action ends.
 
-Let's wrap the `TaskList` component within `Droppable` component and pass `props.coloumn.id`- which will have values like `pending`, `in_progress`, and `done` as the `droppableId` prop.
+Let's wrap the `TaskList` component within `Droppable` component and pass `props.column.id`- which will have values like `pending`, `in_progress`, and `done` as the `droppableId` prop.
 
 ```tsx
-const Coloumn: React.FC<Props> = (props) => {
+const Column: React.FC<Props> = (props) => {
   return (
     <Container>
-      <Title>{props.coloumn.title}</Title>
-      <Droppable droppableId={props.coloumn.id}>
+      <Title>{props.column.title}</Title>
+      <Droppable droppableId={props.column.id}>
         <TaskList>
           {props.tasks.map((task) => (
             <Task key={task.id} task={task} />
@@ -67,16 +67,16 @@ Now, it will display an error:
 
 This is because, `Droppable` component expects a function as it's child and we are providing an `Element` (`TaskList` component).
 
-Let's modify the `Coloumn` component to adhere to the requirement. The function should have the signature `(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => ReactElement<HTMLElement, string | JSXElementConstructor<any>>`.
+Let's modify the `Column` component to adhere to the requirement. The function should have the signature `(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => ReactElement<HTMLElement, string | JSXElementConstructor<any>>`.
 
 The first argument in the function, `provided` will have two attributes - `innerRef` and `droppableProps`, that should be passed along as props to the target element which is to be made droppable. We will use the `spread` operator to pass along the `provided.droppableProps` to our `TaskList` component. We need to add `provided.placeholder` to support as a placeholder for enabling drop capability.
 
 ```tsx
-const Coloumn: React.FC<Props> = (props) => {
+const Column: React.FC<Props> = (props) => {
   return (
     <Container>
-      <Title>{props.coloumn.title}</Title>
-      <Droppable droppableId={props.coloumn.id}>
+      <Title>{props.column.title}</Title>
+      <Droppable droppableId={props.column.id}>
         {(provided) => (
           <TaskList ref={provided.innerRef} {...provided.droppableProps}>
             {props.tasks.map((task) => (
@@ -221,18 +221,18 @@ const Container = forwardRef<
 });
 ```
 
-Now, save the file. We still have another error in `Coloumn.tsx`. Let's fix that. Open `Coloumn.tsx` file.
+Now, save the file. We still have another error in `Column.tsx`. Let's fix that. Open `Column.tsx` file.
 
 We are not passing an `index` as a prop to `Task` component when rendering. This is an easy to fix issue.
 
 The `map` construct provides an `index` as second argument while iterating. We can use it to pass as prop to the `Task` component.
 
 ```tsx
-const Coloumn: React.FC<Props> = (props) => {
+const Column: React.FC<Props> = (props) => {
   return (
     <Container>
-      <Title>{props.coloumn.title}</Title>
-      <Droppable droppableId={props.coloumn.id}>
+      <Title>{props.column.title}</Title>
+      <Droppable droppableId={props.column.id}>
         {(provided) => (
           <TaskList ref={provided.innerRef} {...provided.droppableProps}>
             {props.tasks.map((task, idx) => (
@@ -282,11 +282,11 @@ const onDragEnd: OnDragEndResponder = (result) => {
 
 Now, we have some valid movement of tasks. We will create a new state then invoke the `reorderTasks` method to update the orderings.
 
-Let's cast the `source.droppableId` as a value of `AvailableColoumns`. We will do same for `destination.droppableId` also. We do this so that TypeScript can help us with intelliSense.
+Let's cast the `source.droppableId` as a value of `AvailableColumns`. We will do same for `destination.droppableId` also. We do this so that TypeScript can help us with intelliSense.
 
 ```tsx
-const startKey = source.droppableId as AvailableColoumns;
-const finishKey = destination.droppableId as AvailableColoumns;
+const startKey = source.droppableId as AvailableColumns;
+const finishKey = destination.droppableId as AvailableColumns;
 ```
 
 Before going further, we will have to import `reorderTasks` from `action.ts` as well as `useTasksDispatch` from `src/context/task/context`.
@@ -313,13 +313,13 @@ We will
 - Create a new array of task ids.
 - Then remove the dragged item using `source.index`.
 - Then we will insert the id at `destination.index`.
-- Then we will update the `coloumns` key in the state with this newly computed coloumn ordering.
+- Then we will update the `columns` key in the state with this newly computed column ordering.
 - Finally invoke `reorderTasks` with the new state.
 
-We will also have to import `AvailableColoumns` type.
+We will also have to import `AvailableColumns` type.
 
 ```tsx
-import { AvailableColoumns, ProjectData } from "../../context/task/types";
+import { AvailableColumns, ProjectData } from "../../context/task/types";
 ```
 
 `onDragEnd` will look like:
@@ -336,24 +336,24 @@ const onDragEnd: OnDragEndResponder = (result) => {
   ) {
     return;
   }
-  const startKey = source.droppableId as AvailableColoumns;
-  const finishKey = destination.droppableId as AvailableColoumns;
+  const startKey = source.droppableId as AvailableColumns;
+  const finishKey = destination.droppableId as AvailableColumns;
 
-  const start = props.data.coloumns[startKey];
-  const finish = props.data.coloumns[finishKey];
+  const start = props.data.columns[startKey];
+  const finish = props.data.columns[finishKey];
 
   const newTaskIDs = Array.from(start.taskIDs);
   newTaskIDs.splice(source.index, 1);
   newTaskIDs.splice(destination.index, 0, draggableId);
-  const newColoumn = {
+  const newColumn = {
     ...start,
     taskIDs: newTaskIDs,
   };
   const newState = {
     ...props.data,
-    coloumns: {
-      ...props.data.coloumns,
-      [newColoumn.id]: newColoumn,
+    columns: {
+      ...props.data.columns,
+      [newColumn.id]: newColumn,
     },
   };
   reorderTasks(taskDispatch, newState);
@@ -377,25 +377,25 @@ const onDragEnd: OnDragEndResponder = (result) => {
   ) {
     return;
   }
-  const startKey = source.droppableId as AvailableColoumns;
-  const finishKey = destination.droppableId as AvailableColoumns;
+  const startKey = source.droppableId as AvailableColumns;
+  const finishKey = destination.droppableId as AvailableColumns;
 
-  const start = props.data.coloumns[startKey];
-  const finish = props.data.coloumns[finishKey];
+  const start = props.data.columns[startKey];
+  const finish = props.data.columns[finishKey];
 
   if (start === finish) {
     const newTaskIDs = Array.from(start.taskIDs);
     newTaskIDs.splice(source.index, 1);
     newTaskIDs.splice(destination.index, 0, draggableId);
-    const newColoumn = {
+    const newColumn = {
       ...start,
       taskIDs: newTaskIDs,
     };
     const newState = {
       ...props.data,
-      coloumns: {
-        ...props.data.coloumns,
-        [newColoumn.id]: newColoumn,
+      columns: {
+        ...props.data.columns,
+        [newColumn.id]: newColumn,
       },
     };
     reorderTasks(taskDispatch, newState);
@@ -405,7 +405,7 @@ const onDragEnd: OnDragEndResponder = (result) => {
 };
 ```
 
-If the lists are different, we will have to create new entries for those `coloumns` in the new state.
+If the lists are different, we will have to create new entries for those `columns` in the new state.
 
 ```tsx
 const DragDropList = (props: {
@@ -423,25 +423,25 @@ const DragDropList = (props: {
     ) {
       return;
     }
-    const startKey = source.droppableId as AvailableColoumns;
-    const finishKey = destination.droppableId as AvailableColoumns;
+    const startKey = source.droppableId as AvailableColumns;
+    const finishKey = destination.droppableId as AvailableColumns;
 
-    const start = props.data.coloumns[startKey];
-    const finish = props.data.coloumns[finishKey];
+    const start = props.data.columns[startKey];
+    const finish = props.data.columns[finishKey];
 
     if (start === finish) {
       const newTaskIDs = Array.from(start.taskIDs);
       newTaskIDs.splice(source.index, 1);
       newTaskIDs.splice(destination.index, 0, draggableId);
-      const newColoumn = {
+      const newColumn = {
         ...start,
         taskIDs: newTaskIDs,
       };
       const newState = {
         ...props.data,
-        coloumns: {
-          ...props.data.coloumns,
-          [newColoumn.id]: newColoumn,
+        columns: {
+          ...props.data.columns,
+          [newColumn.id]: newColumn,
         },
       };
       reorderTasks(taskDispatch, newState);
@@ -467,8 +467,8 @@ const DragDropList = (props: {
 
     const newState = {
       ...props.data,
-      coloumns: {
-        ...props.data.coloumns,
+      columns: {
+        ...props.data.columns,
         [newStart.id]: newStart,
         [newFinish.id]: newFinish,
       },
