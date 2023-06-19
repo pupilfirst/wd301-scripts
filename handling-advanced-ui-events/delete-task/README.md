@@ -144,7 +144,7 @@ import { useTasksDispatch } from "../../context/task/context";
 import { deleteTask } from "../../context/task/actions";
 ```
 
-Now, we can invoke `deleteTask` with the `task` item whenever the thrash icon is clicked.
+Now, we can invoke `deleteTask` with the `task` item whenever the trash icon is clicked.
 
 ```tsx
 const Container = forwardRef<
