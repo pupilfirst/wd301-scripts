@@ -132,17 +132,17 @@ Let's import it first.
 import { Draggable } from "react-beautiful-dnd";
 ```
 
-Now, let's wrap our `Task` component within `Draggable`. Similar to `Droppable`, `Draggable` also expects a function as it's child. We will also have to pass, `provided.innerRef` to the `Container` component.
+Now, let's wrap our `Container` component within `Draggable`. Similar to `Droppable`, `Draggable` also expects a function as it's child. We will also have to pass, `provided.innerRef` to the `Task` component.
 
 ```tsx
-const Task = (
+const Container = (
   props: React.PropsWithChildren<{
     task: TaskDetails;
   }>
 ) => {
   return (
     <Draggable>
-      {(provided) => <Container task={props.task} ref={provided.innerRef} />}
+      {(provided) => <Task task={props.task} ref={provided.innerRef} />}
     </Draggable>
   );
 };
@@ -154,10 +154,10 @@ Now, it shows few errors:
 
 `Draggable` expects two props, `draggableId`, which is used to uniquely identify the item which can be dragged. Then an `index`, that will decide the ordering of an item in a list. Let's provide both of these props.
 
-Let's modify the signature of `Task` component to accept a number.
+Let's modify the signature of `Container` component to accept a number.
 
 ```tsx
-const Task = (
+const Container = (
   props: React.PropsWithChildren<{
     task: TaskDetails;
     index: number;
@@ -167,10 +167,10 @@ const Task = (
 };
 ```
 
-Now we can pass it as prop to `Draggable` component. We will also need to pass along `provided.draggableProps` and `provided.dragHandleProps` to make an element draggable. We will use the `spread` operator to pass these as props to `Container` component.
+Now we can pass it as prop to `Draggable` component. We will also need to pass along `provided.draggableProps` and `provided.dragHandleProps` to make an element draggable. We will use the `spread` operator to pass these as props to `Task` component.
 
 ```tsx
-const Task = (
+const Container = (
   props: React.PropsWithChildren<{
     task: TaskDetails;
     index: number;
@@ -179,7 +179,7 @@ const Task = (
   return (
     <Draggable index={props.index} draggableId={`${props.task.id}`}>
       {(provided) => (
-        <Container
+        <Task
           task={props.task}
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -197,7 +197,7 @@ Now, the only error remaining is:
 
 > Property 'ref' does not exist on type 'IntrinsicAttributes & { task: TaskDetails; } & { children?: ReactNode; }'
 
-We can fix this by wrapping the `Container` component in a `forwardRef`.
+We can fix this by wrapping the `Task` component in a `forwardRef`.
 
 Let's import `forwardRef` first.
 
@@ -205,14 +205,15 @@ Let's import `forwardRef` first.
 import React, { forwardRef } from "react";
 ```
 
-Now wrap the `Container` in `forwardRef` function. Make sure to place the parenthesis correctly. Also, we will have to set the `ref` on the `div` tag, as well as pass on the props to it.
+Now wrap the `Task` in `forwardRef` function. Make sure to place the parenthesis correctly. Also, we will have to set the `ref` on the `div` tag, as well as pass on the props to it.
 
 ```tsx
-const Container = forwardRef<
+const Task = forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<{ task: TaskDetails }>
 >((props, ref) => {
   const { task } = props;
+  // Attach the `ref` and spread the `props`
   return (
     <div ref={ref} {...props} className="m-2 flex">
       ...
@@ -336,14 +337,20 @@ const onDragEnd: OnDragEndResponder = (result) => {
   ) {
     return;
   }
+  // Get source list
   const startKey = source.droppableId as AvailableColumns;
+  // Get destination list
   const finishKey = destination.droppableId as AvailableColumns;
 
+  // Get source list to modify
   const start = props.data.columns[startKey];
+  // Get destination list to modify
   const finish = props.data.columns[finishKey];
 
   const newTaskIDs = Array.from(start.taskIDs);
+  // Remove the dragged item from source list
   newTaskIDs.splice(source.index, 1);
+  // Insert the item to destination list
   newTaskIDs.splice(destination.index, 0, draggableId);
   const newColumn = {
     ...start,
@@ -450,6 +457,7 @@ const DragDropList = (props: {
     // start and finish list are different
 
     const startTaskIDs = Array.from(start.taskIDs);
+    // Remove the item from `startTaskIDs`
     const updatedItems = startTaskIDs.splice(source.index, 1);
 
     const newStart = {
@@ -459,12 +467,14 @@ const DragDropList = (props: {
 
     const finishTaskIDs = Array.from(finish.taskIDs);
 
+    // Insert the item to destination list.
     finishTaskIDs.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
       taskIDs: finishTaskIDs,
     };
 
+    // Create new state with newStart and newFinish 
     const newState = {
       ...props.data,
       columns: {
