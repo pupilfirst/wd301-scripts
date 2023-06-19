@@ -56,7 +56,7 @@ We have to first create and setup a context, actions and reducer like we did whi
 
 Let's create a folder `task` in `src/context`. We will next create empty files `actions.ts`, `context.tsx`, `reducer.ts`, and `types.ts`.
 
-Open `src/context/task/types.ts` and add required actions. We will also create a `TaskListState` to hold loading status of API requests and a `TasksDispacth` type to be used with context.
+Open `src/context/task/types.ts` and add actions for the API request. We will also create a `TaskListState` to hold loading status of API requests and a `TasksDispacth` type to be used with context. We will use `enum` to store the list of actions available.
 
 ```ts
 export interface TaskListState {
@@ -65,23 +65,26 @@ export interface TaskListState {
   errorMessage: string;
 }
 
+// Actions that are available
 export enum TaskListAvailableAction {
   CREATE_TASK_REQUEST = "CREATE_TASK_REQUEST",
   CREATE_TASK_SUCCESS = "CREATE_TASK_SUCCESS",
   CREATE_TASK_FAILURE = "CREATE_TASK_FAILURE",
 }
 
+// Create a type to hold list of actions that can be dispatched
 export type TaskActions =
   | { type: TaskListAvailableAction.CREATE_TASK_REQUEST }
   | { type: TaskListAvailableAction.CREATE_TASK_SUCCESS }
   | { type: TaskListAvailableAction.CREATE_TASK_FAILURE; payload: string };
 
+// A type to hold dispatch actions in a context.
 export type TasksDispatch = React.Dispatch<TaskActions>;
 ```
 
 Save the file.
 
-Next, we need to create a reducer. Open `src/context/task/reducer.ts`.
+Next, we need to create a reducer. Open `src/context/task/reducer.ts`. Here, we will update the state based on action that is dispatched. We will toggle the `isLoading` to true when the request is initiated. Then, we will turn it to `false` when the request succeeds, or update the state with an error message.
 
 ```tsx
 import { Reducer } from "react";
@@ -97,8 +100,11 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
   action
 ) => {
   switch (action.type) {
+    // Toggle the `isLoading` to true when request is initiated.
     case TaskListAvailableAction.CREATE_TASK_REQUEST:
       return { ...state, isLoading: true };
+
+    // Toggle the `isLoading` to false when request is succesfull or errored.
     case TaskListAvailableAction.CREATE_TASK_SUCCESS:
       return { ...state, isLoading: false };
     case TaskListAvailableAction.CREATE_TASK_FAILURE:
@@ -121,6 +127,8 @@ Next, we need to add the actual API call that needs to be invoked to create a ta
 Let's open `src/context/task/actions.ts` and update it as per the following code.
 
 ```tsx
+
+// Import required type annotations
 import { API_ENDPOINT } from "../../config/constants";
 import {
   TaskDetailsPayload,
@@ -128,6 +136,7 @@ import {
   TasksDispatch,
 } from "./types";
 
+// The function will take a dispatch as first argument, which can be used to send an action to `reducer` and update the state accordingly
 export const addTask = async (
   dispatch: TasksDispatch,
   projectID: string,
@@ -135,7 +144,10 @@ export const addTask = async (
 ) => {
   const token = localStorage.getItem("authToken") ?? "";
   try {
+    // The following action will toggle `isLoading` to `true`
     dispatch({ type: TaskListAvailableAction.CREATE_TASK_REQUEST });
+
+    // Invoke the backend server with POST request and create a task.
     const response = await fetch(
       `${API_ENDPOINT}/projects/${projectID}/tasks/`,
       {
@@ -151,9 +163,11 @@ export const addTask = async (
     if (!response.ok) {
       throw new Error("Failed to create task");
     }
+    // Turn `isLoading` to `false`
     dispatch({ type: TaskListAvailableAction.CREATE_TASK_SUCCESS });
   } catch (error) {
     console.error("Operation failed:", error);
+    // Update error status in the state.
     dispatch({
       type: TaskListAvailableAction.CREATE_TASK_FAILURE,
       payload: "Unable to create task",
@@ -178,7 +192,7 @@ Switch back to `actions.ts`.
 
 In this file, we provide a `dispatch`, `projectID`, and `task` to create a new task. We are sending a POST request to `{API_ENDPOINT}/projects/{projectID}/tasks/` as mentioned in [Create Task API doc](https://wd301-api.pupilfirst.school/#/Tasks/post_projects__projectId__tasks)
 
-Next, we need to create a context, so that we can pass around the state and actions to components. Open `src/context/task/context.tsx` and create `TasksStateContext` and `TasksDispatchContext`. We will also create `useTasksState` and `useTasksDispatch` hooks to make it easier to use.
+Next, we need to create a context, so that we can pass around the state and actions to components. Open `src/context/task/context.tsx` and create `TasksStateContext` and `TasksDispatchContext` similar to how we added `ProjectsStateContext` and `ProjectsDispatchContext` . We will also create `useTasksState` and `useTasksDispatch` hooks to make the context easier to use in components.
 
 ```tsx
 import React, { createContext, useContext, useReducer } from "react";
@@ -189,6 +203,7 @@ const TasksDispatchContext = createContext<TasksDispatch>(() => {});
 export const TasksProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
+  // Create a state and dispatch with `useReducer` passing in the `taskReducer` and an initial state. Pass these as values to our contexts.
   const [state, dispatch] = useReducer(taskReducer, initialState);
   return (
     <TasksStateContext.Provider value={state}>
@@ -198,6 +213,8 @@ export const TasksProvider: React.FC<React.PropsWithChildren> = ({
     </TasksStateContext.Provider>
   );
 };
+
+// Create helper hooks to extract the `state` and `dispacth` out of the context.
 export const useTasksState = () => useContext(TasksStateContext);
 export const useTasksDispatch = () => useContext(TasksDispatchContext);
 ```
@@ -210,7 +227,7 @@ Open `index.tsx` file from `src/pages/project_details` folder in VS Code and imp
 import { TasksProvider } from "../../context/task/context";
 ```
 
-Wrap the `ProjectDetails` component with this context.
+We will wrap the `ProjectDetails` component with `TasksProvider`, so that values passed in the context are available in `ProjectDetails` component.
 
 ```tsx
 const ProjectDetailsIndex: React.FC = () => {
@@ -223,8 +240,8 @@ const ProjectDetailsIndex: React.FC = () => {
 };
 ```
 
-Now, we have to create the modal window component.
-Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content. We will use `react-hook-form` to manage the form.
+Now, we have to create the modal window component. We will use something similar to the window used to create a new project.
+Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content. We will use `react-hook-form` to manage the form. We will register three elements with react-hook-form. ie, `title`, `description` and `dueDate`.
 
 ```tsx
 import { Dialog, Transition } from "@headlessui/react";
@@ -241,6 +258,8 @@ const NewTask = () => {
 
   let { projectID } = useParams();
   let navigate = useNavigate();
+
+  // Use react-hook-form to create form submission handler and state.
   const {
     register,
     handleSubmit,
@@ -248,6 +267,8 @@ const NewTask = () => {
   } = useForm<TaskDetailsPayload>();
   const projectState = useProjectsState();
   const taskDispatch = useTasksDispatch();
+
+  // We do some sanity checks to make sure the `projectID` passed is a valid one
   const selectedProject = projectState?.projects.filter(
     (project) => `${project.id}` === projectID
   )?.[0];
@@ -260,6 +281,7 @@ const NewTask = () => {
   }
   const onSubmit: SubmitHandler<TaskDetailsPayload> = async (data) => {
     try {
+      // Invoke the actual API and create a task.
       addTask(taskDispatch, projectID ?? "", data);
       closeModal();
     } catch (error) {
@@ -307,6 +329,7 @@ const NewTask = () => {
                         placeholder="Enter title"
                         autoFocus
                         id="title"
+                        // Register the title field
                         {...register("title", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
@@ -316,6 +339,7 @@ const NewTask = () => {
                         placeholder="Enter description"
                         autoFocus
                         id="description"
+                        // register the description field
                         {...register("description", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
@@ -325,18 +349,19 @@ const NewTask = () => {
                         placeholder="Enter due date"
                         autoFocus
                         id="dueDate"
+                        // register due date field
                         {...register("dueDate", { required: true })}
                         className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <button
                         type="submit"
+                        // Set an id for the submit button
+                        id="newTaskSubmitBtn"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         Submit
                       </button>
                       <button
-                        id="newTaskSubmitBtn"
-                        type="submit"
                         onClick={closeModal}
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
@@ -393,6 +418,7 @@ Next, we will ask router to render this component for new task url.
             { index: true, element: <Navigate to="../" /> },
             {
               path: "new",
+              // Render `NewTask` component
               element: <NewTask />,
             },
             {
