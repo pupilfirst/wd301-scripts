@@ -38,9 +38,9 @@ const Container = (props: React.PropsWithChildren) => {
 };
 ```
 
-`PropsWithChildren` is a type which will include `children` attribute.
+`PropsWithChildren` is a type which will include `children` attribute. Otherwise, TypeScript compiler will give warning when we try to access `props.children`.
 
-We will then create the `DragDropList` component. It will accept the project details and a function `reorderTasks` as it's props.
+We will then create the `DragDropList` component. It will accept the project details as it's prop.
 
 We will map over `column` ID from the `columnOrder` and then render the tasks in a `Column` component.
 
@@ -68,6 +68,7 @@ import React from "react";
 import { ColumnData, TaskDetails } from "../../context/task/types";
 
 const Container = (props: React.PropsWithChildren) => {
+  // We will use flex to display lists as columns
   return (
     <div className="m-2 border border-gray rounded w-1/3 flex flex-col">
       {props.children}
@@ -75,12 +76,13 @@ const Container = (props: React.PropsWithChildren) => {
   );
 };
 
+// A component to render the title, which will be included as <Title>This is a sample title</Title>
 const Title = (props: React.PropsWithChildren) => {
   return <h3 className="p-2 font-semibold">{props.children}</h3>;
 };
 
 const TaskList = (props: React.PropsWithChildren) => {
-  return <div className="grow min-h-100 dropArea"> {props.children}</div>;
+  return <div className="grow min-h-100"> {props.children}</div>;
 };
 
 interface Props {
@@ -89,6 +91,7 @@ interface Props {
 }
 
 const Column: React.FC<Props> = (props) => {
+  // Render each `Task` within a `TaskList` component.
   return (
     <Container>
       <Title>{props.column.title}</Title>
@@ -105,7 +108,7 @@ export default Column;
 ```
 
 We will reuse the `Task` component from earlier levels. But we will modify the component a include a container.
-Copy `Task.tsx`, `TaskCard.css` into `src/pages/project_details` folder from `thrash` folder.
+Copy `Task.tsx`, `TaskCard.css` into `src/pages/project_details` folder from `trash` folder.
 
 Let's import `Task` component in `Column.tsx` file.
 
@@ -113,7 +116,7 @@ Let's import `Task` component in `Column.tsx` file.
 import Task from "./Task";
 ```
 
-Now, open `Task.tsx` and split it into a container and child component. We will also add a `Link` to navigate to task detail page, when the user clicks on it. We will remove the code to delete a task for the time being. We will also include an `index` prop for the `Task` component.
+Now, open `Task.tsx` and split it into a container and child component. We will also add a `Link` to navigate to task detail page, when the user clicks on it. We will remove the code to delete a task for the time being.
 
 ```tsx
 import React from "react";
@@ -122,12 +125,12 @@ import { TaskDetails } from "../../context/task/types";
 import "./TaskCard.css";
 import { Link } from "react-router-dom";
 
-const Container: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
+const Task: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
   props
 ) => {
   const { task } = props;
   return (
-    <div {...props} className="m-2 flex">
+    <div className="m-2 flex">
       <Link
         className="TaskItem w-full shadow-md border border-slate-100 bg-white"
         to={`tasks/${task.id}`}
@@ -167,15 +170,15 @@ const Container: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
   );
 };
 
-const Task = (
+const Container = (
   props: React.PropsWithChildren<{
     task: TaskDetails;
   }>
 ) => {
-  return <Container task={props.task} />;
+  return <Task task={props.task} />;
 };
 
-export default Task;
+export default Container;
 ```
 
 Next, we will use the context to get the list of tasks in our component.
@@ -199,7 +202,7 @@ if (tasksState.isLoading) {
 }
 ```
 
-And finally, we will render the `DragDropList` component and pass the `projectData` as the prop. We will also have to import the `DragDropList` component.
+And finally, we will render the `DragDropList` component and pass the `tasksState.projectData` as the prop. We will also have to import the `DragDropList` component.
 
 ```tsx
 import DragDropList from "./DragDropList";
@@ -222,14 +225,17 @@ import DragDropList from "./DragDropList";
 import { useProjectsState } from "../../context/projects/context";
 
 const ProjectDetails = () => {
+  // Extract task and project from context
   const tasksState = useTasksState();
   const projectState = useProjectsState();
   let { projectID } = useParams();
 
+  // Get the selected project based on `projectID`
   const selectedProject = projectState?.projects.filter(
     (project) => `${project.id}` === projectID
   )?.[0];
 
+  // Display error if there is no project with given id.
   if (!selectedProject) {
     return <>No such Project!</>;
   }
