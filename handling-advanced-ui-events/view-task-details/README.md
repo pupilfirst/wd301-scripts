@@ -19,7 +19,8 @@ export enum TaskListAvailableAction {
   CREATE_TASK_REQUEST = "CREATE_TASK_REQUEST",
   CREATE_TASK_SUCCESS = "CREATE_TASK_SUCCESS",
   CREATE_TASK_FAILURE = "CREATE_TASK_FAILURE",
-
+  
+  // Add action types
   UPDATE_TASK_REQUEST = "UPDATE_TASK_REQUEST",
   UPDATE_TASK_SUCCESS = "UPDATE_TASK_SUCCESS",
   UPDATE_TASK_FAILURE = "UPDATE_TASK_FAILURE",
@@ -85,6 +86,7 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
         isError: true,
         errorMessage: action.payload,
       };
+    // Toggle the loading state based on action
     case TaskListAvailableAction.UPDATE_TASK_REQUEST:
       return { ...state, isLoading: true };
     case TaskListAvailableAction.UPDATE_TASK_SUCCESS:
@@ -116,6 +118,7 @@ export const updateTask = async (
 ) => {
   const token = localStorage.getItem("authToken") ?? "";
   try {
+    // Display loading status
     dispatch({ type: TaskListAvailableAction.UPDATE_TASK_REQUEST });
     const response = await fetch(
       `${API_ENDPOINT}/projects/${projectID}/tasks/${task.id}`,
@@ -132,10 +135,12 @@ export const updateTask = async (
     if (!response.ok) {
       throw new Error("Failed to update task");
     }
+    // Display success and refresh the tasks
     dispatch({ type: TaskListAvailableAction.UPDATE_TASK_SUCCESS });
     refreshTasks(dispatch, projectID);
   } catch (error) {
     console.error("Operation failed:", error);
+    // Display error status
     dispatch({
       type: TaskListAvailableAction.UPDATE_TASK_FAILURE,
       payload: "Unable to update task",
@@ -159,6 +164,7 @@ import { TaskDetailsPayload } from "../../context/task/types";
 
 type TaskFormUpdatePayload = TaskDetailsPayload;
 
+// Helper function to format the date to YYYY-MM-DD format
 const formatDateForPicker = (isoDate: string) => {
   const dateObj = new Date(isoDate);
   const year = dateObj.getFullYear();
@@ -174,6 +180,8 @@ const TaskDetails = () => {
 
   let { projectID, taskID } = useParams();
   let navigate = useNavigate();
+
+  // Extract project and task details.
   const projectState = useProjectsState();
   const taskListState = useTasksState();
   const taskDispatch = useTasksDispatch();
@@ -183,6 +191,7 @@ const TaskDetails = () => {
   )[0];
 
   const selectedTask = taskListState.projectData.tasks[taskID ?? ""];
+  // Use react-form-hook to manage the form. Initialize with data from selectedTask.
   const {
     register,
     handleSubmit,
@@ -331,6 +340,8 @@ const TaskDetailsContainer = () => {
   const taskListState = useTasksState();
   const isFetchingTasks = taskListState.isLoading;
   const selectedTask = taskListState.projectData.tasks?.[taskID || ""];
+  // We will render a loader based on the status,
+  // We make sure, the tasks have been fetched, project is a valid one.
   if (isFetchingTasks || !projectState || projectState?.isLoading) {
     return <>Loading...</>;
   }
