@@ -34,13 +34,13 @@ Use **App State**:
 - When the state affects the behavior of different components or triggers side effects.
 - When the state needs to be persisted, such as user authentication status or application settings.
 
-For example, say our component is dealing with Dropdowns, then its visibility state can be managed using component-level state. Each instance of the dropdown component can have its own visibility state, allowing individual dropdowns to open or close independently.
+For example, in our application we are allowing users to choose between different themes, such as light mode and dark mode, the selected theme can be stored in the app state. This way, the theme can be applied globally to all components and maintained consistently across the application.
 
 Use **Component State**:
 
 - When data is specific to a single component and not required by other components.
 - When reusability is important, and you want to keep the state isolated within the component.
 
-For example, in our application we are allowing users to choose between different themes, such as light mode and dark mode, the selected theme can be stored in the app state. This way, the theme can be applied globally to all components and maintained consistently across the application.
+For example, say our component is dealing with Dropdowns, then its visibility state can be managed using component-level state. Each instance of the dropdown component can have its own visibility state, allowing individual dropdowns to open or close independently.
 
 It's important to note that the choice  between using app state or component state is not an either-or decision. In fact, you can have a combination of both in your application, leveraging app state to manage shared data and component state to handle component-specific data.
