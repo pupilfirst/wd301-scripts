@@ -158,7 +158,7 @@ As we've moved this function to `src/context/projects/actions.ts` file, we've to
 Next, we will create a `ProjectsProvider` component, to make the *projects state* and *dispatch* method available to it's child components, using the React Context API.
 
 ```tsx
-// src/context/projects/actions.ts
+// src/context/projects/context.tsx
 
 // Dialogue 1: First, I'll import the createContext, useContext and useReducer from React
 import React, { createContext, useContext, useReducer } from "react";
@@ -186,7 +186,7 @@ export const ProjectsProvider: React.FC<React.PropsWithChildren> = ({ children }
 Next I'll create another context to make the dispatch function available.
 
 ```tsx
-// src/context/projects/actions.ts
+// src/context/projects/context.tsx
 
 import React, { createContext, useContext, useReducer } from "react";
 
@@ -220,7 +220,7 @@ Now our `ProjectsProvider` is almost ready.
 Almost, because I'll add two custom hooks to easily access the projects `state` and `dispatch` function, inside any child component of the `ProjectsProvider` component.
 
 ```tsx
-// src/context/projects/actions.ts
+// src/context/projects/context.tsx
 
 export const useProjectsState = () => useContext(ProjectsStateContext);
 // Dialogue 1: This line defines a custom hook `useProjectsState`, that uses the `useContext` hook to access the value stored in the `ProjectsStateContext`. The `ProjectsStateContext` is created using the createContext function and is used to store the current `state` of the projects. 
