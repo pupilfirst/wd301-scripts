@@ -377,7 +377,7 @@ export const addProject = async (dispatch: any, args: any) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create member');
+      throw new Error('Failed to create project');
     }
 
     const data = await response.json();
