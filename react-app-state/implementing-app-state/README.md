@@ -99,7 +99,7 @@ export const reducer = (state: ProjectsState, action: ProjectsActions): Projects
 Next, we will define and set the initial state for this reducer function:
 ```ts
 // Define the initial state
-export const initialState: State = {
+export const initialState: ProjectsState = {
   projects: [],
   isLoading: false,
   isError: false,
