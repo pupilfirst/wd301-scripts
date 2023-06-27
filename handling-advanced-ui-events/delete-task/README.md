@@ -147,7 +147,7 @@ import { deleteTask } from "../../context/task/actions";
 Now, we can invoke `deleteTask` with the `task` item whenever the trash icon is clicked.
 
 ```tsx
-const Container = forwardRef<
+const Task = forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<{ task: TaskDetails }>
 >((props, ref) => {
@@ -199,7 +199,7 @@ const Container = forwardRef<
 });
 ```
 
-Save the file. Now, we shoul be able to click on the trash icon to delete a task.
+Save the file. Now, we should be able to click on the trash icon to delete a task.
 
 ## Refresh the list when creating a new task
 
