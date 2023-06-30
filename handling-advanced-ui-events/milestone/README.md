@@ -70,7 +70,6 @@ At this point in the course, this is how your repo should be structured:
 |   |   |   |   └── ProjectDetails.tsx
 |   |   |   |   └── Task.tsx
 |   |   |   |   └── TaskCard.css
-|   |   |   |   └── TaskList.tsx
 |   |   |   ├── projects/
 |   |   |   |   ├── index.tsx
 |   |   |   |   ├── NewProject.tsx
