@@ -50,12 +50,12 @@ This also does emphasize accessibility and responsiveness, ensuring that compone
 
 ## Comparison Table
 
-| Library     | Customization | Accessibility | Performance | React-Specific |
-| ----------- | ------------- | ------------- | ----------- | -------------- |
-| Headless UI | High          | High          | High        | Yes            |
-| Material-UI | Medium        | High          | Medium      | Yes            |
-| Ant Design  | Medium        | Medium        | Medium      | Yes            |
-| Chakra UI   | High          | High          | High        | Yes            |
+| Library     | Customization | Accessibility | Performance |
+| ----------- | ------------- | ------------- | ----------- |
+| Headless UI | High          | High          | High        | 
+| Material-UI | Medium        | High          | Medium      | 
+| Ant Design  | Medium        | Medium        | Medium      | 
+| Chakra UI   | High          | High          | High        | 
 
 ### Why Headless UI is the Preferred Choice
 
