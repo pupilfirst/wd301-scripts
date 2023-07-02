@@ -4,6 +4,14 @@ Progressive Web Apps (PWAs) are a modern approach to building web applications t
 
 Unlike traditional web apps, PWAs can be installed on a user's device and accessed directly from the home screen, just like a native app. They are built using web technologies such as HTML, CSS, and JavaScript but leverage service workers, caching, and other modern APIs to provide advanced features.
 
+You can read more about this [here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app)
+
+Let us check out an existing PWA you might be using regularly but might have missed noticing.
+
+Try visiting [MakeMyTrip](https://www.makemytrip.com/) which is a thoroughly progressive web app. When you are on the page on a Chrome web browser in the URL bar, you can see the below option to Install the app. While the application is not actually downloaded, this creates a Browser wrapper, particularly for the Webpage you are viewing, and provides you with a Native experience similar to any installed application in your Operating system.
+
+![MakeMyTrip](mmtpwa.png)
+
 Making a web application into a PWA offers several benefits:
 
 1. Offline Functionality: One of the key advantages of PWAs is the ability to work offline or in unreliable network conditions. PWAs can cache essential assets and content, enabling users to access and interact with the app even without an internet connection.
@@ -38,8 +46,6 @@ By following these steps, you can effectively test if your web application meets
 
 Now, let us learn how to configure an existing Vite-based React application to be a Progressive Web App (PWA):
 
-Sure, here is a detailed tutorial explaining how to configure an existing Vite-based React application to be a Progressive Web App (PWA):
-
 **1. Install the Vite PWA plugin**
 
 The first step is to install the Vite PWA plugin. You can do this by running the following command within your application folder:
@@ -66,7 +72,7 @@ export default defineConfig({
 
 The next step is to create a Web App Manifest file. This file is a JSON file that contains information about your PWA, such as its name, icon, and start page.
 
-To create a Web App Manifest file, open a text editor and create a new file called `manifest.webmanifest`. In this file, add the following code:
+To create a Web App Manifest file, in the root folder of our application create a new file called `manifest.webmanifest`. In this file, add the following code:
 
 ```
 {
@@ -90,9 +96,11 @@ To create a Web App Manifest file, open a text editor and create a new file call
 }
 ```
 
+You can use tools like [PWABuilder](https://www.pwabuilder.com/imageGenerator) to generate the images as per your choice for the above file configuration. These images are used as Icon files when you get to install them in your system.
+
 **4. Register the service worker**
 
-The final step is to register the service worker. This is done by adding the following code to the `head` section of your `index.html` file:
+The final step is to register the service worker. This is done by adding the following code to the `head` section of your `index.html` file in the application root folder:
 
 ```js
 <script>navigator.serviceWorker.register('/sw.js');</script>
