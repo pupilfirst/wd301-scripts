@@ -8,15 +8,33 @@ Routing is an essential part of any React application, enabling navigation betwe
 
 ## What is [React Router v6](https://reactrouter.com/en/main)
 
-React Router is a widely adopted and community-supported routing library for React applications. It provides a declarative way to define and manage routes, making navigation seamless and intuitive. React Router version 6 (RR6) is the latest major release, offering several improvements over its predecessors. Here are some key features of React Router version 6:
+React Router is a widely adopted and community-supported routing library for React applications. It provides a declarative way to define and manage routes, making navigation seamless and intuitive. React Router version 6 (RR6) is the latest major release, offering several improvements over its predecessors. Let us use the Routers we have defined in our `routes` folder and understand some key features of React Router version 6:
 
 - Declarative Routing: RR6 allows you to define routes using JSX syntax, making it easy to understand and maintain your application's routing structure.
 
+```js
+...
+import Signin from "../pages/signin"
+import Signup from "../pages/signup"
+import Projects from "../pages/projects"
+import Members from "../pages/members"
+import Logout from "../pages/logout";
+...
+```
+
+In this code from `routes/index.tsx`, we import the necessary components from `react-router-dom` and define the routes using JSX syntax. The `<Navigate>` component is used to redirect to specific routes. By structuring the routes declaratively, it becomes easier to understand and maintain the routing structure of our application.
+
 - Route-Based Code Splitting: RR6 supports dynamic importing, enabling code splitting based on routes. This improves the performance of your application by loading only the necessary components for each route.
+
+Similarly in our code from `routes/ProtectedRoute.tsx`, when the `ProtectedRoute` component is rendered, it checks if the user is authenticated by checking the presence of an authentication token. If authenticated, it renders the children, which represent the protected content of the route. Otherwise, it uses `<Navigate>` to redirect the user to the signin page with the current pathname as the referrer. By dynamically loading the protected content only when necessary, React Router enables code splitting and improves the performance of our application.
 
 - Nested Routing: RR6 provides excellent support for nested routing, allowing you to build complex and hierarchical route structures.
 
+Similarly in our code from `routes/index.tsx`, we can see that the router configuration includes nested routes. For example, the "account" route is wrapped with the `ProtectedRoute` component and contains its own set of nested routes for `projects` and `members`. This hierarchical structure allows for easier management and organization of routes in our application.
+
 - Parallel and Serial Navigation: RR6 introduces parallel and serial navigation, enabling you to navigate between routes in parallel or in a specific order. This feature enhances flexibility and control over your application's navigation flow.
+
+Again if we look in our code from `routes/index.tsx`, we can see that the root route `/` is configured to redirect to `/account/projects` using `<Navigate>`. This allows for parallel navigation, where multiple routes can be accessed simultaneously. By configuring the routes accordingly, we can control the navigation flow of our application and provide a seamless user experience. This feature also helps us create user experiences such as Tab navigation where clicking on the navigation links allows you to navigate to the respective pages in parallel, meaning they load simultaneously. The order of navigation doesn't matter, and you have the flexibility to navigate freely between the routes.
 
 React Router is also well-documented and has a large community of users and contributors.
 
