@@ -109,6 +109,10 @@ At this point in the course, this is how your repo should be structured:
 
 2. In task details page, every comment card should have a css clsss name: `comment`. This will help us to identify each comment cards and perform automated tests.
 3. After the implementation, commit your changes, and push the code to the GitHub repository.
+4. When creating a new project, the input field should have `name` attribute with the value `name`.
+5. While creating a project, the submit button should have `id` as `submitNewProjectBtn`.
+6. In the page to create a task, the input fields should have the `name` attribute as `title`, `description`, `dueDate`.
+7. The submit button to create a task should have the id `newTaskSubmitBtn`
 
 #### Well-formatted code is a must.
 
