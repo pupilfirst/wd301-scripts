@@ -64,48 +64,62 @@ To add the PWA plugin to your Vite configuration file, open the file and add the
 import vitePWA from "vite-plugin-pwa";
 
 export default defineConfig({
-  plugins: [vitePWA()],
+  plugins: [react(),VitePWA()]
 });
 ```
 
 **3. Create a Web App Manifest file**
 
-The next step is to create a Web App Manifest file. This file is a JSON file that contains information about your PWA, such as its name, icon, and start page.
+The next step is to create a Web App Manifest. This is a JSON file that contains information about your PWA, such as its name, icon, and start page. With `vite-plugin-pwa` we can configure it directly within the `vite.config.js` file.
 
-To create a Web App Manifest file, in the root folder of our application create a new file called `manifest.webmanifest`. In this file, add the following code:
-
-```
-{
-"name": "Smarter Tasks application",
-"short_name": "Smarter Tasks",
-"icons": [
-{
-"src": "/favicon.ico",
-"sizes": "16x16 32x32 64x64 128x128"
-},
-{
-"src": "/android-chrome-192x192.png",
-"sizes": "192x192"
-},
-{
-"src": "/android-chrome-512x512.png",
-"sizes": "512x512"
-}
-],
-"start_url": "/index.html"
-}
-```
-
-You can use tools like [PWABuilder](https://www.pwabuilder.com/imageGenerator) to generate the images as per your choice for the above file configuration. These images are used as Icon files when you get to install them in your system.
-
-**4. Register the service worker**
-
-The final step is to register the service worker. This is done by adding the following code to the `head` section of your `index.html` file in the application root folder:
+In this file, update the following code for the `plugins` attribute:
 
 ```js
-<script>navigator.serviceWorker.register('/sw.js');</script>
+ plugins: [
+      react(),
+      VitePWA({
+        devOptions: {
+          enabled: true // For making sure that the PWA is testable from the Local dev environment
+        },
+        manifest: {
+          name: "Smarter Tasks application",
+          short_name: "Smarter Tasks",
+          icons: [
+            {
+              "src": "/favicon.ico",
+              "sizes": "64x64 32x32 24x24 16x16",
+              "type": "image/x-icon"
+            },
+            {
+              "src": "/favicon-16x16.png",
+              "type": "image/png",
+              "sizes": "16x16"
+            },
+            {
+              "src": "/favicon-32x32.png",
+              "type": "image/png",
+              "sizes": "32x32"
+            },
+            {
+              "src": "/pwa-192x192.png",
+              "type": "image/png",
+              "sizes": "192x192"
+            },
+            {
+              "src": "/pwa-512x512.png",
+              "type": "image/png",
+              "sizes": "512x512",
+              "purpose": "any maskable" // Icon format that ensures that your PWA icon looks great on all Android devices
+            }
+          ],
+          theme_color: '#AAF',
+        },
+      }),
+    ],
 ```
 
-Once you have completed these steps, your React application will be a PWA. You can test this by opening your application in a browser and clicking on the `Add to Home Screen` button, or through the Lighthouse Audit in Chrome console.
+You can use tools like [PWABuilder](https://www.pwabuilder.com/imageGenerator) or [FavIcon.io](https://favicon.io/favicon-generator/) to generate the images as per your choice for the above file configuration. These images are used as Icon files when you get to install them in your system. These images are to be placed within the `public` folder for access.
+
+Once you have completed these steps, your React application will be a PWA. You can test this by opening your application in a browser and clicking on the `Add to Home Screen` button or the `Install` option in the address bar, or through the Lighthouse Audit in Chrome console.
 
 Now, that we have successfully configured our application as a PWA, we can use it similar to a native application from our operating system. See you in the next one!
