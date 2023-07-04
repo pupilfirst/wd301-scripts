@@ -10,19 +10,45 @@ Now let's dive into the steps for implementing React Suspense and lazy loading i
 
 - Choose a component that you want to load lazily. Let us pick from the existing components that we have already created in the previous levels.
 
-- In your main file where we include the particular component, import the React library and wrap the import of the selected component with the `React.lazy` function:
+- Let us use the Projects pages and make changes to the `index.tsx` within the `pages\projects` folder, import the React library and wrap the import of the selected component in this case the `ProjectList` component with the `React.lazy` function:
 
 ```js
 import React, { Suspense } from "react";
-
-const selectedComponent = React.lazy(() => import("./SelectedComponent"));
-
-const App = () => {};
+const ProjectList = React.lazy(() => import("./ProjectList"));
+import NewProject from "./NewProject";
 ```
 
-Here, the import('./SelectedComponent') syntax uses dynamic import, which allows the component to be loaded lazily.
+Here, the import('./ProjectList') syntax uses dynamic import, which allows the component to be loaded lazily.
 
-- Create a new file called `ErrorBoundary.js` to define your `ErrorBoundary` component:
+- Next, let us update the component to be wrapped in React Suspense. The final file will look like this.
+
+```js
+import React, { Suspense } from "react";
+const ProjectList = React.lazy(() => import("./ProjectList"));
+import NewProject from "./NewProject";
+
+const Projects = () => {
+  return (
+    <>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-medium tracking-tight text-slate-700">
+          Projects
+        </h2>
+        <NewProject />
+      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProjectList />
+      </Suspense>
+    </>
+  );
+};
+
+export default Projects;
+```
+
+- You can also create a Error catching mechanism using an ErrorBoundary component for any component loading issues.
+
+- Create a new file called `ErrorBoundary.jsx` to define your `ErrorBoundary` component:
 
 ```js
 import React, { Component } from "react";
@@ -56,28 +82,37 @@ export default ErrorBoundary;
 
 The `ErrorBoundary` component will catch any errors thrown by its children components.
 
-- Wrap the component that uses the selected component inside the <Suspense> component and the <ErrorBoundary> component. The <Suspense> component takes a fallback prop, which is content to be rendered while the lazy component is loading. The <ErrorBoundary> component will catch any errors that occur within its children components:
+- Wrap the component that uses the selected component inside the <Suspense> component and the <ErrorBoundary> component. The <Suspense> component takes a fallback prop, which is content to be rendered while the lazy component is loading. The <ErrorBoundary> component will catch any errors that occur within its children components. The final updated `index.tsx` for `projects` will be as below.
 
 ```js
+import React, { Suspense } from "react";
+const ProjectList = React.lazy(() => import("./ProjectList"));
+import NewProject from "./NewProject";
 import ErrorBoundary from "./ErrorBoundary";
 
-const App = () => {
+const Projects = () => {
   return (
-    <div>
-      {/* Other components */}
+    <>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-medium tracking-tight text-slate-700">
+          Projects
+        </h2>
+        <NewProject />
+      </div>
       <ErrorBoundary>
         <Suspense fallback={<div>Loading...</div>}>
-          <SelectedComponent />
+          <ProjectList />
         </Suspense>
       </ErrorBoundary>
-    </div>
   );
 };
+
+export default Projects;
 ```
 
-In this example, if an error occurs within the `SelectedComponent`, it will be caught by the `ErrorBoundary` and render the "Something went wrong." message.
+In this example, if an error occurs within the `ProjectList`, it will be caught by the `ErrorBoundary` and render the "Something went wrong." message.
 
-- Now, build and run the React application as we normally would. The `SelectedComponent` will be loaded lazily when required, and any errors that occur within the component will be caught by the `ErrorBoundary`.
+- Now, build and run the React application as we normally would. The `ProjectList` will be loaded lazily when required, and any errors that occur within the component will be caught by the `ErrorBoundary`.
 
 With lazy loading, your application can dynamically load components only when needed, reducing the initial bundle size and improving the overall performance. React Suspense simplifies handling asynchronous operations and provides a clean way to suspend rendering until the required data or component is ready.
 
