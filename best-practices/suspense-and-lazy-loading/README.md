@@ -4,6 +4,18 @@ React Suspense is a React feature used to enable better handling of asynchronous
 
 Lazy loading, on the other hand, refers to the technique of deferring the loading of a component or module until it is actually needed. This can significantly improve the initial loading time of your application by splitting the code into smaller chunks and loading them only when required.
 
+ErrorBoundary is a React component that helps catch and handle errors that occur during rendering, lifecycle methods, or in the constructor of its child components. It is used to wrap components that may throw errors, providing a fallback UI or alternative behavior when an error occurs, instead of crashing the entire application.
+
+![Suspense and Error Boundary Architecture](suspense-errorboundary.png)
+
+Suspense Boundaries in React are responsible for handling loading states of child components. When a Suspense Boundary is encountered during rendering, it indicates that a component is waiting for some asynchronous operation, such as data fetching, to complete. 
+
+Error Boundaries in React handle errored states of child components. When an error occurs during rendering, lifecycle methods, or in the constructor of a component wrapped by an Error Boundary, the Error Boundary is triggered.
+
+Both Error Boundaries and Suspense Boundaries utilize the same underlying JavaScript mechanism: the throw statement. JavaScript allows throwing not just errors but any type of value or object.
+
+## Implementing Suspense and ErrorBoundary
+
 Now let's dive into the steps for implementing React Suspense and lazy loading in our existing React application:
 
 - Make sure your React and React DOM versions are at least 16.6 or above, as React Suspense was introduced in version 16.6. You can confirm these from your `package.json`
@@ -48,27 +60,31 @@ export default Projects;
 
 - You can also create a Error catching mechanism using an ErrorBoundary component for any component loading issues.
 
-- Create a new file called `ErrorBoundary.jsx` to define your `ErrorBoundary` component:
+- Add a new folder within the `src` called `components`. Create a new file called `ErrorBoundary.tsx` inside it to define your `ErrorBoundary` component:
 
 ```js
-import React, { Component } from "react";
+import React, { Component, ErrorInfo, ReactNode } from "react";
 
-class ErrorBoundary extends Component {
-  constructor(props) {
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends Component<{}, ErrorBoundaryState> {
+  constructor(props: {}) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // You can log the error or send it to an error reporting service
     console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
-  render() {
+  render(): ReactNode {
     if (this.state.hasError) {
       return <div>Something went wrong.</div>;
     }
@@ -116,6 +132,6 @@ In this example, if an error occurs within the `ProjectList`, it will be caught 
 
 With lazy loading, your application can dynamically load components only when needed, reducing the initial bundle size and improving the overall performance. React Suspense simplifies handling asynchronous operations and provides a clean way to suspend rendering until the required data or component is ready.
 
-With the above changes, we have successfully configured React Suspense and lazy loading in our Application. These are powerful features that enhance the performance and user experience of your React applications. By combining these techniques, you can optimize your application's performance and ensure a smooth user experience.
+With the above changes, we have successfully configured React Suspense and lazy loading in our Application. By combining Error Boundaries and Suspense Boundaries, you can create a robust and stable user interface that gracefully handles loading states, error states, and normal states. These features work together to enhance the overall user experience and provide a more reliable and error-tolerant application.
 
 See you in the next one!!!
