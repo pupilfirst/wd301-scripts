@@ -14,12 +14,14 @@ Organizing your project's files and folders is crucial for maintainability and s
 src
 ├── assets
 ├── components
-├── hooks
+├── config
 ├── contexts
 ├── utils
+├── hooks
 ├── services
 ├── styles
-├── views
+├── views/pages
+├── routes
 └── App.js
 ```
 
@@ -39,7 +41,9 @@ Let's explore the benefits of each folder:
 
 `styles`: This folder can store global styles, and theme-related files used across the application. Centralizing styles allows for easier management of global styles, and theme files. It promotes consistency throughout the application and simplifies the process of making global style changes.
 
-`views`: This folder represents the different pages or views of your application. Each view can have its own subfolder containing its components, hooks, and other related files. Organizing views in separate folders makes it easier to navigate and maintain the codebase. It provides a clear separation of concerns and allows for modular development and testing of individual views.
+`views/pages`: This folder represents the different pages or views of your application. Each view can have its own subfolder containing its components, hooks, and other related files. Organizing views in separate folders makes it easier to navigate and maintain the codebase. It provides a clear separation of concerns and allows for modular development and testing of individual views.
+
+`routes`: This folder can contain code related to routing and router related contexts of your application. Each parent component can have its own route file containing its child component routes. Organizing routes in separate folder provides a clear separation of application views and logic in our codebase.
 
 `App.js`: This is the entry point of your application and serves as the main component that renders other components. Keeping the main entry point as a separate file helps in maintaining a clear and focused structure. It also makes it easier to modify the entry point if needed, without affecting other components.
 

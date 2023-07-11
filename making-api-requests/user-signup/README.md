@@ -121,10 +121,10 @@ import React from 'react';
 const SignupForm: React.FC = () => {
   return (
     <form>
-      <input name="organizationName" name="organizationName" id="organizationName" type="text" />
-      <input name="userName" name="userName" id="userName" type="text" />
-      <input name="userEmail" name="userEmail" id="userEmail" type="email" />
-      <input name="userPassword" name="userPassword" id="userPassword" type="password" />
+      <input name="organizationName" id="organizationName" type="text" />
+      <input name="userName" id="userName" type="text" />
+      <input name="userEmail" id="userEmail" type="email" />
+      <input name="userPassword" id="userPassword" type="password" />
       <button type="submit">Submit</button>
     </form>
   );
@@ -189,7 +189,7 @@ const SignupForm: React.FC = () => {
 
 export default SignupForm;
 ```
-As you can see, I;ve also used some CSS classes from Tailwind to style our form. Now our form is ready and we can submit the form data to the `Create Organization` API endpoint.
+As you can see, I've also used some CSS classes from Tailwind to style our form. Now our form is ready and we can submit the form data to the `Create Organization` API endpoint.
 
 ```tsx
 import React, { useState } from 'react';
@@ -233,7 +233,7 @@ export default SignupForm;
 ```
 Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/organizations` endpoint with the `organizationName`, `userName`, `userEmail` and `userPassword`. If the signup request gets processed in server successfully, the function logs a message to the console. If the request fails, an error message is logged to the console as well.
 
-Now, there is a scope of small re-fractoring, i.e. the API endpoint `https://wd301-api.pupilfirst.school` is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
+Now, there is a scope of small refactoring, i.e. the API endpoint `https://wd301-api.pupilfirst.school` is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
 
 I'll create a `src/config/constants.ts` file, and add the following content there:
 ```ts
