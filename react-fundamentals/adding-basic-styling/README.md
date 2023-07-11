@@ -19,7 +19,7 @@ Now back in the `TaskCard.js`, we need to do one important thing. We need to mak
 
 So, we have to import the `TaskCard.css` file in the `TaskCard.js` file, like this:
 ```js
-import 'TaskCard.css'
+import './TaskCard.css'
 
 const TaskCard = (props) => {
   return (
