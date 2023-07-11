@@ -49,4 +49,21 @@ That's great!
 
 To stop the project, press "Ctrl + C" or "Command + C" in our terminal and to start once again, run `npm run dev`.
 
+#### Changing the start command
+Now, rather than using the `npm run dev` command to start the project, I think it would be better if we could start the project with `npm start` command. I want to do this because it would be more generic and can be used to start our application in various environments, including development, staging, or production. It's often used as a convention for starting the application in a non-development context. 
+
+So to do that, we will open our `package.json` file, and there inside the scripts section, I'll replace the existing `"dev": "vite"` script with `"start": "vite"`.
+```json
+  "scripts": {
+    "start": "vite",
+    // ...
+    // ...
+  }
+```
+
+Now we will go back to our terminal and run the `npm start command`
+> Action: Run `npm start` command in terminal (in project directory)
+
+And yes! it works.
+
 So, that's it for this video, see you in the next one.
