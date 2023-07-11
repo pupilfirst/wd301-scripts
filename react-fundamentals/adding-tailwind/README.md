@@ -6,19 +6,20 @@ We all know that, Tailwind CSS is a utility-based low-level CSS framework intend
 First, open your terminal in the project folder and execute the following command to install `tailwindcss` via *npm*:
 
 ```sh
-npm install -D tailwindcss --save
+npm install -D tailwindcss postcss autoprefixer --save
 ```
 
 Next, let's generate the Tailwind configuration file, using the following command:
 ```sh
-npx tailwindcss init
+npx tailwindcss init -p
 ```
 This command will generate a `tailwind.config.js` file in the project folder. Next, we have to add the paths to all of our template files in in this file. For that, add the following lines in the `content` part of the configuration.
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {},
