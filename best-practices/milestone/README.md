@@ -4,7 +4,7 @@ To complete this milestone, you have to make the following changes in the _Smart
 
 1. You have to implement the React Suspense feature for the `ProjectDetails` and the `MemberList` Components:
 
-2. You have to integrate the `ErrorBoundary` for both the components similar to the `ProjectList` component.
+2. You must integrate the `ErrorBoundary` for both components similar to the `ProjectList` component.
 
 3. Make sure to update the Application to a PWA and ensure the Lighthouse Audit report is successful.
    
@@ -44,6 +44,8 @@ At this point in the course, this is how your repo should be structured:
 │   │       └── logo.png
 │   ├── config
 │   │   └── constants.ts
+│   ├── components
+│   │   └── ErrorBoundary.jsx
 │   ├── context
 │   │   ├── comment
 │   │   │   ├── actions.ts
@@ -118,10 +120,22 @@ At this point in the course, this is how your repo should be structured:
 
 ## Submission Requirements
 
-To Be Updated...
+After the implementation, commit your changes, and push the code to the GitHub repository.
+
+Implement React Suspense to all the components as described.
+
+Implement additional ErrorBoundary to all the components as described.
+
+Build the solution on top of the existing solution from previous levels.
+
+The application should be an installable PWA as described in the lessons.
+
+Create a custom Icon for your application and implement the Manifest accordingly.
+
+Implement necessary production checklist items that are taught in the course without fail.
 
 #### Well-formatted code is a must.
 
-Remember to format the code - keep proper indentation and add relevant comments if required. This one is non-negotiable, as always.
+Remember to format the code - keep the proper indentation and add relevant comments if required. This one is non-negotiable, as always.
 
 Have fun!
