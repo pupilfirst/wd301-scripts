@@ -55,3 +55,5 @@ If your submission gets rejected, before you make a resubmission, please go care
 This is the first of several targets in this course where your submitted work will be reviewed using automation.
 
 In most cases, you should receive a review within a few minutes. However, in some cases, manual review may be required. Because of this, please wait at least 2 working days before asking for a review on Discord. Posts asking for a review before this period is over may be deleted without a response.
+
+Have fun!

@@ -2,7 +2,7 @@
 
 In this video, we will learn about state in class based components. We will use state to hold a list of tasks and then render them as new tasks are added to it.
 
-> Action: Switch to VSCode, and load the `level-3` react app.
+> Action: Switch to VSCode, and load the `smarter-tasks` react app.
 
 Let's first edit our `Task` component to accept a `title` property, so that, we can render different tasks.
 
