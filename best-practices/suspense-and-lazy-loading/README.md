@@ -8,7 +8,7 @@ ErrorBoundary is a React component that helps catch and handle errors that occur
 
 ![Suspense and Error Boundary Architecture](suspense-errorboundary.png)
 
-Suspense Boundaries in React are responsible for handling loading states of child components. When a Suspense Boundary is encountered during rendering, it indicates that a component is waiting for some asynchronous operation, such as data fetching, to complete. 
+Suspense Boundaries in React are responsible for handling the loading states of child components. When a Suspense Boundary is encountered during rendering, it indicates that a component is waiting for some asynchronous operation, such as data fetching, to complete.
 
 Error Boundaries in React handle errored states of child components. When an error occurs during rendering, lifecycle methods, or in the constructor of a component wrapped by an Error Boundary, the Error Boundary is triggered.
 
@@ -107,26 +107,40 @@ import NewProject from "./NewProject";
 import ErrorBoundary from "./ErrorBoundary";
 
 const Projects = () => {
-  return (
-    <>
-      <div className="flex justify-between">
-        <h2 className="text-2xl font-medium tracking-tight text-slate-700">
-          Projects
-        </h2>
-        <NewProject />
-      </div>
-      <ErrorBoundary>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ProjectList />
-        </Suspense>
-      </ErrorBoundary>
-  );
+return (
+<>
+<div className="flex justify-between">
+<h2 className="text-2xl font-medium tracking-tight text-slate-700">
+Projects
+</h2>
+<NewProject />
+</div>
+<ErrorBoundary>
+<Suspense fallback={<div>Loading...</div>}>
+<ProjectList />
+</Suspense>
+</ErrorBoundary>
+);
 };
 
 export default Projects;
 ```
 
 In this example, if an error occurs within the `ProjectList`, it will be caught by the `ErrorBoundary` and render the "Something went wrong." message.
+
+- Just for testing this, try adding the below code in `ProjectListItems.tsx` file.
+
+```js
+if (projects.length === 0) {
+  throw Error("Error!!!");
+}
+```
+
+- The above code when on the application will throw an Error Message as `"Something went wrong."` only within the component and that error will not propagate beyond that, breaking the application.
+
+- You can create separate Error scenarios such as this for all the API failure cases and add ErrorBoundary checks for the same by throwing an error from the child component.
+
+- Revert the above change before continuing.
 
 - Now, build and run the React application as we normally would. The `ProjectList` will be loaded lazily when required, and any errors that occur within the component will be caught by the `ErrorBoundary`.
 
