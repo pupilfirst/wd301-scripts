@@ -118,6 +118,10 @@ In this file, update the following code for the `plugins` attribute:
     ],
 ```
 
+**4. Remove `index.html` from the Public folder**
+
+As we are using `vite` to configure our PWA, we will not need an `index.html` served from our public folder as `vite-plugin-pwa` will pick the same from the project root folder.
+
 You can use tools like [PWABuilder](https://www.pwabuilder.com/imageGenerator) or [FavIcon.io](https://favicon.io/favicon-generator/) to generate the images as per your choice for the above file configuration. These images are used as Icon files when you get to install them in your system. These images are to be placed within the `public` folder for access.
 
 Once you have completed these steps, your React application will be a PWA. You can test this by opening your application in a browser and clicking on the `Add to Home Screen` button or the `Install` option in the address bar, or through the Lighthouse Audit in Chrome console.
