@@ -124,6 +124,8 @@ After the implementation, commit your changes, and push the code to the GitHub r
 
 Implement React Suspense to all the components as described.
 
+Make sure the Suspense element implemented, is using a div with the class name `suspense-loading`
+
 Implement additional ErrorBoundary to all the components as described.
 
 Build the solution on top of the existing solution from previous levels.
