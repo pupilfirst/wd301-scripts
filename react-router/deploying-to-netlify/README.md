@@ -10,41 +10,62 @@ In this section, we will be looking at deploying our React application code usin
 - A working React application
 - A [Netlify](https://www.netlify.com/) account
 
-### Create a production build
+### Create a Netlify Account
 
-The first step is to create a production build of your React application. This helps us make sure we have a working version of the application that we plan on deploying. You can do this by running the following command in your terminal:
+If you do not already have a Netlify account, you can create one by visiting the Netlify website and signing up.
 
-```bash
+### Install Netlify CLI
+
+To ensure that you have the latest version of Netlify CLI installed, execute the following command:
+
+```
+npm install netlify-cli -g
+```
+
+### Initialize Netlify CLI and Sign In to Netlify
+
+In the root directory of our Vite project, use the following command to create a new Netlify site:
+
+```
+netlify init
+```
+
+This command will open a browser window and prompt you to sign in to Netlify. Sign in using your GitHub credentials, as this will be beneficial for later stages when pulling your repository for builds and deployments.
+
+### Create a New Site on Netlify
+
+Once you have successfully signed in to your Netlify account, confirm and authorize the process.
+
+In the Terminal, select the `Create & configure a new site` option.
+
+You can choose the default options or configure them according to your requirements for the remaining options offered by the CLI.
+
+### Configure Continuous Deployment Settings
+
+After the site is created, Netlify CLI will request access to your GitHub account in order to configure Webhooks and Deploy Keys.
+
+From the provided options, select `Authorize with GitHub through app.netlify.com`.
+
+Next, a browser window will open with the option to `Connect to Git provider`.
+
+In our case, select GitHub and authorize Netlify to access your repositories.
+
+Once this process is successfully completed, you can close the browser window as instructed.
+
+### Update Build Settings
+
+Now, back in the Terminal, enter the following command to specify your build command:
+
+```
 npm run build
 ```
 
-This command will create a production-ready version of your React application in the `build` directory.
+Next, specify the directory to deploy, which in this case is `build`.
 
-### Create a Netlify account
+When prompted to create a `netlify.toml` file with these build settings, enter `Y` and confirm.
 
-If you don't already have a Netlify account, create one by going to the [Netlify](https://www.netlify.com/) website and signing up.
+Your application will be created successfully.
 
-### Create a new site on Netlify
-
-Once you have a Netlify account, log in to the Netlify dashboard and click the "New site from Git" button.
-
-Select the Git repository from GitHub that you use to host your React application's code, and follow the prompts to connect your repository to Netlify.
-
-### Configure the build settings
-
-After you've connected your repository to Netlify, you need to configure the build settings.
-
-In the "Deploy settings" section of your Netlify dashboard, click the "Edit settings" button next to "Build & deploy".
-
-In the build settings, you need to set the following:
-
-- Build command: `npm run build`
-- Publish directory: `build`
-
-### Deploy your application
-
-After you've configured the build settings, you can deploy your React application to Netlify by clicking the "Deploy site" button.
-
-Netlify will now build and deploy your React application. When the deployment is complete, you'll be able to see your application live at the URL provided by Netlify.
+Netlify will now build and deploy your React application. Once the deployment is complete, you will be able to view your live application at the URL provided by Netlify.
 
 See you at the next level!
