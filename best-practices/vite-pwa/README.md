@@ -51,7 +51,7 @@ Now, let us learn how to configure an existing Vite-based React application to b
 The first step is to install the Vite PWA plugin. You can do this by running the following command within your application folder:
 
 ```
-npm install vite-plugin-pwa
+npm install vite-plugin-pwa --save
 ```
 
 **2. Add the PWA plugin to your Vite configuration file**
@@ -61,7 +61,7 @@ Once you have installed the Vite PWA plugin, you need to add it to your Vite con
 To add the PWA plugin to your Vite configuration file, open the file and add the following line:
 
 ```js
-import vitePWA from "vite-plugin-pwa";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   plugins: [react(),VitePWA()]
