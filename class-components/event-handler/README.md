@@ -226,7 +226,7 @@ Next, we will add a method `addTask`, which will take a type `TaskItem` as first
 
 ```tsx
 addTask = (task: TaskItem) => {
-  this.setState((state, props) => {
+  this.setState((state) => {
     return {
       tasks: [...state.tasks, task],
     };
@@ -286,6 +286,8 @@ Next, let's edit the `TaskForm` component to accept `addTask` as a prop from `Ta
 > Action: Open `TaskForm.tsx` and update with following code.
 
 ```tsx
+import { TaskItem } from "./types";
+
 interface TaskFormProps {
   addTask: (task: TaskItem) => void;
 }
