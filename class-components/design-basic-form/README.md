@@ -28,6 +28,8 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
     )
   }
 }
+
+export default TaskForm;
 ```
 
 We create an interface `TaskFormProps`, and `TaskFormState` to represent  props and state of the component. Both are empty for now.
@@ -85,9 +87,9 @@ export default App;
 
 Here, we import the component, then use it to render just before our list of tasks.
 
-Let's save the file. And visit `http://localhost:3000`
+Let's save the file. And visit `http://localhost:5173`
 
-> Action: Switch to browser and visit the page `http://localhost:3000`
+> Action: Switch to browser and visit the page `http://localhost:5173`
 
 We can see, the input field is rendering fine. We can even type in it.
 
@@ -124,7 +126,7 @@ export default TaskList;
 
 Now, let's move the `TaskItem` interface to another file called `types.ts`, which will hold all the common types or interfaces we use in our application.
 
-> Action: create a file named `type.ts` and paste the `TaskItem` interface into it. We will also use `export` keyword to expose it to other files.
+> Action: create a file named `types.ts` and paste the `TaskItem` interface into it. We will also use `export` keyword to expose it to other files.
 
 ```ts
 export interface TaskItem {
@@ -165,7 +167,7 @@ Now, let's switch to `TaskForm.tsx` and add a button to submit the form.
   }
 ```
 
-Save the file. And if we visit `http://localhost:3000`, we can see the input field and submit button being rendered.
+Save the file. And if we visit `http://localhost:5173`, we can see the input field and submit button being rendered.
 
 We can type in the input field and even submit the form. See you in the next lesson.
 
