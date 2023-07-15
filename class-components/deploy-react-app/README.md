@@ -18,13 +18,13 @@ Now, we will have to specify the subdirectory which holds the source code for Re
 
 Type `smarter-tasks` in base directory field. The other two fields should get automatically populated.
 
-Projects generated with `create-react-app` has a `build` command already set up in `package.json`.
+Projects generated with `vite` has a `build` command already set up in `package.json`.
 
 The `Build command` should have the value `npm run build`.
 
-When the build command is executed, a production build, which contains HTML, CSS, and JavaScript will be generated in `build` folder. We will add the output directory to `Publish directory`.
+When the build command is executed, a production build, which contains HTML, CSS, and JavaScript will be generated in `dist` folder. We will add the output directory to `Publish directory`.
 
-Publish directory should have the value `smarter-tasks/build`.
+Publish directory should have the value `smarter-tasks/dist`.
 
 Click on `Deploy site`. It will start a deployment job and will display the url to which React app is deployed.
 
