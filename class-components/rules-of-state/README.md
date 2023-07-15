@@ -81,7 +81,7 @@ So if we have to update the state based on it's previous state, we should second
 
 In this syntax, we get the current state and props as first and second argument.
 
-Let's save the file, and visit `localhost:3000`. The same list is rendered.
+Let's save the file, and visit `localhost:5173`. The same list is rendered.
 
 See you in the next lesson.
 
