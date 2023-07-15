@@ -177,6 +177,15 @@ Then use this handler on the input field.
   }
 ```
 
+And finally, we've to update our `addTask` method as well to print the `title` value from component-level state.
+
+```tsx
+  addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    console.log(`Submitted the form with ${this.state.title}`);
+  };
+```
+
 Save the file. Now, we are able to type in the input field and value gets updated accordingly.
 
 See you in the next video
@@ -204,8 +213,9 @@ class TaskApp extends React.Component<TaskAppProp, TaskAppState> {
   }
 
   render() {
-    return;
-    <div></div>;
+    return (
+      <div></div>
+    );
   }
 }
 
@@ -234,11 +244,12 @@ import TaskList from "./TaskList";
 // ...
 
   render() {
-    return;
-    <div>
-      <TaskForm />
-      <TaskList tasks={this.state.tasks} />
-    </div>;
+    return (
+      <div>
+        <TaskForm />
+        <TaskList tasks={this.state.tasks} />        
+      </div>
+    );
   }
 
 ```
@@ -342,7 +353,7 @@ function App() {
 
 Save the file. Let's check the app in browser.
 
-> Action: visit http://localhost:3000 and add few entries
+> Action: visit http://localhost:5173 and add few entries
 
 We can see the items are getting added to our list. Let's also add the custom `TaskCard` css class from level 1 to our items.
 
@@ -358,9 +369,11 @@ render() {
     return (
       <div className="TaskItem shadow-md border border-slate-100">
         <h2 className="text-base font-bold my-1">{this.props.title}</h2>
-        <p className="text-sm text-slate-500">{this.props.dueDate}</p>
         <p className="text-sm text-slate-500">
-          Description: {this.props.description}
+          Due Date:
+        </p>
+        <p className="text-sm text-slate-500">
+          Description: 
         </p>
       </div>
     );
