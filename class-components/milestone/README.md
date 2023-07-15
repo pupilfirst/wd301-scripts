@@ -27,6 +27,39 @@ To complete this milestone, you have to add the following features to your `smar
 </div>
 ```
 
+## Repo structure
+
+At this point in the course, this is how your repo should be structured:
+
+```
+.
+├── hello-react
+├── smarter-tasks
+|   ├── public
+|   ├── src
+|   |   ├── App.tsx
+|   |   ├── index.css
+|   |   ├── main.tsx
+|   |   ├── Task.tsx
+|   |   ├── TaskApp.tsx
+|   |   ├── TaskCard.css
+|   |   ├── TaskCard.tsx
+|   |   ├── TaskForm.tsx
+|   |   ├── TaskList.tsx
+|   |   └── types.ts
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.js
+└── .gitignore
+
+```
+Note that there may be other files in the repo apart from the ones we have listed above, and that's fine. 
+
 ## Submission Guidelines
 
 Please attach a link to your deployed application.
