@@ -36,7 +36,7 @@ Next, we have to add the `@tailwind` directives for each of Tailwind’s layers 
 @tailwind utilities;
 ```
 
-After that, we will we will remove the reference of `App.css` from the `App.jsx` file. Then we can completely delete the `App.css` file.
+After that, we will remove the reference of `App.css` from the `App.jsx` file. Then we can completely delete the `App.css` file.
 > Action: Delete App.css file.
 
 Finally, we are all set to use the Tailwind classes. Just restart the React application and let's apply a class name in the `TaskCard` component.
