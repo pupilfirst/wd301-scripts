@@ -117,11 +117,11 @@ const [taskAppState, setTaskAppState] = useLocalStorage<TaskAppState>("tasks", {
 
 Let's test it. We will open the developer console. Now there are no entries in the `localStorage`
 
-> Action: Open <http://localhost:3000> in browser
+> Action: Open <http://localhost:5173> in browser
 
 Adding an item is working fine. It also got stored in `localStorage`. Now if we close the tab and reopen it
 
-> Action: close the tab, reopen and visit <http://localhost:3000>
+> Action: close the tab, reopen and visit <http://localhost:5173>
 
 The items are being populated from `localStorage`.
 
