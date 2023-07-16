@@ -12,7 +12,7 @@ Create a new file called `Header.tsx` in the src/components folder of our `smart
 
 In the `Header.tsx` file, add the following code to create a simple header component.
 
-```js
+```tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -29,30 +29,38 @@ export default Header;
 
 Next, we need to modify our `App.tsx` file to include the Header component in all pages. We can do this by wrapping our routes in a div and rendering the Header component inside it.
 
-```js
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+```tsx
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import TaskListPage from './pages/TaskListPage';
-import TaskDetailsPage from './pages/TaskDetailsPage';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/tasks",
+    element: <TaskListPage />,
+  },
+]);
+
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/tasks" component={TaskListPage} />
-          <Route exact path="/tasks/:id" component={TaskDetailsPage} />
-        </Switch>
-      </div>
-    </Router>
+    <div>
+      <Header />
+      <RouterProvider router={router} />
+    </div>
   );
-};
+}
 
-export default App;
+export default App
+
 ```
 
 Now, when we navigate to any page of our application, the Header component will be visible.
