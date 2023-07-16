@@ -56,7 +56,9 @@ Here we're using the 'RouterProvider' component, which is used to provide a rout
 
 Now let's create the components for our home page and task list page.
 
-Create `HomePage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+For that, first I'll create a `pages` folder inside the `src` directory, to keep all of our components related to pages.
+
+Then we will create `HomePage.tsx` file under the `/src/pages` folder with the following code:
 ```js
 // HomePage.tsx
 import React from 'react';
@@ -73,13 +75,20 @@ const HomePage: React.FC = () => {
 export default HomePage;
 ```
 
-Create `TaskListPage.tsx` file under the `/src` folder in our `smarter-task` project and copy the lines below.
+Next, we will create `TaskListPage.tsx` file under the `/src/pages` folder with the following code:
 
 ```js
 // TaskListPage.tsx
 import React from 'react';
 
-Next, Lets create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-tasks` project and copy the lines below.
+const TaskListPage: React.FC = () => {
+  return (
+    <div>
+      <h1>Task List</h1>
+      <p>This is the Task List page.</p>
+    </div>
+  );
+};
 
 export default TaskListPage;
 ```
@@ -88,8 +97,8 @@ and finally we will import the `HomePage` and `TaskListPage` component in our `A
 ```tsx
 // App.tsx
 
-import HomePage from './HomePage';
-import TaskListPage from './TaskListPage';
+import HomePage from './pages/HomePage';
+import TaskListPage from './pages/TaskListPage';
 
 ```
 
