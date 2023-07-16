@@ -136,20 +136,36 @@ We only have one more component to be modified. Let's do that.
 We can repeat the same steps as before and convert class based component to function based component.
 
 ```tsx
-const TaskApp = (props: TaskAppProp) => {
+const TaskApp = () => {
   const [taskAppState, setTaskAppState] = React.useState<TaskAppState>({
     tasks: [],
   });
+
   const addTask = (task: TaskItem) => {
     setTaskAppState({ tasks: [...taskAppState.tasks, task] });
   };
+
   return (
-    <div>
-      <TaskForm addTask={addTask} />
-      <TaskList tasks={taskAppState.tasks} />
+    <div className="container py-10 max-w-4xl mx-auto">
+      <h1 className="text-3xl mb-2 font-bold text-slate-700">
+        Smarter Tasks
+      </h1>
+      <h1 className="text-lg mb-6 text-slate-600">
+        <span className="font-bold">Project: </span>
+        Graduation Final Year Project (Revamp college website)
+      </h1>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="border border-slate-200 rounded-xl p-4">
+          <h1 className="text-slate-500 text-xl font-bold text-center mb-2">
+            Pending
+          </h1>
+          <TaskForm addTask={addTask} />
+          <TaskList tasks={taskAppState.tasks} />
+        </div>
+      </div>
     </div>
   );
-};
+}
 ```
 
 So, we converted all our class based components to function based components. And made use of React Hooks to hold the state. One of the main rules of hook is that, it should be declared on top level of the component. You cannot declare it inside loops, conditions or nested functions. See you in the next lesson.
