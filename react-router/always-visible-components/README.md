@@ -12,7 +12,7 @@ Create a new file called `Header.tsx` in the src folder of our `smarter-tasks` p
 
 In the `Header.tsx` file, add the following code to create a simple header component with navigation for the routes we created.
 
-```js
+```tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -45,33 +45,37 @@ export default Header;
 
 Next, we need to modify our `App.tsx` file to include the Header component in all pages. We can do this by wrapping our routes in a div and rendering the Header component inside it.
 
-Update the `App()` function making sure to import the Header component into the `App.tsx` file.
+```tsx
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import TaskListPage from './pages/TaskListPage';
 
-```js
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import "./App.css";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/tasks",
+    element: <TaskListPage />,
+  },
+]);
 
-import Header from "./Header";
-import HomePage from "./HomePage";
-import TaskApp from "./TaskApp";
-import TaskDetailsPage from "./TaskDetailsPage";
 
-
-function App() {
+const App = () => {
   return (
     <div>
       <Header />
-      <Routes>
-        <Route path="/" element={ <HomePage/> } />
-        <Route path="/tasks" element={ <TaskApp/> } />
-        <Route path="/tasks/:id" element={ <TaskDetailsPage/> } />
-      </Routes>
+      <RouterProvider router={router} />
     </div>
   );
 }
 
-export default App;
+export default App
 ```
 
 Now, when we navigate to any page of our application, the Header component will be visible.
