@@ -34,6 +34,15 @@ Next, we have to add the `@tailwind` directives for each of Tailwind’s layers 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* then we will comment out the default CSS for body tag */
+/* body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+} */
 ```
 
 After that, we will remove the reference of `App.css` from the `App.jsx` file. Then we can completely delete the `App.css` file.
