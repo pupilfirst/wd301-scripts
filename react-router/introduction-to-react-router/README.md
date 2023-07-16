@@ -1,6 +1,6 @@
 # Text
 
-It this level, we'll learn what React Router is, how to integrate it into your project and how to use it to create application routes for your React app.
+In this level, we'll learn what React Router is, how to integrate it into your project and how to use it to create application routes for your React app.
 
 React Router is a library that allows us to handle routing in a React application. It provides a declarative way to define routes and map them to different components in our application. This means we can create a navigation system that works with URLs, allowing our users to easily navigate between pages or views of our app.
 
@@ -9,7 +9,7 @@ First, let us start by installing and adding the React Router to our application
 In the terminal, within your `smarter-tasks` project folder, type the following command:
 
 ```bash
-npm install --save react-router-dom @types/react-router-dom
+npm install --save react-router-dom@latest @types/react-router-dom
 ```
 
 This will install the necessary packages we need to use React Router.
@@ -79,14 +79,7 @@ Create `TaskListPage.tsx` file under the `/src` folder in our `smarter-task` pro
 // TaskListPage.tsx
 import React from 'react';
 
-const TaskListPage: React.FC = () => {
-  return (
-    <div>
-      <h1>Task List</h1>
-      <p>This is the Task List page.</p>
-    </div>
-  );
-};
+Next, Lets create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-tasks` project and copy the lines below.
 
 export default TaskListPage;
 ```

@@ -2,7 +2,7 @@
 
 In this video, we will learn about state in class based components. We will use state to hold a list of tasks and then render them as new tasks are added to it.
 
-> Action: Switch to VSCode, and load the `level-3` react app.
+> Action: Switch to VSCode, and load the `smarter-tasks` react app.
 
 Let's first edit our `Task` component to accept a `title` property, so that, we can render different tasks.
 
@@ -60,7 +60,7 @@ class Task extends React.Component<TaskProp> {
 }
 ```
 
-Let's save the file. And visit `localhost:3000`. Now we can see the title being rendered, which is actually passed as a prop.
+Let's save the file. And visit `localhost:5173`. Now we can see the title being rendered, which is actually passed as a prop.
 
 Now, let's create another component `TaskList.tsx`, which will hold all the task entries and then render each item using `Task` component.
 
@@ -79,6 +79,9 @@ export default TaskList;
 Now, let's import `Task` component and use it to render a task. Let's cut the line from `App.tsx` and paste it in `TaskList.tsx`.
 
 ```tsx
+import React from "react";
+import Task from "./Task"
+
 class TaskList extends React.Component {
   render() {
     return (
@@ -151,7 +154,9 @@ class TaskList extends React.Component<Props, State> {
     };
   }
   render() {
-    <Task title='Pay rent'/>
+    return (
+      <Task title='Pay rent'/>
+    );
   }
 }
 ```
@@ -172,4 +177,4 @@ class TaskList extends React.Component<Props, State> {
 }
 ```
 
-Save the file and visit `localhost:3000`. You can see, the tasks got rendered correctly.
+Save the file and visit `localhost:5173`. You can see, the tasks got rendered correctly.

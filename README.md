@@ -21,70 +21,66 @@ This work is licensed under a
 ## L1. React Fundamentals
 
 ### Introduction to React
-- [Introduction to course](https://github.com/pupilfirst/wd301-scripts/pull/110)
-- [Why React?](https://github.com/pupilfirst/wd301-scripts/pull/118)
+- [Introduction to course](./react-fundamentals/intro-to-react/README.md)
+- [Why React?](./react-fundamentals/why-react/README.md)
 
 ### React Components
-- [Introduction to Components](https://github.com/pupilfirst/wd301-scripts/pull/126)
+- [Introduction to Components](./react-fundamentals/intro-to-components/README.md)
 
 
 ### Setting up Development Environment
-- [Node.JS Environment setup](https://github.com/pupilfirst/wd301-scripts/pull/114)
-- [React Dev Tools browser extension](https://github.com/pupilfirst/wd301-scripts/pull/109 )
+- [Node.JS Environment setup](./react-fundamentals/nodejs-env-setup/README.md)
+- [React Dev Tools browser extension](./react-fundamentals/react-devtools-browser-ext/README.md)
 
 ### CRA - Create React App
-- [Generating a CRA project](https://github.com/pupilfirst/wd301-scripts/pull/115)
-- [Why CRA?](https://github.com/pupilfirst/wd301-scripts/pull/116)
+- [Generating a CRA project](./react-fundamentals/generating-cra/README.md)
+- [Why CRA?](./react-fundamentals/why-cra/README.md)
 
 ### Introduction to JSX
-- [What is JSX?](https://github.com/pupilfirst/wd301-scripts/pull/129)
-- [Using JS Variables in JSX](https://github.com/pupilfirst/wd301-scripts/pull/130)
+- [What is JSX?](./react-fundamentals/what-is-jsx/README.md)
+- [Using JS Variables in JSX](./react-fundamentals/using-js-vars-in-jsx/README.md)
 
 ### Component Nesting & Props
-- [Component reuse](https://github.com/pupilfirst/wd301-scripts/pull/131)
-- [Component nesting](https://github.com/pupilfirst/wd301-scripts/pull/133)
-- [Props in React](https://github.com/pupilfirst/wd301-scripts/pull/134)
+- [Component reuse](./react-fundamentals/component-reuse/README.md)
+- [Component nesting](./react-fundamentals/component-nesting/README.md)
+- [Props in React](./react-fundamentals/props-in-react/README.md)
 
 ### DOM and Virtual DOM
-- [What is virtual DOM?](https://github.com/pupilfirst/wd301-scripts/pull/135)
-- [Difference between virtual and real DOM (merged as one conent)](https://github.com/pupilfirst/wd301-scripts/pull/135)
+- [What is virtual DOM?](./react-fundamentals/what-is-virtual-dom/README.md)
+- [Difference between virtual and real DOM (merged as one conent)](./react-fundamentals/what-is-virtual-dom/README.md)
 
 ### Basic Styling with Tailwind CSS
-- [Adding basic styling](https://github.com/pupilfirst/wd301-scripts/pull/144)
-- Adding Tailwind to React app
+- [Adding basic styling](./react-fundamentals/adding-basic-styling/README.md)
+- [Adding Tailwind to React app](./react-fundamentals/adding-tailwind/README.md)
 
 ### Milestone
-- [Milestone](https://github.com/pupilfirst/wd301-scripts/pull/145)
+- Milestone
 
 
 ## L2. Introduction to Typescript
 
 ### Typescript Overview
-- Introduction 
-- Executing TS code
+- [Introduction](./typescript-fundamentals/introduction-to-ts/README.md)
+- [Executing TS code](./typescript-fundamentals/executing-ts-code/README.md)
 
 ### What is Type System?
-- Type System
-- Why TS?
+- [Type System](./typescript-fundamentals/type-system/README.md)
+- [The ‘Any’ type](./typescript-fundamentals/the-any-type/README.md)
 
 ### Type annotations
-- Type annotations and Inference
-- Annotations with variables
-- Understanding Inference
-- The ‘Any’ type
-- Annotations around functions
-- Void and never
-- Annotations around objects
+- [Type annotations and Inference](./typescript-fundamentals/type-annotations-and-inference/README.md)
+- [Annotations with variables](./typescript-fundamentals/annotations-with-variables/README.md)
+- [Annotations around functions](./typescript-fundamentals/annotations-around-functions/README.md)
+- [Void and never](./typescript-fundamentals/void-and-never/README.md)
+- [Annotations around objects](./typescript-fundamentals/annotations-around-objects/README.md)
 
 ### Typed arrays
-- Arrays in TS
-- Tuples in TS
+- [Arrays in TS](./typescript-fundamentals/arrays-in-ts/README.md)
+- [Tuples in TS](./typescript-fundamentals/tuples-in-ts/README.md)
 
 ### Interface
-- TS Interfaces
-- Functions in Interfaces
-- Fields in classes
-- Fields with inheritance
+- [TS Interfaces and functions](./typescript-fundamentals/ts-interfaces/README.md)
+- [Fields in classes and inheritance](./typescript-fundamentals/fields-in-classes/README.md)
 
 ### Milestone
 
@@ -99,16 +95,15 @@ This work is licensed under a
 ### Introduction to React State
 
 - [State initialization through constructor](./class-components/state-in-class-components/README.md)
-- The rules of state
-- Updating state properties
+- [Updating state in class based components](./class-components/rules-of-state/README.md)
 
 ### Handling user inputs with Forms
-- Designing a basic form component
-- Creating event handlers
-- Controlled vs Uncontrolled elements
-- Handling form submission
+- [Designing a basic form component](./class-components/design-basic-form/README.md)
+- [Creating event handlers and form submission](./class-components/event-handler/README.md)
+- [Creating a production build and deploying a React App on the Cloud](./class-components/deploy-react-app/README.md)
 
 ### Milestone 
+- [Milestone](class-components/milestone/README.md)
 
 ## L4. React Hooks
 ### Introduction to React Hooks
@@ -135,43 +130,35 @@ This work is licensed under a
 ## L5. React Router
 
 ### React Router
-- Introducing React Router
-- How it works
-- Navigating with router
+- [Introducing React Router](./react-router/introduction-to-react-router/README.md)
+- [Always visible components](./react-router/always-visible-components/README.md)
+- [Path parameters](./react-router/path-params/README.md)
+- [Programmatic Navigation](./react-router/programmatic-navigation-redirection/README.md)
 
-### Always visible components
-
-### Path Parameters
-
-### Programmatic Navigation
-- Redirections
-
-### Links and URLs
-
-### Deploy the app to Netlify
 
 ### Milestone 
 
 ## L6. Making API Request with React
 
-### Introduction to our API Service
+- [Introduction to our API Service](./making-api-requests/intro-to-api-service/README.md)
 
-### Fetching data
-
-### Handling Request with Async Await
-- Updating state after async requests
-
-### Submit Form data to API
+### Making API calls
+- [Fetching data](./making-api-requests/fetching-data/README.md)
+- [Handling Request with Async Await](./making-api-requests/handling-data-with-async-await/README.md)
+- [Submit Form data to API](./making-api-requests/submit-form-data/README.md)
 
 ### Add user authentication
-- User sign up
-- User sign in
-- Persisting user session
-- Managing current user
+- [User sign up](./making-api-requests/user-signup/README.md)
+- [User sign in](./making-api-requests/user-signin/README.md)
+- [Persisting user session](./making-api-requests/persisting-user-session/README.md)
+- [Managing current user](./making-api-requests/manage-current-user/README.md)
 
-### Implementing a conditional render for public and private pages
+### Implementing a conditional render
+- [Public and private pages using react-router](./making-api-requests/private-and-public-page/README.md)
 
-### Milestone
+# Milestone
+- [Milestone specification](./making-api-requests/milestone/README.md)
+
 
 ## L7. More with UI & State Modelling
 
@@ -226,3 +213,4 @@ This work is licensed under a
 ### Milestone
 
 ## Capstone Project
+
