@@ -8,26 +8,24 @@ In this lesson, we will learn how to create always visible components in our app
 
 Firstly, let's create a new component that we want to be always visible. For the purpose of this tutorial, let's create a header component that will be visible on all pages of our application.
 
-Create a new file called `Header.tsx` in the src folder of our `smarter-tasks` project.
+Create a new file called `Header.tsx` in the `src/components` folder of our `smarter-tasks` project.
 
 In the `Header.tsx` file, add the following code to create a simple header component with navigation for the routes we created.
 
 ```tsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+// src/components/Header.tsx
 const Header = () => {
   return (
     <nav className="bg-gray-800 py-4">
       <div className="mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex items-center">
-            <Link to="/" className="ml-6 text-gray-300 hover:text-white">
+            <a href="/">
               Home
-            </Link>
-            <Link to="/tasks" className="ml-6 text-gray-300 hover:text-white">
+            </a>
+            <a href="/tasks">
               Tasks
-            </Link>
+            </a>
           </div>
           <div className="flex items-center">
             <h1 className="text-white text-lg font-bold">Task Manager</h1>
@@ -41,9 +39,11 @@ const Header = () => {
 };
 
 export default Header;
+
+
 ```
 
-Next, we need to modify our `App.tsx` file to include the Header component in all pages. We can do this by wrapping our routes in a div and rendering the Header component inside it.
+Next, we need to modify our `App.tsx` file to include the `Header` component in all pages. We can do this by wrapping our routes in a div and rendering the Header component inside it.
 
 ```tsx
 import {
@@ -78,8 +78,8 @@ const App = () => {
 export default App
 ```
 
-Now, when we navigate to any page of our application, the Header component will be visible.
+Now, when we navigate to any page of our application, the `Header` component will be visible.
 
-We have successfully created always visible components in React Router in our project. We can use this approach to create any component that we want to be always visible, such as a footer or a sidebar in the application.
+So, we have successfully created always visible components in React Router in our project. We can use this approach to create any component that we want to be always visible, such as a footer or a sidebar in the application.
 
 See you in the next one!
