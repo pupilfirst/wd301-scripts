@@ -58,7 +58,7 @@ Let's check if everything is working as before. Let's start our server if it is 
 npm start
 ```
 
-> Action: switch to browser, visit `http://localhost:3000/`
+> Action: switch to browser, visit `http://localhost:5173/`
 
 Let's try adding a task.
 
