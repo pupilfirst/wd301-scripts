@@ -25,6 +25,16 @@ const getStoredValue = (key: string, defaultValue: any) => {
 Now, we can write our hook. Let's call it `useLocalStorage`. We will use a `state` to store the values, and an `effect` which would trigger whenever the `state` changes. We will then return the `state` and `setter` function. That is what hooks usually do. Now this can be used in components to get the value or set the value.
 
 ```ts
+import React, { useState, useEffect } from "react"
+
+const getStoredValue = (key: string, defaultValue: any) => {
+  const savedItem = localStorage.getItem(key);
+  if (savedItem) {
+    return JSON.parse(savedItem);
+  }
+  return defaultValue;
+};
+
 export const useLocalStorage = (key: string, defaultValue: any) => {
   const [value, setValue] = useState(() => {
     return getStoredValue(key, defaultValue);
