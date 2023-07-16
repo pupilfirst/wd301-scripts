@@ -230,4 +230,4 @@ return (
 
 Now, let's remove class based implementation of `TaskForm`, and rename new component ie, `TaskFormFC` as `TaskForm`. Save the file.
 
-Visit `localhost:3000` in browser and everything should work as before.
+Visit `localhost:5173` in browser and everything should work as before.
