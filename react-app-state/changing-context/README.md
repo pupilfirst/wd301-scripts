@@ -311,6 +311,27 @@ Next, I'll update the App.css file, and add the default background and text colo
 }
 ```
 
+And finally, I'll update the `App.tsx` file to access the `theme` value from `ThemeContext` and set the dark or light mode accordingly in our `App` component.
+```tsx
+import React, { useContext } from "react";
+//
+//
+import { ThemeContext } from "./context/theme";
+//
+//
+
+const App = () => {
+  const { theme } = useContext(ThemeContext)
+  return (
+    <div className={`h-full w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
+      {currentTheme.theme}
+      <RouterProvider router={router} />
+    </div>
+  );
+}
+export default App;
+```
+
 And that's it. Let's go back to the browser to check if it's working or not
 > Open localhost:3000 to check if the toggle switch is working or not
 And yes! it's working as expected. So finally, our theme switcher is working as expected.
