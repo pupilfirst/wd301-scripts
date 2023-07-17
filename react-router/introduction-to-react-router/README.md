@@ -18,49 +18,47 @@ Next, let us learn how to work with React Router.
 
 Let's try and integrate routes into our existing task management application. Let us split the application to have a home page, task list page, and task details page. 
 
-First, we'll need to import the necessary components from the React Router package. Open up the 'index.tsx' file in our project and add the following import at the top:
+First, we'll need to import the necessary components from the React Router package. Open up the `App.tsx` file in your project and add the following imports at the top:
 
-```js
-import { BrowserRouter } from "react-router-dom";
+```tsx
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 ```
 
-Also, lets update the `root.render` function to use the above `BrowserRouter` instead of the `React.StrictMode` like below.
-
-```js
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-);
+**ReactRouter** provides us a custom hook named `createBrowserRouter`, which helps us to define our routes as a plain JavaScript object. So let's define the routes:
+```tsx
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/tasks",
+    element: <TaskListPage />,
+  },
+]);
 ```
+So as you can see, the `createBrowserRouter` hooks accepts an array of objects, where each object represents a configuration of a path. Each object should have atleast two properties, `path` and `element`. Here `path` defines the actual path which our end user will enter or navigate to, and the `element` property defines, which React component we will render to show content on that path.
 
-We're using the `BrowserRouter` component, which allows us to use regular URLs like '/tasks' or '/tasks/:id'. 
-
-Next, let's update our `App` component to use the `Router` component. Open up the `App.tsx` file in our project and add the following import at the top:
-
-```js
-import { Routes, Route } from "react-router-dom";
-```
-
-Now lets update the `App` component with the routes we will plan to use in our application. Update the return for the `App` function with the below code.
+Next, let's update our 'App' component to use the 'router' that we've defined.
 
 ```js
-function App() {
+const App = () => {
   return (
-    <Routes>
-        <Route path="/" element={ <HomePage/> } />
-        <Route path="/tasks" element={ <TaskApp/> } />
-        <Route path="/tasks/:id" element={ <TaskDetailsPage/> } />
-      </Routes>
+    <RouterProvider router={router} />
   );
 }
 ```
 
-Here we're using the `Route` component to map URLs to different components. 
+Here we're using the 'RouterProvider' component, which is used to provide a routing context to the nested components in our application. This component access our routes as `router` props.
 
-Now let's create the components for our home page, task list page, and task details page.
-Create `HomePage.tsx` file under the `/src` folder in our `smarter-tasks` project and copy the lines below.
+Now let's create the components for our home page and task list page.
 
+For that, first I'll create a `pages` folder inside the `src` directory, to keep all of our components related to pages.
+
+Then we will create `HomePage.tsx` file under the `/src/pages` folder with the following code:
 ```js
 // HomePage.tsx
 import React from 'react';
@@ -77,41 +75,37 @@ const HomePage: React.FC = () => {
 export default HomePage;
 ```
 
-For listing the tasks we will use the already created `TaskApp` component as we mentioned in the `App` component. 
-
-Next, Lets create `TaskDetailsPage.tsx` file under the `/src` folder in our `smarter-tasks` project and copy the lines below.
+Next, we will create `TaskListPage.tsx` file under the `/src/pages` folder with the following code:
 
 ```js
-// TaskDetailsPage.tsx
+// TaskListPage.tsx
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
-interface TaskDetailsPageParams extends Record<string, string> {
-  id: string;
-}
-
-const TaskDetailsPage: React.FC = () => {
-  const { id } = useParams<TaskDetailsPageParams>();
+const TaskListPage: React.FC = () => {
   return (
     <div>
-      <h1>Task Details</h1>
-      <p>This is the Task Details page for task with ID: {id}</p>
+      <h1>Task List</h1>
+      <p>This is the Task List page.</p>
     </div>
   );
 };
 
-export default TaskDetailsPage;
+export default TaskListPage;
 ```
 
-Here, we're using the `useParams` hook from React Router to extract the `id` parameter from the URL. 
+and finally we will import the `HomePage` and `TaskListPage` component in our `App` component.
+```tsx
+// App.tsx
 
-Now that we've created our components and added the necessary routes to our `App` component, let's test working routes in our app. Run the following command in your terminal to start the development server:
+import HomePage from './pages/HomePage';
+import TaskListPage from './pages/TaskListPage';
 
-```bash
-npm start
 ```
 
-Now, if you go to 'http://localhost:3000/', you should see the home page. If you navigate to 'http://localhost:3000/tasks', you should see the task list page. And if you navigate to 'http://localhost:3000/tasks/1' (or any other ID value), you should see the task details page with the ID displayed.
+Now that we've created our components and imported them in our 'App' component, let's restart the app and open 'http://localhost:5173/' in browser.
+
+> Action: Open http://localhost:5173/ in browser
+So, as you can see, the HomePage content shows up by default, and if we would navigate to http://localhost:5173/tasks, we will see the task list page.
 
 We will learn more about using the React Router to configure our application and how to use it to programmatically navigate between different pieces of the application in the upcoming lessons.
 
