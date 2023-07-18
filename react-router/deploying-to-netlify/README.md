@@ -60,7 +60,7 @@ Now, back in the Terminal, enter the following command to specify your build com
 npm run build
 ```
 
-Next, specify the directory to deploy, which in this case is `build`.
+Next, while specifying the directory to deploy, leave the selection to the default `dist` folder.
 
 When prompted to create a `netlify.toml` file with these build settings, enter `Y` and confirm.
 
