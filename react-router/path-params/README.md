@@ -17,21 +17,28 @@ In this example, `:id` is the path param, which can be any string value. When th
 
 For example, if the user navigates to /tasks/123, React Router will pass the value "123" as a prop to the TaskDetails component.
 
-To add path params to the existing project, we will modify the routes in our `App.tsx` file.
+To use path params in our project, we will modify the routes in our `App.tsx` file.
 ```tsx
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/tasks",
-    element: <TaskListPage />,
-  },
-  {
-    path: "/tasks/:id",
-    element: <TaskDetailsPage />,
-  },
+    element: (
+      <Layout />
+    ),
+    children: [
+      {
+        path: "/",
+        element: (<HomePage />)
+      },
+      {
+        path: "tasks",
+        element: (<TaskListPage />)
+      },
+      {
+        path: "tasks/:id",
+        element: (<TaskDetailsPage />)
+      },
+    ]
+  }
 ]);
 ```
 
