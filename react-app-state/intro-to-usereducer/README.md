@@ -95,14 +95,14 @@ export default Projects;
 ```
 
 Now let's go to the browser to see if the list of projects is coming or not.
-> Open http://localhost:3000/account/projects in browser to see the projects, also open the browser console.
+> Open http://localhost:5173/account/projects in browser to see the projects, also open the browser console.
 So, as you can see, in the network console, the API call for `/projects` path is working and we are getting the successful response. Now as our current database is empty, that's why the projects list is not coming.
 
 To fix it, we can add one or two projects from Postman REST client.
 > Action: Add 2 projects for current organisation
 
 Now let's go back to the browser to see if this is working.
-> Action: Re-Open http://localhost:3000/account/projects in browser
+> Action: Re-Open http://localhost:5173/account/projects in browser
 And yes! this time the project names are showing up. Great!
 
 Now, this implementation looks quite straight-forward, isn't it?
@@ -113,6 +113,8 @@ Now the same component can be implemented using the `useReducer` hook. Let's do 
 
 1. First, we'll remove the implementation of `useState`. To start with I'll remove the import statement of `useState` hook, then:
 ```tsx
+// src/pages/projects/ProjectList.tsx
+
 import React, { useEffect } from 'react';
 
 interface Project {
