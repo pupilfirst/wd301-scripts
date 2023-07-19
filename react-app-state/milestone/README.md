@@ -11,6 +11,7 @@ To complete this milestone, you have to make the following changes in the *Smart
 3. In the member listing page, there should be an option to remove a user from an organisation. Use the [`DELETE /users/{id}` endpoint](https://wd301-api.pupilfirst.school/#/Users/delete_users__id_) to delete any user by ID.
 * So, every member card, should be a delete icon button. On that button click delete the user and remove his/her card from the members listing page.
 4. Update the signup and signin form components to use [React Hook Form](https://react-hook-form.com/), like we did in the new project form.
+5. Define a `/notfound` route and page which would contain a 404 message.
 
 ### Repo structure
 At this point in the course, this is how your repo should be structured:
@@ -57,10 +58,16 @@ At this point in the course, this is how your repo should be structured:
 |   |   |   ├── index.tsx
 |   |   |   └── ProtectedRoutes.tsx
 |   |   |── App.tsx
-|   |   ├── index.tsx
-|   |   ├── NotFound.tsx
+|   |   ├── index.css
+|   |   ├── main.tsx
+│   ├── index.html
+│   ├── package-lock.json
 │   ├── package.json
-│   └── package-lock.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.js
 └── .gitignore
 ```
 ## Submission Requirements
