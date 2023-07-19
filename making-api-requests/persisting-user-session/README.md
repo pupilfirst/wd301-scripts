@@ -32,8 +32,12 @@ const SigninForm: React.FC = () => {
       if (!response.ok) {
         throw new Error('Sign-in failed');
       }
+
       console.log('Sign-in successful');
       
+      // Dialogue: Extract the response body as JSON data
+      const data = await response.json();
+
       // Dialogue: After successful signin, first we will save the token in localStorage
       localStorage.setItem('authToken', response.data.token);
 
@@ -52,7 +56,25 @@ const SigninForm: React.FC = () => {
 ```
 Here, we are using the `setItem` method of the **Local Storage API** to store the authentication token with the key `authToken`.
 
-We've to save the token after signup as well, so update the `handleSubmit` method in the `SignupForm` component and use `localStorage.setItem('authToken', response.data.access_token)` there after successful signup.
+We've to save the token after signup as well, so update the `handleSubmit` method in the `SignupForm` component and use the following snippet after successful signup:
+```tsx
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+
+  // ...
+  try {
+    // ...
+
+    // extract the response body as JSON data
+    const data = await response.json();
+
+    // if successful, save the token in localStorage
+    localStorage.setItem('authToken', data.token);
+  } catch (error) {
+    console.error('Sign-up failed:', error);
+  }
+  
+}
+```
 
 #### Step 2: Retrieving the Authentication Token
 Once we have stored the authentication token, we can retrieve it on subsequent requests. We can do this by using the following code:
@@ -65,15 +87,17 @@ Here, we are using the `getItem` method of the **Local Storage API** to retrieve
 To check if the user is authenticated, we can simply use the `ProtectedRoute` component. There we will use the `authToken` to decide if a user is authenticated.
 
 ```tsx
+// src/ProtectedRoute.tsx
+
 import { Navigate } from "react-router-dom";
 
-export function ProtectedRoute({ element }: { element: JSX.Element }) {
-  const isAuth = !!localStorage.getItem("authToken");
-  if (isAuth) {
-    return element;
+export default function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const authenticated = !!localStorage.getItem("authToken");
+  if (authenticated) {
+    return <>{children}</>;
   } else {
     return <Navigate to="/signin" />;
-  }
+ }
 }
 ```
 Here, we are using the getItem method of the Local Storage API to retrieve the authentication token with the key `authToken`. We then use the `!!` operator to convert the value to a boolean.
