@@ -47,7 +47,26 @@ const SigninForm: React.FC = () => {
 ```
 Here, we are converting the `user` object (which contains user information), into a JSON string using `JSON.stringify()`. Then, we are  using `localStorage.setItem()` to store the JSON string in local storage with the key name `userData`.
 
-We've to save the token after signup as well, so update the `handleSubmit` method in the `SignupForm` component and use `localStorage.setItem('userData', JSON.stringify(response.data))` there after successful signup.
+We've to save the token after signup as well, so update the `handleSubmit` method in the `SignupForm` component and use the following snippet after successful signup:
+```tsx
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+
+  // ...
+  try {
+    // ...
+
+    // extract the response body as JSON data
+    const data = await response.json();
+
+    localStorage.setItem('authToken', data.token);
+    // if successful, save the user info in localStorage
+    localStorage.setItem('userData', JSON.stringify(data.user))
+  } catch (error) {
+    console.error('Sign-up failed:', error);
+  }
+
+}
+```
 
 ### Step 2: Retrieve User Data
 After storing the user's data in local storage, you can retrieve it anytime you need it by using `localStorage.getItem()` and then converting the JSON string back to an object using `JSON.parse()`.
