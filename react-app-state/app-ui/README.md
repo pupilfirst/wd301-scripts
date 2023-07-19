@@ -195,7 +195,6 @@ And then I've used these links on the right hand side of the navbar.
 Next, we will import and use the `Appbar` component in our `AccountLayout` component.
 ```tsx
 import * as React from "react"
-import { Outlet } from "react-router-dom"
 import Appbar from "./Appbar"
 
 const AccountLayout = () => {
@@ -218,7 +217,7 @@ export default AccountLayout;
 ### Step 4: Finding a way to show contents of child component
 Now our account layout is almost ready, but it has one problem. We haven't defined how the route specific contents will show up here. This means we have to give a placeholder for rendering child components.
 
-And for that, we will use a special component called, `Outlet` from the react-router-dom library. `Outlet` is primarily used in nested route configurations to define the location where child components should be rendered.
+And for that, we will use a special component called, `Outlet` from the `react-router-dom` library. `Outlet` is primarily used in nested route configurations to define the location where child components should be rendered.
 
 So, first we will simply import `Outlet` from the `react-router-dom` library.
 ```tsx
@@ -263,11 +262,13 @@ Before defining our app's routes, let's have a look at the official website of [
 > Click: I'm new (which will take you to a new page)
 > Visit the [Adding a router](https://reactrouter.com/en/main/start/tutorial#adding-a-router) section in this page
 
-So as you can see, React Router introduced the new [`createBrowserRouter`](https://reactrouter.com/en/main/routers/create-browser-router) hook, to define routes of a React application. And when I'm recording this lesson, this is the recommended router for all React Router web projects.
+So as you already know, React Router introduced the new [`createBrowserRouter`](https://reactrouter.com/en/main/routers/create-browser-router) hook, to define routes of a React application. 
 
-Along with that, `createBrowserRouter` also allows us to define our routes as a plain JavaScript object. So let's define the routes:
+So let's define the routes:
 
 ```tsx
+// src/routes/index.tsx
+
 import { createBrowserRouter } from "react-router-dom";
 
 import Signin from "../pages/signin"
@@ -294,11 +295,12 @@ Here,
 - then we've used `createBrowserRouter` to define the root route, which will show the signin page by default, a dedicated route for signin page and the route for signup page.
 
 ### Step 3: Load the router in `App` component
-OK, so our basic router is ready. Now we have to load and connect this new router in `App` component. So, I'll open the App component (means the `App.tsx` file) and there first I'll import the `RouterProvider` from `react-router-dom`. You can see the `RouterProvider` as an upgraded version of `BrowserRouter`.
+OK, so our basic router is ready. Now we have to load and connect this new router in `App` component. So, I'll open the App component (means the `App.tsx` file) and first I'll cleanup everything, and then I'll import the `RouterProvider` from `react-router-dom`. 
+
 ```tsx
-import React from "react";
+// src/App.tsx
+
 import { RouterProvider } from "react-router-dom";
-import "./App.css";
 import router from "./routes"
 
 const App = () => {
@@ -312,33 +314,8 @@ export default App;
 ```
 Here I've also imported the `router` from the `routes` folder and provided it to the `RouterProvider`.
 
-Next our primary index.tsx file (means the `src/index.tsx` file) needs a fix, as we have to remove the `BrowserRouter` from there.
-
-> Remove the BrowserRouter from `index.tsx` file
-
-The uppdated code would look something like this:
-```tsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-    <App />,
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
-```
-
-Now we are all set to test our new app routes. So, let's open http://localhost:3000 in browser to check if everything is working properly.
-> Action: open http://localhost:3000 in the browser and show output. First the signin page should come, then check the /signup and /signin routes as well.
+Now we are all set to test our new app routes. So, let's open http://localhost:5173 in browser to check if everything is working properly.
+> Action: open http://localhost:5173 in the browser and show output. First the signin page should come, then check the /signup and /signin routes as well.
 
 ### Step 4: Now let's define the protected path `/account`
 So far we've defined the public routes in our route file. Next, we will define the protected routes.
@@ -383,8 +360,8 @@ import { Navigate, useLocation } from "react-router-dom";
 export default function ProtectedRoute({ children }: { children: JSX.Element }) {
   const { pathname } = useLocation()
 
-  const isAuth = !!localStorage.getItem("authToken");
-  if (isAuth) {
+  const authenticated = !!localStorage.getItem("authToken");
+  if (authenticated) {
     return <>{children}</>;
   }
   return <Navigate to="/signin" replace  state={{ referrer: pathname }} />;
@@ -500,7 +477,7 @@ export default Members;
 ```
 
 Ok, now let's test it out.
-> Action: Open http://localhost:3000 in browser
+> Action: Open http://localhost:5173 in browser
 > Login (and it will redirect you to /dashboard path which is not defined in this route)
 
 So as you can see, after login we are getting redirected back to the `/dashboard` path which we've defined earlier in our `SigninForm` component. Now we've to change the after signin path to `/account`.
@@ -535,7 +512,7 @@ Similarly, in `SignupForm.tsx`, we've change the after signup path to `/account`
     }
 ```
 That's it, so let's test it out.
-> Action: Open http://localhost:3000 in browser
+> Action: Open http://localhost:5173 in browser
 > Signin and it should take the user to /account path
 > But the logout link is not working
 
@@ -577,7 +554,7 @@ export default Logout;
 ```
 
 And that's it, let's test it out.
-> Action: Open http://localhost:3000 in browser
+> Action: Open http://localhost:5173 in browser
 > Signin and logout to show both features
 
 So as you can see,
@@ -593,6 +570,8 @@ Though we can fine-tune this overall experience even more, like:
 Let's do that
 ### Step 7: Final fine-tunings
 ```tsx
+// src/routes/index.tsx
+
 import { createBrowserRouter, Navigate } from "react-router-dom";
 // ...
 // ...
