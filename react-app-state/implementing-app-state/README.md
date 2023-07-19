@@ -237,6 +237,8 @@ Next, using the `ProjectsProvider` component, we've have to make the projects st
 
 ### Step 4: Making the `ProjectsProvider` available in App component and it's child components
 ```tsx
+// src/App.tsx
+
 import React, { useContext } from "react";
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
@@ -250,7 +252,7 @@ import { ProjectsProvider } from "./context/projects/context";
 const App = () => {
   const { theme } = useContext(ThemeContext)
   return (
-    <div className={`h-full w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
+    <div className={`h-screen w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
       <ProjectsProvider>
         <RouterProvider router={router} />
       </ProjectsProvider>
@@ -343,7 +345,7 @@ export default function ProjectListItems() {
 And that's it. 
 
 Now, let's check if the projects page is working our browser or not:
-> Action: open http://localhost:3000 in browser
+> Action: open http://localhost:5173 in browser
 
 And, as you can see, the list of projects are coming.
 So, we've successfully accessed projects from application-level state.
@@ -449,7 +451,7 @@ type Inputs = {
 };
 
 const NewProject = () => {
-  let [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   // Dialogue 3: Next, I'll add a new state to handle errors.
   const [error, setError] = useState(null)
 
@@ -560,7 +562,7 @@ export default NewProject;
 ```
 
 Alright! finally we're ready to test the enrire projects module. Let's do it.
-> Open http://localhost:3000 in browser and create a project.
+> Open http://localhost:5173 in browser and create a project.
 
 So, as you can see, after creating a project, the new project is showing up in the projects list, automatically. Right? 
 
@@ -578,19 +580,8 @@ We've written a lot of code and we've also structured the code well. We've separ
 
 So, as part of cleanup activity, we will remove the following files:
 ```
-src/Form.tsx
-src/Header.tsx
-src/HomePage.tsx
-src/ReactPlayground.tsx
-src/Signin.tsx
-src/Task.tsx
-src/TaskApp.tsx
-src/TaskCard.css
-src/TaskDetailsPage.tsx
-src/TaskForm.tsx
-src/TaskList.tsx
 src/pages/dashboard/index.tsx
-src/types.ts
+src/pages/Notfound.tsx
 ```
 
 Alright, it looks like we're done for this level. Bye!
