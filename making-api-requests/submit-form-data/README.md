@@ -174,7 +174,7 @@ export default Form;
 
 In the `handleSubmit` function, we're making a POST request to the JSONPlaceholder API with the form data using `fetch()`. We're using `async` and `await` to handle the response from the API.
 
-So, we are all set to test it out. Let's open http://localhost:3000 in browser.
+So, we are all set to test it out. Let's open http://localhost:5173 in browser.
 > Action: Submit the form and Show the output on browser. Also keep network tab open to show the POST API call.
 
 As, as you can see, the form data is successfully getting submitted to the API endpoint. And in response we are getting the new post object.
