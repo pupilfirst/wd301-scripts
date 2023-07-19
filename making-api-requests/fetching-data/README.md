@@ -64,16 +64,12 @@ import ReactPlayground from './ReactPlayground';
 ...
 ...
 
-function App() {
+const App = () => {
   return (
-    <div>
-      {isHeaderVisible && <Header />}
+    <>
       <ReactPlayground />
-      <Routes>
-        ...
-        ...
-      </Routes>
-    </div>
+      <RouterProvider router={router} />
+    </>
   );
 }
 
@@ -82,7 +78,7 @@ export default App;
 
 Next, let's go back to the browser to check if it's working?
 
-> Visit http://localhost:3000 in browser and open the network console.
+> Visit http://localhost:5173 in browser and open the network console.
 So, as you can see, whenever we refresh the page, an API call is made to JSONPlaceholder, to get the list of all posts. Now let's use this data and print id, title and body attribute of each post in our `ReactPlayground` component.
 
 So, first we will define an interface call `Post` in the `ReactPlayground` component:
