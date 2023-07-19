@@ -116,39 +116,33 @@ export { ThemeContext, ThemeProvider };
 ```
 
 ### Step 2: Importing the custom provider
-Next, we've to update the `src/index.tsx` file to import and use our custom provider.
+Next, we've to update the `src/main.tsx` file to import and use our custom provider.
 ```tsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 import { ThemeProvider } from "./context/theme";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider>
     <App />
   </ThemeProvider>,
-);
-
-reportWebVitals();
+)
 ```
 So, here we've just simply replaced the `<ThemeContext.Provider>` with `<ThemeProvider>`. And the App component is being placed in between the `<ThemeProvider>` tags. Now the `App` component is going to show up as a prop to our `ThemeProvider` called `children` (*Action: Show ThemeProvider component and highlight the children part*). So, that's kind of how the `children` thing fits in, inside the `ThemeProvider`.
 
 ### Step 3: Update the places where we were consuming the context value
 Now at this moment if we would open the browser, you would see some errors in App component. And that's perfectly fine as we've to update the code there and change the way of accessing the `ThemeContext` value.
 ```tsx
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { RouterProvider } from "react-router-dom";
-import "./App.css";
 import router from "./routes"
 import { ThemeContext } from "./context/theme";
 
 const App = () => {
   const currentTheme = useContext(ThemeContext)
+
   return (
     <div>
       {currentTheme.theme}
@@ -182,13 +176,12 @@ const Appbar = () => {
             checked={enabled}
             onChange={setEnabled}
             className={`${enabled ? 'bg-slate-400' : 'bg-slate-700'}
-              relative inline-flex h-[24px] w-[60px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              relative inline-flex h-[24px] w-[100px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
           >
-            <span className="sr-only">Use setting</span>
             <span
               aria-hidden="true"
               className={`${enabled ? 'translate-x-9' : 'translate-x-0'}
-                pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
             />
           </Switch>
           <Menu as="div" className="relative ml-3">
@@ -214,7 +207,7 @@ So here,
 - And finally I just copied the complete JSX code of a very basic Switch, from the [headlessUI website](https://headlessui.com/react/switch).
 
 Now let's go back to the browser to check if the toggle switch is working or not.
-> Open localhost:3000 to check if the toggle switch is coming or not.
+> Open localhost:5173 to check if the toggle switch is coming or not.
 
 So, yes the switch is coming properly and I can toggle the button.
 
@@ -256,6 +249,9 @@ Next, we've to get the `onChange` event of the Switch, and then we've to call th
     setTheme(newTheme)
   }
 
+  // ...
+  // ...
+
   return (
     ...
     ...
@@ -274,7 +270,7 @@ Next, we've to get the `onChange` event of the Switch, and then we've to call th
 ```
 
 Now let's go to the browser to check if it's working or not
-> Open localhost:3000 to check if the toggle switch is working or not. On toggle it will change the context value. We've printed current theme value in App component, so that value should change accordingly.
+> Open localhost:5173 to check if the toggle switch is working or not. On toggle it will change the context value. We've printed current theme value in App component, so that value should change accordingly.
 
 Hey, it actually works!
 
@@ -294,7 +290,8 @@ Now, as per [TailwindCSS](https://tailwindcss.com/docs/dark-mode#toggling-dark-m
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {},
@@ -304,7 +301,7 @@ module.exports = {
 }
 ```
 
-Next, I'll update the App.css file, and add the default background and text color for dark mode:
+Next, I'll update the `src/index.css` file, and add the default background and text color for dark mode:
 ```css
 .dark {
   @apply bg-slate-800 text-zinc-50;
@@ -323,8 +320,8 @@ import { ThemeContext } from "./context/theme";
 const App = () => {
   const { theme } = useContext(ThemeContext)
   return (
-    <div className={`h-full w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
-      {currentTheme.theme}
+    <div className={`h-screen w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
+      {theme}
       <RouterProvider router={router} />
     </div>
   );
@@ -333,7 +330,7 @@ export default App;
 ```
 
 And that's it. Let's go back to the browser to check if it's working or not
-> Open localhost:3000 to check if the toggle switch is working or not
+> Open localhost:5173 to check if the toggle switch is working or not
 And yes! it's working as expected. So finally, our theme switcher is working as expected.
 
 So, that's all for this lesson, see you in the next one.
