@@ -90,6 +90,25 @@ Time to validate if it's working or not.
 
 So, as you can see, when I tried to access the `/hone` path before login, we got redirected to the login page. Once we've filled the login credentials and submitted the form, we got access to the `/hone` path.
 
-So, we've successfully configured the public and private routes for our application. 
+# Text
+Now at this moment, there are certain files in our project which we don't need right now, and we can simply delete them.
 
-That's it for this lesson, see you in the next one.
+So, as part of cleanup activity, we will remove the following files:
+```
+src/Form.tsx
+src/Layout.tsx
+src/ReactPlayground.tsx
+src/Signin.tsx
+src/Task.tsx
+src/TaskApp.tsx
+src/TaskCard.css
+src/TaskForm.tsx
+src/TaskList.tsx
+src/types.ts
+src/components/Header.tsx
+src/pages/HomePage.tsx
+src/pages/TaskDetailsPage.tsx
+src/pages/TaskListPage.tsx
+```
+
+Ok, now it looks clean.
