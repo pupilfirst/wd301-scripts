@@ -11,7 +11,7 @@ From now onwards, we will keep all of our components related to a specific page 
 Next, we will create a `signin` folder inside the `pages` directory. We will create all components related ti signin page inside this folder.
 > Action: Create a new folder called `signin` inside the `pages` directory.
 
-Then, inside the signin `folder` I'll add a new file called `index.tsx` with the following content:
+Then, inside the `signin` folder, I'll add a new file called `index.tsx` with the following content:
 ```tsx
 import React from 'react';
 
@@ -32,30 +32,47 @@ export default Signin;
 
 Let's add this new `Signin` component in our `App` component, i.e., _App.tsx_ file.
 ```tsx
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import NotFound from "./NotFound";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Notfound from "./pages/Notfound";
 import Signup from './pages/signup';
 // Dialogue 1: First, we've to import the Signin component
 import Signin from './pages/signin';
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Signup />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/signin", // then we've added the signin route
+    element: <Signin />,
+  },
+  {
+    path: "/notfound",
+    element: <Notfound />,
+  },
+  {
+    path: "*",
+    element: <Notfound />,
+  }
+]);
+
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" element={<Signup />} />
-        <Route exact path="/signup" element={<Signup />} />
-        { /* Dialogue 2: Then we will add route for signin path and render Signin page there */}
-        <Route exact path="/signin" element={<Signin/>} />
-        <Route path="/notfound" element={<NotFound />} />
-        <Route path="*" element={<Navigate to="/notfound" />} />
-      </Switch>
-    </Router>
+    <RouterProvider router={router} />
   );
-};
-export default App;
+}
+
+export default App
 ```
-Now, let's go back to the browser to check if Signin page is coming or not. For that, I'll open the following URL: http://localhost:3000/signin
+Now, let's go back to the browser to check if Signin page is coming or not. For that, I'll open the following URL: http://localhost:5173/signin
 > Action: Open browser and show the signin page.
 
 Great! the signin page is coming, now let's create the signin form. For that, I'll create a new file `SigninForm.tsx`, inside the `/src/pages/signin` folder.
@@ -64,6 +81,7 @@ Great! the signin page is coming, now let's create the signin form. For that, I'
 
 Here we will design the Signin form, and I'll add event handlers to store the form field values like: email and password in local state:
 ```tsx
+// SigninForm.tsx
 import React, { useState } from 'react';
 
 const SigninForm: React.FC = () => {
@@ -108,7 +126,7 @@ const Signin: React.FC<> = () => {
 export default Signin;
 ```
 Now, let's check the browser if Signin form is coming or not.
-> Action: Open http://localhost:3000/signin in browser and show the signin form.
+> Action: Open http://localhost:5173/signin in browser and show the signin form.
 
 That's great, our form is coming.
 
