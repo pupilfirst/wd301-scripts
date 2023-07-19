@@ -582,6 +582,8 @@ So, as part of cleanup activity, we will remove the following files:
 ```
 src/pages/dashboard/index.tsx
 src/pages/Notfound.tsx
+src/components/Header.tsx
+src/components
 ```
 
 Alright, it looks like we're done for this level. Bye!
