@@ -122,7 +122,7 @@ const Layout = () => {
     <>
       <Header />
       <main>
-        {/*Then we will simply used it in the placeholder that we've created before*/}
+        {/*Then we will simply used the Outlet in the placeholder that we've created before*/}
         <Outlet />
       </main>
     </>
