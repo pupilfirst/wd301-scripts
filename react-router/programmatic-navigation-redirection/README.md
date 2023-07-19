@@ -4,7 +4,7 @@ In this lesson, we will learn about how programmatic navigation and route redire
 
 Programmatic navigation and redirections allow you to navigate to different pages in your app or redirect to a different URL programmatically, using JavaScript code instead of clicking on a link or typing in a URL in the address bar.
 
-Let's say you want to add a sign in page to your Create React App project and redirect the user to the homepage after they've signed in successfully.
+Let's say we want to add a sign in page to our **smarter tasks** project and redirect the user to the homepage after they've signed in successfully.
 
 First, let's create a new `Signin` component for the sign in page:
 
@@ -82,7 +82,7 @@ export default Signin;
 
 In this example, we use a static username and password to test the programmatic navigation. We will use this to validate the user input and based on that update a local storage object with the authentication state.
 
-When the user submits the form, we're preventing the default form submission behaviour using e.preventDefault(), performing the sign in logic and finally redirecting the user to the homepage using `useNavigate`.
+When the user submits the form, we're preventing the default form submission behaviour using `e.preventDefault()`, performing the sign in logic and finally redirecting the user to the homepage using `useNavigate` hook.
 
 What we also do is when the user lands on the sign in page for the time the local storage entry for `authenticated` is set to false.
 
@@ -91,59 +91,79 @@ Next, let's add a new route for the Signin component to the `App.tsx` file:
 Add an additional route to the Router element in the file for the `Signin` component we created above.
 
 ```js
-<Route path="/signin" component={Signin} />
+const router = createBrowserRouter([
+  // ...
+  // ...
+  {
+    path: "/signin",
+    element: <Signin />,
+  }
+]);
 ```
 
-Also let us make sure that the always visible component, in this case, the `Header` should not be visible on the sign in page. Use can use  `useLocation` from `react-router-dom` for this scenario.
+Also let us make sure that the always visible component, in this case, the `Header` should not be visible on the sign in page. Use can use  `window.location.pathname` for this scenario.
 
 The final `App.tsx` might look something like this after the changes.
 
 ```js
-import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import "./App.css";
-
-import Header from "./Header";
-import HomePage from "./HomePage";
-import TaskApp from "./TaskApp";
-import TaskDetailsPage from "./TaskDetailsPage";
+import {
+  createBrowserRouter,
+  RouterProvider
+} from "react-router-dom";
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import TaskListPage from './pages/TaskListPage';
+import TaskDetailsPage from "./pages/TaskDetailsPage";
 import Signin from "./Signin";
 
-function App() {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/tasks",
+    element: <TaskListPage />,
+  },
+  {
+    path: "/tasks/:id",
+    element: <TaskDetailsPage />,
+  },
+  {
+    path: "/signin",
+    element: <Signin />,
+  },
+]);
 
- const location = useLocation();
 
- return (
-   <div>
-     {location.pathname !== "/signin" && <Header />}
-     <Routes>
-       <Route path="/" element={<HomePage />} />
-       <Route path="/tasks" element={ <TaskApp/> } />
-       <Route path="/tasks/:id" element={ <TaskDetailsPage/> } />
-       <Route path="/signin" element={ <Signin/>} />
-     </Routes>
-   </div>
- );
+const App = () => {
+
+  return (
+    <div>
+      {window.location.pathname !== "/signin" && <Header />}
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
-export default App;
+export default App
 ```
 
 Now, when the user navigates to `/signin`, the Signin component will be rendered.
 
-While this scenario works, if you navigate to the app using `https://localhost:3000` the Home page is still displayed. To prevent that, we need to create a ProtectedRoute. This helps you to programmatically decide what happens when a route is accessed.
+While this scenario works, if you navigate to the app using `https://localhost:5173` the Home page is still displayed. To prevent that, we need to create a ProtectedRoute. This helps you to programmatically decide what happens when a route is accessed.
 
 Let's create a file called `ProtectedRoute.tsx` in the `src` folder and add the following code.
 
 ```js
 import { Navigate } from "react-router-dom";
 
-export function ProtectedRoute({ element }: { element: JSX.Element }) {
- const authenticated = localStorage.getItem("authenticated");
- if (authenticated === "true") {
-   return element;
- } else {
-   return <Navigate to="/signin" />;
+export default function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const authenticated = localStorage.getItem("authenticated");
+  if (authenticated === 'true') {
+    return <>{children}</>;
+  } else {
+    return <Navigate to="/signin" />;
  }
 }
 ```
@@ -153,40 +173,63 @@ The above code checks for the validity of the `authenticated` entry in local sto
 Next, let's update the `App.tsx` to wrap our elements with the `ProtectedRoute`. The updated `App.tsx` code will be as below.
 
 ```js
-import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import "./App.css";
-
-import Header from "./Header";
-import HomePage from "./HomePage";
-import TaskApp from "./TaskApp";
-import TaskDetailsPage from "./TaskDetailsPage";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import TaskListPage from './pages/TaskListPage';
+import TaskDetailsPage from "./pages/TaskDetailsPage";
 import Signin from "./Signin";
-import { ProtectedRoute } from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
+
+const router = createBrowserRouter([
+  {
+    path: "/signin",
+    element: <Signin />,
+  },
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/tasks",
+    element: (
+      <ProtectedRoute>
+        <TaskListPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/tasks/:id",
+    element: (
+      <ProtectedRoute>
+        <TaskDetailsPage />
+      </ProtectedRoute>
+    ),
+  },
+]);
 
 
-function App() {
+const App = () => {
 
- const location = useLocation();
-
- return (
-   <div>
-     {location.pathname !== "/signin" && <Header />}
-     <Routes>
-       <Route path="/" element={<ProtectedRoute element={<HomePage />} />} />
-       <Route path="/tasks" element={<ProtectedRoute element={ <TaskApp/> } />} />
-       <Route path="/tasks/:id" element={<ProtectedRoute element={ <TaskDetailsPage/> } />} />
-       <Route path="/signin" element={ <Signin/>} />
-     </Routes>
-   </div>
- );
+  return (
+    <div>
+      {window.location.pathname !== "/signin" && <Header />}
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
-export default App;
-
+export default App
 ```
 
-In this example, we're creating wrappers for the existing routes with ProtectedRoute and this prevents the routes from loading if the criteria are not met.
+In this example, we're creating wrappers for the existing routes with `ProtectedRoute` and this prevents the routes from loading if the criteria are not met.
 
 That's it! Now, when the user tries to access the Home page without being authenticated, they'll be redirected to the sign in page. And when they sign in successfully, they'll be redirected to the Home page.
 
