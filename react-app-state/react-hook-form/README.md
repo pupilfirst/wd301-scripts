@@ -123,7 +123,7 @@ Then we will rename the previously defined `handleSubmit` function with the new 
 ```
 
 Ok, now let's check if everything is working properly or not.
-> Action: open localhost:3000 in browser and create a new project.
+> Action: open localhost:5173 in browser and create a new project.
 
 And our form is working properly, as expected.
 
