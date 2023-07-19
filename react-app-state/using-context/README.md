@@ -29,7 +29,7 @@ export default ThemeContext;
 From React v17 onwards, we've to pass a default value to our context object. And in this case we've passed the string `light` as default value. Which means, we want our theme to load the **light mode** by default.
 
 ### Step 2: Setting the provider
-Next, we are going to open primary index.tsx file (i.e src/App.tsx file). And there we will import our ThemeContext.
+Next, we are going to open primary main.tsx file (i.e src/main.tsx file). And there we will import our ThemeContext.
 ```tsx
 ...
 ...
@@ -37,25 +37,20 @@ import ThemeContext from "./context/theme";
 ...
 ...
 ```
-So inside here, we are going to wrap the existing `App` component with our new Theme Provider, like this:
+So inside here, we are going to wrap the existing `App` component with our new `ThemeProvider`, like this:
 ```tsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 import ThemeContext from "./context/theme";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeContext.Provider value="light">
     <App />
   </ThemeContext.Provider>,
-);
+)
 
-reportWebVitals();
 ```
 We've also set the `value` prop to "light". So, now our `App` component and all of it's child components can access this `ThemeContext` value.
 
@@ -102,14 +97,14 @@ export default App;
 ```
 
 Now let's go back to the browser to check if the value of `currentTheme` is getting printed or not.
-> Action: visit http://localhost:3000 in browser
+> Action: visit http://localhost:5173 in browser
 
 So it's coming! that's great.
 
 So we are successfully communicating some information, across our different components without using the props system.
 
-The only problem is that right now, if we want to change that value, we would have to go back into our `index.tsx` file, and change the hardcoded value to something else.
-> Show the index.tsx file where we are setting thre Theme provider value.
+The only problem is that right now, if we want to change that value, we would have to go back into our `main.tsx` file, and change the hardcoded value to something else.
+> Show the src/main.tsx file where we are setting thre Theme provider value.
 
 So if we would change it to 'dark', then it will show up in browser as well. So it is clear that we can use context to share information across different components, but having to manually change this value.
 Obviously, that is not going to work, and we have to think of some better way of updating that value in some other way.
