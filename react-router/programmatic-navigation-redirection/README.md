@@ -24,7 +24,7 @@ function Signin() {
    e.preventDefault();
    if (username === "admin" && password === "admin") {
      localStorage.setItem("authenticated", "true");
-     navigate("/");
+     navigate("/home");
    } else {
      alert("Invalid username or password");
    }
@@ -86,72 +86,56 @@ When the user submits the form, we're preventing the default form submission beh
 
 What we also do is when the user lands on the sign in page for the time the local storage entry for `authenticated` is set to false.
 
-Next, let's add a new route for the Signin component to the `App.tsx` file:
+Next, let's add the routes for the Signin component to the `App.tsx` file:
 
-Add an additional route to the Router element in the file for the `Signin` component we created above.
+```tsx
+// ...
+// ...
+import Signin from "./Signin";
 
-```js
+// ...
+// ...
 const router = createBrowserRouter([
   // ...
   // ...
   {
+    path: "/",
+    element: <Signin />,
+  },
+  {
     path: "/signin",
     element: <Signin />,
+  },  {
+    
+    element: (
+      <Layout />
+    ),
+    children: [
+      {
+        path: "home",
+        element: (<HomePage />)
+      },
+      {
+        path: "tasks",
+        element: (<TaskListPage />)
+      },
+      {
+        path: "tasks/:id",
+        element: (<TaskDetailsPage />)
+      },
+    ]
   }
 ]);
 ```
-
-Also let us make sure that the always visible component, in this case, the `Header` should not be visible on the sign in page. Use can use  `window.location.pathname` for this scenario.
-
-The final `App.tsx` might look something like this after the changes.
-
-```js
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom";
-import Header from './components/Header';
-import HomePage from './pages/HomePage';
-import TaskListPage from './pages/TaskListPage';
-import TaskDetailsPage from "./pages/TaskDetailsPage";
-import Signin from "./Signin";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/tasks",
-    element: <TaskListPage />,
-  },
-  {
-    path: "/tasks/:id",
-    element: <TaskDetailsPage />,
-  },
-  {
-    path: "/signin",
-    element: <Signin />,
-  },
-]);
-
-
-const App = () => {
-
-  return (
-    <div>
-      {window.location.pathname !== "/signin" && <Header />}
-      <RouterProvider router={router} />
-    </div>
-  );
-}
-
-export default App
-```
+Here, you would notice that:
+- By default I'm the Signin form in the root route ("/").
+- And I've also defined a dedicated `/signin` path for the Signin form as well.
+- I've modified the home page route to `/home`.
+- I've kept the signin page outside the scope of our Layout, as I don't want to show the header in the signin page.
 
 Now, when the user navigates to `/signin`, the Signin component will be rendered.
 
-While this scenario works, if you navigate to the app using `https://localhost:5173` the Home page is still displayed. To prevent that, we need to create a ProtectedRoute. This helps you to programmatically decide what happens when a route is accessed.
+While this scenario works, if you navigate to the app using `https://localhost:5173/home` the Home page is still displayed. To prevent that, we need to create a ProtectedRoute. This helps you to programmatically decide what happens when a route is accessed.
 
 Let's create a file called `ProtectedRoute.tsx` in the `src` folder and add the following code.
 
@@ -170,111 +154,109 @@ export default function ProtectedRoute({ children }: { children: JSX.Element }) 
 
 The above code checks for the validity of the `authenticated` entry in local storage and based on that sets the navigation route.
 
-Next, let's update the `App.tsx` to wrap our elements with the `ProtectedRoute`. The updated `App.tsx` code will be as below.
+Next, we will update the `App.tsx` to wrap our layout with the `ProtectedRoute`. By doing that, we will ensure that, any child routes of our `Layout` component should be authenticated.
 
-```js
+```tsx
+// App.tsx
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import TaskListPage from './pages/TaskListPage';
 import TaskDetailsPage from "./pages/TaskDetailsPage";
 import Signin from "./Signin";
 import ProtectedRoute from "./ProtectedRoute";
+import Layout from "./Layout";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Signin />,
+  },
   {
     path: "/signin",
     element: <Signin />,
   },
   {
-    path: "/",
+    
     element: (
       <ProtectedRoute>
-        <HomePage />
+        <Layout />
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/tasks",
-    element: (
-      <ProtectedRoute>
-        <TaskListPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/tasks/:id",
-    element: (
-      <ProtectedRoute>
-        <TaskDetailsPage />
-      </ProtectedRoute>
-    ),
-  },
+    children: [
+      {
+        path: "home",
+        element: (<HomePage />)
+      },
+      {
+        path: "tasks",
+        element: (<TaskListPage />)
+      },
+      {
+        path: "tasks/:id",
+        element: (<TaskDetailsPage />)
+      },
+    ]
+  }
 ]);
 
-
 const App = () => {
-
   return (
-    <div>
-      {window.location.pathname !== "/signin" && <Header />}
-      <RouterProvider router={router} />
-    </div>
+    <RouterProvider router={router} />
   );
 }
 
 export default App
 ```
-
-In this example, we're creating wrappers for the existing routes with `ProtectedRoute` and this prevents the routes from loading if the criteria are not met.
-
 That's it! Now, when the user tries to access the Home page without being authenticated, they'll be redirected to the sign in page. And when they sign in successfully, they'll be redirected to the Home page.
 
-Let us add a `Signout` option on the Header component, so the user can sign out from within the application.
+Now, let's add a `Signout` option on the Header component, so the user can sign out from within the application.
 
-We do this by adding a link to the Sign in page from within the application. As the Localstorage value for `authenticated` is reset on landing on the Sign in page, the user is Signed out from the application.
+We do this by adding a link to the Sign in page from within the application. So whenever a user would land on the Sign in page, the Localstorage value for `authenticated` is going to reset.
 
 The final `Header.tsx` might look something like this.
 
 ```js
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 const Header = () => {
-
- return (
-   <nav className="bg-gray-800 py-4">
-     <div className="mx-auto px-4">
-       <div className="flex justify-between">
-         <div className="flex items-center w-1/3">
-           <Link to="/" className="ml-6 text-gray-300 hover:text-white">
-             Home
-           </Link>
-           <Link to="/tasks" className="ml-6 text-gray-300 hover:text-white">
-             Tasks
-           </Link>
+  return (
+    <nav className="bg-gray-800 py-4">
+      <div className="mx-auto px-4">
+        <div className="flex justify-between">
+          <div className="flex items-center">
+            {/* We have to modify the home page link as well, from `/` to `/home` */}
+            <Link to="/home">
+              Home
+            </Link>
+            <Link to="/tasks">
+              Tasks
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <h1 className="text-white text-lg font-bold">Smarter Tasks</h1>
+          </div>
+          <div className="flex items-center w-1/3 justify-end">
+            <Link to="/signin" className="ml-6 text-gray-300 hover:text-white">
+              Signout
+            </Link>
          </div>
-         <div className="flex items-center w-1/3 justify-center">
-           <h1 className="text-white text-lg font-bold">Task Manager</h1>
-         </div>
-         <div className="flex items-center w-1/3 justify-end">
-           <Link to="/signin" className="ml-6 text-gray-300 hover:text-white">
-             Signout
-           </Link>
-         </div>
-       </div>
-     </div>
-   </nav>
- );
+        </div>
+      </div>
+    </nav>
+  );
 };
 
 export default Header;
 ```
 
-Routing is an important concept when learning React, and this form the basis of how the application state is transferred between different routes in the application. You can learn more in-depth references of how the React Router works by following the below links. See you at the next level.
+So, now let's head back to browser to check everything is working properly or not?
+> Action: Open (https://localhost:5173) and test.
+
+And it's working as expected. Great!
+
+So, routing is an important concept when learning React, and this form the basis of how the application state is transferred between different routes in the application. You can learn more in-depth references of how the React Router works by following the below links. See you at the next level.
 ## References:
 
 [React Router detailed Tutorial v6](https://reactrouter.com/en/main/start/tutorial)
