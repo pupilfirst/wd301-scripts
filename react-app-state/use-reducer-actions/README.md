@@ -189,7 +189,7 @@ And in state, we can set the `isLoading` to `false`.
 Now in this case, if you would like to show an error message to user, we can add a `errorMessage` property to the state and update it's value accordingly. We will skip that part for now.
 
 So, now if you would go back to the browser...
-> Open http://localhost:3000/account/projects in browser
+> Open http://localhost:5173/account/projects in browser
 
 Yes! the list of projects is coming. 
 
@@ -223,7 +223,7 @@ const reducer = (state: State, action: Action): State => {
 Now you might ask, why we've replaced the *if-statement* with the *switch-case*? Well, there were nothing wrong with the *if-statement*, using *switch-case* is just a design choice we are making to keep our code clean and readable.
 
 Ok, now let's do a check in the browser
-> Open http://localhost:3000/account/projects in browser
+> Open http://localhost:5173/account/projects in browser
 It's working.
 
 #### Step 4: Now let's fix the UI
@@ -247,7 +247,7 @@ Now our project list looks very basic, to fix it we will use card layout in the 
 ```
 
 Now let's do a final check, in the browser.
-> Open http://localhost:3000/account/projects in browser
+> Open http://localhost:5173/account/projects in browser
 
 So.... yes! everything is working as expected.
 
