@@ -56,7 +56,7 @@ Then, we will use the `NewProject` component, and we will place the "New Project
 ```
 
 Now, if we would go back to the browser
-> Open http://localhost:3000/account/projects in browser
+> Open http://localhost:5173/account/projects in browser
 Yes! the button is coming.
 
 ### Step 3: Open a dialog on button click
@@ -72,7 +72,7 @@ import { Fragment, useState } from 'react'
 
 const NewProject = () => {
   // Dialogue 4: Then we will use useState hook to handle local state for dialog component
-  let [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   // Dialogue 5: Then we add the openModal function. If you don't know, Modal and Dialog are almost same thing.
   const openModal = () => {
@@ -153,7 +153,7 @@ return (
 ```
 
 Now, lets go back the the browser to check, whenever we click on the button, the dialog is opening or not.
-> Open http://localhost:3000/account/projects in browser
+> Open http://localhost:5173/account/projects in browser
 
 Yes! the dialog is opening.
 
@@ -186,7 +186,7 @@ Next, we will design the form with only one field for project `name`.
 ```
 
 Now, lets go back the the browser to check, if the form is coming or not.
-> Open http://localhost:3000/account/projects in browser, and click new project button.
+> Open http://localhost:5173/account/projects in browser, and click new project button.
 
 ### Step 5: Add the event handler for input field.
 Then, we have to add an event handler to get the input field value, on `onChange` event.
@@ -225,10 +225,9 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 </form>
 ```
 Now, lets go back the the browser to check, whenever we wibmit the form, the form data is getting printed on the browser console or not.
-> Open http://localhost:3000/account/projects in browser, open browser console, fill the input and click Submit button. The form data should get printed to console.
+> Open http://localhost:5173/account/projects in browser, open browser console, fill the input and click Submit button. The form data should get printed to console.
 
 And yes! the project name is getting printed, whenever we submit the form.
-
 
 ### Step 7: Making the API call on form submit event, with form data.
 Next, we've to make tha API call with form data, to create the new project. So, for that let's open the API doc first to check the request payload details:
@@ -296,7 +295,7 @@ Now to prevent any unexpected error, I'll wrap this API call with a `try-catch` 
   };
 ```
 Now our `handleSubmit` method is almost ready, let's test it in browser.
-> Action: open http://localhost:3000/account/projects in browser, and open browser console. Fill the data and submit the form. Show the browser console as the new project data will get printed there.
+> Action: open http://localhost:5173/account/projects in browser, and open browser console. Fill the data and submit the form. Show the browser console as the new project data will get printed there.
 
 So, 
 - After filling the form, once we submit,
@@ -333,7 +332,7 @@ Now the form UI looks kind of basic, which we can improve using some TailwindCSS
 ```
 
 Let's go to the browser for one final check
-> Action: open http://localhost:3000/account/projects in browser, and open the dialog and show the form.
+> Action: open http://localhost:5173/account/projects in browser, and open the dialog and show the form.
 
 Yes! this UI looks good. 
 
