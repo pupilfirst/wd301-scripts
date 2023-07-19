@@ -69,62 +69,73 @@ Then, inside the signup `folder` I'll add a new file called `index.tsx` with the
 import React from 'react';
 
 // Dialogue 1: Let's define the Signup component
-const Signup: React.FC<> = () => {
+const Signup = () => {
   return (
     <div>
-      { /* Dialogue 2: with a basic h1 tag, Sign up */}
       <h1>Sign up</h1>
     </div>
   );
 }
 
-// Dialogue 3: And finally, we've to export the component
+// Dialogue 2: And finally, we've to export the component
 export default Signup;
 ```
 
 Let's add this new `Signup` component in our `App` component.
 ```tsx
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
-import NotFound from "./NotFound";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Notfound from "./pages/Notfound";
 import Signup from './pages/signup';
 
-function App() {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Signup />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/notfound",
+    element: <Notfound />,
+  },
+  {
+    path: "*",
+    element: <Notfound />,
+  }
+]);
 
+const App = () => {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Signup/>} />
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/notfound" element={<NotFound />} />
-        <Route path="*" element={<Navigate to="/notfound" />} />
-      </Routes>
-    </div>
+    <RouterProvider router={router} />
   );
 }
 
-export default App;
-
+export default App
 ```
-So, we've cleaned up all the routes that `App` component had previously, and only added the `signup` route. Now, let's go back to the browser to check if Signup page is coming or not.
+So, as you can see, I've cleaned up all the routes and related imports that `App` component had previously, and only added the `signup` route. Now, let's go back to the browser to check if Signup page is coming or not.
 
-> Action: Open http://localhost:3000 in browser and show the signup page.
+> Action: Open http://localhost:5173 in browser and show the signup page.
 
-Great! the signup page is coming, now let's create the signup form. For that, I'll create a new file SignupForm.tsx inside the `/src/pages/signup` folder.
+Great! the signup page is coming, now let's create the signup form. For that, I'll create a new file `SignupForm.tsx` inside the `/src/pages/signup` folder.
 
 > Action: Create SignupForm.tsx inside `/src/pages/signup` directory
 
 ```tsx
+// src/pages/signup/SignupForm.tsx
 import React from 'react';
 
 const SignupForm: React.FC = () => {
   return (
     <form>
-      <input name="organisationName" name="organisationName" id="organisationName" type="text" />
-      <input name="userName" name="userName" id="userName" type="text" />
-      <input name="userEmail" name="userEmail" id="userEmail" type="email" />
-      <input name="userPassword" name="userPassword" id="userPassword" type="password" />
+      <input name="organisationName" id="organisationName" type="text" />
+      <input name="userName" id="userName" type="text" />
+      <input name="userEmail" id="userEmail" type="email" />
+      <input name="userPassword" id="userPassword" type="password" />
       <button type="submit">Submit</button>
     </form>
   );
@@ -156,6 +167,7 @@ export default Signup;
 
 Next, I'll add event handlers to store the form field values in our component's state:
 ```tsx
+// src/pages/signup/SignupForm.tsx
 import React, { useState } from 'react';
 
 const SignupForm: React.FC = () => {
@@ -204,7 +216,7 @@ const SignupForm: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${API_ENDPOINT}/organisations`, {
+      const response = await fetch(`https://wd301-api.pupilfirst.school/organisations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: organisationName, user_name: userName, email: userEmail, password: userPassword}),
@@ -237,14 +249,14 @@ Now, there is a scope of small re-fractoring, i.e. the API endpoint `https://wd3
 
 I'll create a `src/config/constants.ts` file, and add the following content there:
 ```ts
-export const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT
 ```
 
-Here, we are trying to read the `REACT_APP_API_ENDPOINT` from environment, and setting the value in a constant called `API_ENDPOINT`.
+Here, we are trying to read the `VITE_API_ENDPOINT` from environment, and setting the value in a constant called `API_ENDPOINT`.
 
 Next, we have a set this environment variable, and for that we will create a `.env` file in our project root folder, with the following content:
 ```
-REACT_APP_API_ENDPOINT=https://wd301-api.pupilfirst.school
+VITE_API_ENDPOINT=https://wd301-api.pupilfirst.school
 ```
 
 Then I'll import this constant in our `SignupForm` component:
