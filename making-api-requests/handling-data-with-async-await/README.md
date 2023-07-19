@@ -55,7 +55,7 @@ In this component, we've declared the `fetchData` function as `async`, which mea
 Then we've used the `setData` function to update the `data`. And once the data updates, it rerenders the component.
 
 Now let's go back to the browser to check if it's working.
-> Action: Open http://localhost:3000 in browser and open the network console
+> Action: Open http://localhost:5173 in browser and open the network console
 As you can see, when we refresh the page, it's making an API call to the JSONPlaceholder and fetching the list of posts. So, initially when the `data` is an empty array, we are unable to see any post. But as soon as the API call is made, then the `setData` function is getting called, which is updating the `data` value in component state. And once the data updates, the component rerenders and shows the list of all posts.
 
 So, that was a quick re-fractoring on fetching data in React more efficiently. We've used `async and await` to make the code more readable and easier to follow, as it avoids nested callbacks and allows the code to be written in a more sequential manner.
