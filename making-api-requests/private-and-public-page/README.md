@@ -4,21 +4,21 @@ In this lesson, we will learn to use the session information stored in localStor
 # Script
 In this lesson, we will use conditional rendering in React Router to show public and protected pages, based on user's authentication status.
 
-First, we will create a home page, and then we will configure it to be a protected page.
+First, we will create a dashboard page, and then we will configure it to be a protected page.
 
-For that, let's create a new `src/pages/home/index.tsx` file with the following content:
+For that, let's create a new `src/pages/dashboard/index.tsx` file with the following content:
 ```tsx
 import React from 'react';
 
-const Home: React.FC = () => {
+const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Tasks</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Dashboard</h1>
     </div>
   );
 }
 
-export default Home;
+export default Dashboard;
 ```
 
 Next, we will import the Home page in our App component, i.e. *src/App.tsx* file.
@@ -30,13 +30,13 @@ import {
 import Notfound from "./pages/Notfound";
 import Signup from './pages/signup';
 import Signin from './pages/signin';
-import Home from "./pages/home";
+import Dashboard from "./pages/dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 ...
 ...
 ```
 
-Then, we will use the `ProtectedRoute` to configure the `home` path as a protected route:
+Then, we will use the `ProtectedRoute` to configure the `/dashboard` path as a protected route:
 ```tsx
 // ...
 // ...
@@ -59,10 +59,10 @@ const router = createBrowserRouter([
     element: <Notfound />,
   },
   {
-    path: "/home",
+    path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <Home />
+        <Dashboard />
       </ProtectedRoute>
     ),
   },
@@ -84,11 +84,11 @@ export default App
 Time to validate if it's working or not.
 
 > Action: Open http://localhost:5173 in browser.
-> First try with /hone
+> First try with /dashboard
 > Then login
-> Then visit /hone
+> Then visit /dashboard
 
-So, as you can see, when I tried to access the `/hone` path before login, we got redirected to the login page. Once we've filled the login credentials and submitted the form, we got access to the `/hone` path.
+So, as you can see, when I tried to access the `/dashboard` path before login, we got redirected to the login page. Once we've filled the login credentials and submitted the form, we got access to the `/dashboard` path.
 
 # Text
 Now at this moment, there are certain files in our project which we don't need right now, and we can simply delete them.
