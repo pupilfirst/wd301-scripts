@@ -333,4 +333,9 @@ And that's it. Let's go back to the browser to check if it's working or not
 > Open localhost:5173 to check if the toggle switch is working or not
 And yes! it's working as expected. So finally, our theme switcher is working as expected.
 
+**Note:**
+Now one important point to note here is that, the accuracy of dark-mode light-mode depends on the how you use the Tailwind CSS classes in your components. Ideally along with default CSS classes (for light mode), you should always try out the `dark:` variant well.
+
+Currently in our application, you would notice that there are some places where the dark variant is not applied properly. I leave that task to you.
+
 So, that's all for this lesson, see you in the next one.
