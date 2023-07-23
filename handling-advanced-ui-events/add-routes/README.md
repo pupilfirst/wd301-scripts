@@ -73,7 +73,7 @@ Save the file. Now try visiting `/accounts/projects/1/`.
 
 You will see `Show project details` text being displayed.
 
-If you visit `/accounts/projects/1/tasks/new`, you will see `Show Modal window to create a task` text along with `Show project details`. So later when we implement the modal window, it will be overlayed above the project detail content.
+If you visit `/account/projects/1/tasks/new`, you will see `Show Modal window to create a task` text along with `Show project details`. So later when we implement the modal window, it will be overlayed above the project detail content.
 
 Instead if you visit `/account/projects/1/tasks/2`, you will see `Show Task Details` text being rendered. We will also display task details as a modal window over the project details.
 
