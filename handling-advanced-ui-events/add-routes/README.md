@@ -67,7 +67,7 @@ Similarly, we can create routes to render tasks details, creating a new task. So
 },
 ```
 
-We do some route handling like making sure any visit to the url `/accounts/projects/:projectID/tasks` will be redirected to `/accounts/projects/:projectID/` because eventually the tasks will be displayed in the project detail page itself.
+We do some route handling like making sure any visit to the url `/account/projects/:projectID/tasks` will be redirected to `/account/projects/:projectID/` because eventually the tasks will be displayed in the project detail page itself.
 
 Save the file. Now try visiting `/accounts/projects/1/`.
 
