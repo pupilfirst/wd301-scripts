@@ -186,9 +186,7 @@ const TaskDetails = () => {
   const taskListState = useTasksState();
   const taskDispatch = useTasksDispatch();
 
-  const selectedProject = projectState?.projects.filter(
-    (project) => `${project.id}` === projectID
-  )[0];
+  const selectedProject = projectState?.activeProject;
 
   const selectedTask = taskListState.projectData.tasks[taskID ?? ""];
   // Use react-form-hook to manage the form. Initialize with data from selectedTask.
@@ -370,7 +368,6 @@ Update the component to be rendered on visiting task details page.
 ```tsx
 {
   path: "projects",
-  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
