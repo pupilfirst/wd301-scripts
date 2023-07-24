@@ -128,7 +128,7 @@ We will also import `refreshTasks` from `actions.ts`.
 import { refreshTasks } from "../../context/task/actions";
 ```
 
-Now, we will make use of the `useEffect` hook to trigger `refreshTasks`.
+Now, we will make use of the `useEffect` hook to trigger `refreshTasks`. We can extract the project `id` from url using the `useParams` hook from `react-router-dom`.
 
 ```tsx
 import React, { useEffect } from "react";
@@ -148,9 +148,7 @@ const ProjectDetails = () => {
   useEffect(() => {
     if (projectID) refreshTasks(taskDispatch, projectID);
   }, [projectID, taskDispatch]);
-  const selectedProject = projectState?.projects.filter(
-    (project) => `${project.id}` === projectID
-  )?.[0];
+  const selectedProject = projectState?.activeProject;
 
   if (!selectedProject) {
     return <>No such Project!</>;
