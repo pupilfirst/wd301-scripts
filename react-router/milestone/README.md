@@ -26,6 +26,7 @@ At this point in the course, this is how your repo should be structured:
 |   |   ├── pages
 |   |   |   ├── HomePage.tsx
 |   |   |   ├── Notfound.tsx
+|   |   |   ├── Signin.tsx
 |   |   |   ├── TaskDetailsPage.tsx
 |   |   |   └── TaskListPage.tsx
 |   |   ├── App.tsx
@@ -33,7 +34,6 @@ At this point in the course, this is how your repo should be structured:
 |   |   ├── Layout.tsx
 |   |   ├── main.tsx
 |   |   ├── ProtectedRoute.tsx
-|   |   ├── Signin.tsx
 |   |   ├── Task.tsx
 |   |   ├── TaskApp.tsx
 |   |   ├── TaskCard.css
