@@ -8,17 +8,14 @@ We will add a `button` wrapped in `Link` to navigate to `tasks/new` url, so that
 
 ```tsx
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useProjectsState } from "../../context/projects/context";
 
 const ProjectDetails = () => {
   const projectState = useProjectsState();
-  let { projectID } = useParams();
 
-  const selectedProject = projectState?.projects.filter(
-    (project) => `${project.id}` === projectID
-  )?.[0];
+  const selectedProject = projectState?.activeProject;
 
   if (!selectedProject) {
     return <>No such Project!</>;
@@ -230,7 +227,7 @@ import { TasksProvider } from "../../context/task/context";
 We will wrap the `ProjectDetails` component with `TasksProvider`, so that values passed in the context are available in `ProjectDetails` component.
 
 ```tsx
-const ProjectDetailsIndex: React.FC = () => {
+const ProjectDetailsContainer: React.FC = () => {
   return (
     <TasksProvider>
       <ProjectDetails />
@@ -269,9 +266,7 @@ const NewTask = () => {
   const taskDispatch = useTasksDispatch();
 
   // We do some sanity checks to make sure the `projectID` passed is a valid one
-  const selectedProject = projectState?.projects.filter(
-    (project) => `${project.id}` === projectID
-  )?.[0];
+  const selectedProject = projectState?.activeProject;
   if (!selectedProject) {
     return <>No such Project!</>;
   }
@@ -404,7 +399,6 @@ Next, we will ask router to render this component for new task url.
 ```tsx
 {
   path: "projects",
-  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
