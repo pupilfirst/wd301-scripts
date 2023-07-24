@@ -111,7 +111,7 @@ import ProjectDetails from "./ProjectDetails";
 
 import { Outlet } from "react-router-dom";
 
-const ProjectDetailsIndex: React.FC = () => {
+const ProjectDetailsContainer: React.FC = () => {
   return (
     <>
       <ProjectDetails />
@@ -120,7 +120,7 @@ const ProjectDetailsIndex: React.FC = () => {
   );
 };
 
-export default ProjectDetailsIndex;
+export default ProjectDetailsContainer;
 
 ```
 
@@ -139,7 +139,6 @@ Then we will replace the component to be rendered in the route.
 ```tsx
 {
   path: "projects",
-  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
