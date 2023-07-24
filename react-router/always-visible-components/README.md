@@ -14,27 +14,24 @@ So, let's start with the implementation.
 For that, we will create a new file called `Header.tsx` in the `src/components` folder of our `smarter-tasks` project.
 
 In the `Header.tsx` file, add the following code to create a simple header component with navigation for the routes we created.
+
 ```tsx
-// src/components/Header.tsx
-import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <nav className="bg-gray-800 py-4">
       <div className="mx-auto px-4">
         <div className="flex justify-between">
-          <div className="flex items-center">
-            <Link to="/">
+          <div className="flex items-center w-1/3">
+          <a href="/home" className="ml-6 text-gray-300 hover:text-white">
               Home
-            </Link>
-            <Link to="/tasks">
+            </a>
+            <a href="/tasks" className="ml-6 text-gray-300 hover:text-white">
               Tasks
-            </Link>
+            </a>
           </div>
-          <div className="flex items-center">
-            <h1 className="text-white text-lg font-bold">Smarter Tasks</h1>
+          <div className="flex items-center w-1/3 justify-center">
+            <h2 className="text-white text-lg font-bold">Smarter Tasks</h2>
           </div>
-          <div className="flex items-center w-1/3 justify-end">
-         </div>
         </div>
       </div>
     </nav>
@@ -45,9 +42,10 @@ export default Header;
 ```
 
 ### Step 2: Next, we will define our layout
+
 So, we'll create a new component called `Layout.tsx` inside our `src` directory. 
+
 ```tsx
-// src/Layout.tsx
 import Header from './components/Header';
 
 const Layout = () => {
@@ -66,7 +64,9 @@ export default Layout;
 So, `Layout` is nothing but a simple component, right? But I've kept a placeholder where I want to show some route specific content. How we will do that, we will figure out later.
 
 ### Step 3: Now, let's use our new Layout component
+
 For that, we will import the `Layout` component in `App.tsx` file and use it in our route definition.
+
 ```tsx
 import {
   createBrowserRouter,
@@ -106,12 +106,15 @@ export default App
 Here, I've defined all of our routes (like: homepage, tasks page etc.) as child route of `<Layout>` component. And that's how our `<Layout>` is acting as an **app shell** for all other routes.
 
 Now let's head back to browser to check if it's working or not.
+
 > Action: Open http://localhost:5173/ in browser.
+
 >  So as you can see, the Header component is showing up perfectly, and using the links we can gavigate to Home and Tasks page as well. But something is wrong here, where are our content for Home and Tasks page?
 
 So to fix it, we will use a special component called, `Outlet` from the react-router-dom library. `Outlet` is primarily used in nested route configurations to define the location where child components should be rendered.
 
 So, in our `Layout.tsx` file, first we will simply import `Outlet` from the `react-router-dom` library.
+
 ```tsx
 import { Outlet } from "react-router-dom"
 import Header from './components/Header';
@@ -122,7 +125,6 @@ const Layout = () => {
     <>
       <Header />
       <main>
-        {/*Then we will simply used the Outlet in the placeholder that we've created before*/}
         <Outlet />
       </main>
     </>
@@ -130,13 +132,15 @@ const Layout = () => {
 }
 export default Layout;
 ```
+
 Then we've simply used `Outlet` inside the `main`.
 
-So, let's go back to the browser once again
+So, let's go back to the browser once again,
+
 > Action: Open http://localhost:5173/ in browser.
 > And yes, this time it's working as expected.
 
-So, when we navigate to any page of our application, the `Header` component will be visible.
+When we navigate to any page of our application, the `Header` component will be visible.
 
 So, we have successfully created always visible components using React Router, in our project. We can use this approach to create any component that we want to be always visible, such as a footer or a sidebar etc.
 
