@@ -218,7 +218,7 @@ So the `ProjectDetails` component looks like:
 
 ```tsx
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useTasksState } from "../../context/task/context";
 import DragDropList from "./DragDropList";
@@ -228,12 +228,9 @@ const ProjectDetails = () => {
   // Extract task and project from context
   const tasksState = useTasksState();
   const projectState = useProjectsState();
-  let { projectID } = useParams();
 
   // Get the selected project based on `projectID`
-  const selectedProject = projectState?.projects.filter(
-    (project) => `${project.id}` === projectID
-  )?.[0];
+  const selectedProject = projectState?.activeProject;
 
   // Display error if there is no project with given id.
   if (!selectedProject) {
@@ -269,5 +266,16 @@ export default ProjectDetails;
 ```
 
 Now save the file. We can see the tasks as being rendered as lists. You can add some dummy data in `initialData.ts` and refresh the page to see them populating correctly in the columns.
+
+> `react-beautiful-dnd` doesn't work in react `strict` mode. So you need to make sure the `App` component is **not** rendered within `<React.StrictMode>` in `main.tsx`
+
+```tsx
+// This won't work
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+```
 
 See you in the next lesson.
