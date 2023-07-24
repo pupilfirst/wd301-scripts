@@ -21,7 +21,7 @@ Let's display assigned user's name in the task or render a `-` if the task is un
 
 Save the file.
 
-Next, we need to fetch the list of members of the organisation, when the project detail page is visited. Switch to `ProjectContainer.tsx` file. And import the required functions.
+Next, we need to fetch the list of members of the organisation, when the project detail page is visited. Switch to `src/pages/project_details/index.tsx` file. And import the required functions.
 
 ```tsx
 import { useMembersDispatch } from "../../context/members/context";
@@ -31,17 +31,23 @@ import { fetchMembers } from "../../context/members/actions";
 Then we can dispatch the action in `useEffect`
 
 ```tsx
-const ProjectContainer = () => {
+const ProjectDetailsContainer: React.FC = () => {
+  let { projectID } = useParams();
   const projectDispatch = useProjectsDispatch();
-  const memberDispatch = useMembersDispatch();
+  const memberDispatch = useMembersDispatch()
   useEffect(() => {
-    fetchProjects(projectDispatch);
     fetchMembers(memberDispatch);
-  }, [projectDispatch, memberDispatch]);
-  return <Outlet />;
+    if (projectID) fetchProject(projectDispatch, projectID);
+  }, [projectID, projectDispatch, memberDispatch]);
+  return (
+      <TasksProvider>
+          <ProjectDetails />
+          <Outlet />
+      </TasksProvider>
+  );
 };
 
-export default ProjectContainer;
+export default ProjectDetailsContainer;
 ```
 
 Now, the missing piece is to actually render a list from which a user can be assigned in the task detail view. We will make use of [`Listbox` component](https://headlessui.com/react/listbox) from headless UI.
