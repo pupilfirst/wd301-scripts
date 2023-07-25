@@ -104,7 +104,7 @@ The `ErrorBoundary` component will catch any errors thrown by its children compo
 import React, { Suspense } from "react";
 const ProjectList = React.lazy(() => import("./ProjectList"));
 import NewProject from "./NewProject";
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 const Projects = () => {
 return (
