@@ -73,7 +73,6 @@ At this point in the course, this is how your repo should be structured:
 |   |   |   ├── projects/
 |   |   |   |   ├── index.tsx
 |   |   |   |   ├── NewProject.tsx
-|   |   |   |   ├── ProjectContainer.tsx
 |   |   |   |   ├── ProjectList.tsx
 |   |   |   |   └── ProjectListItems.tsx
 |   |   |   ├── signin/
