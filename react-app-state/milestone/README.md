@@ -26,6 +26,10 @@ At this point in the course, this is how your repo should be structured:
 |   |   ├── config
 |   |   |   └── constants.ts
 |   |   ├── context
+|   |   |   ├── members/
+|   |   |   |   ├── actions.ts
+|   |   |   |   ├── context.tsx
+|   |   |   |   └── reducer.ts
 |   |   |   ├── projects/
 |   |   |   |   ├── actions.ts
 |   |   |   |   ├── context.tsx
@@ -41,7 +45,10 @@ At this point in the course, this is how your repo should be structured:
 |   |   |   ├── logout/
 |   |   |   |   └── index.tsx
 |   |   |   ├── members/
-|   |   |   |   └── index.tsx
+|   |   |   |   ├── index.tsx
+|   |   |   |   ├── NewMember.tsx
+|   |   |   |   ├── MemberList.tsx
+|   |   |   |   └── MemberListItems.tsx
 |   |   |   ├── projects/
 |   |   |   |   ├── index.tsx
 |   |   |   |   ├── NewProject.tsx
