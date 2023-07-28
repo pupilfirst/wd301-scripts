@@ -102,7 +102,7 @@ export default function ProtectedRoute({ children }: { children: JSX.Element }) 
 ```
 Here, we are using the getItem method of the Local Storage API to retrieve the authentication token with the key `authToken`. We then use the `!!` operator to convert the value to a boolean.
 
-Now the value of the `isAuth` constant will determine whether the user is authenticated or not. if not, then we are redirecting the user to the signin page.
+Now the value of the `authenticated` constant will determine whether the user is authenticated or not. if not, then we are redirecting the user to the signin page.
 
 To conclude, in this lesson, we learned how to persist user sessions in ReactJs using the Local Storage API. We saw how we can store the authentication token in Local Storage, retrieve it on subsequent requests. By persisting the user session, we can provide a seamless experience to our users and improve the overall usability of our web applications.
 
