@@ -35,7 +35,7 @@ Here, we have added a nested route with url `:projectID` and will render a fragm
 You will have to import `Outlet` from `react-router-dom` to use it.
 
 ```tsx
-import { Outlet } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 ```
 
 Similarly, we can create routes to render tasks details, creating a new task. So the `routes/index.tsx` will look like:
