@@ -17,6 +17,9 @@ const ProjectDetails = () => {
 
   const selectedProject = projectState?.activeProject;
 
+  if (projectState?.isLoading) {
+    return <>Loading...</>;
+  }
   if (!selectedProject) {
     return <>No such Project!</>;
   }
@@ -51,9 +54,9 @@ Next, we will render a modal window, which will accept `title`, `description`, a
 
 We have to first create and setup a context, actions and reducer like we did while creating a project.
 
-Let's create a folder `task` in `src/context`. We will next create empty files `actions.ts`, `context.tsx`, `reducer.ts`, and `types.ts`.
+Let's create a folder `tasks` in `src/context`. We will next create empty files `actions.ts`, `context.tsx`, `reducer.ts`, and `types.ts`.
 
-Open `src/context/task/types.ts` and add actions for the API request. We will also create a `TaskListState` to hold loading status of API requests and a `TasksDispacth` type to be used with context. We will use `enum` to store the list of actions available.
+Open `src/context/tasks/types.ts` and add actions for the API request. We will also create a `TaskListState` to hold loading status of API requests and a `TasksDispacth` type to be used with context. We will use `enum` to store the list of actions available.
 
 ```ts
 export interface TaskListState {
@@ -81,7 +84,7 @@ export type TasksDispatch = React.Dispatch<TaskActions>;
 
 Save the file.
 
-Next, we need to create a reducer. Open `src/context/task/reducer.ts`. Here, we will update the state based on action that is dispatched. We will toggle the `isLoading` to true when the request is initiated. Then, we will turn it to `false` when the request succeeds, or update the state with an error message.
+Next, we need to create a reducer. Open `src/context/tasks/reducer.ts`. Here, we will update the state based on action that is dispatched. We will toggle the `isLoading` to true when the request is initiated. Then, we will turn it to `false` when the request succeeds, or update the state with an error message.
 
 ```tsx
 import { Reducer } from "react";
@@ -121,7 +124,7 @@ Now we have our reducer ready.
 
 Next, we need to add the actual API call that needs to be invoked to create a task.
 
-Let's open `src/context/task/actions.ts` and update it as per the following code.
+Let's open `src/context/tasks/actions.ts` and update it as per the following code.
 
 ```tsx
 
@@ -189,7 +192,7 @@ Switch back to `actions.ts`.
 
 In this file, we provide a `dispatch`, `projectID`, and `task` to create a new task. We are sending a POST request to `{API_ENDPOINT}/projects/{projectID}/tasks/` as mentioned in [Create Task API doc](https://wd301-api.pupilfirst.school/#/Tasks/post_projects__projectId__tasks)
 
-Next, we need to create a context, so that we can pass around the state and actions to components. Open `src/context/task/context.tsx` and create `TasksStateContext` and `TasksDispatchContext` similar to how we added `ProjectsStateContext` and `ProjectsDispatchContext` . We will also create `useTasksState` and `useTasksDispatch` hooks to make the context easier to use in components.
+Next, we need to create a context, so that we can pass around the state and actions to components. Open `src/context/tasks/context.tsx` and create `TasksStateContext` and `TasksDispatchContext` similar to how we added `ProjectsStateContext` and `ProjectsDispatchContext` . We will also create `useTasksState` and `useTasksDispatch` hooks to make the context easier to use in components.
 
 ```tsx
 import React, { createContext, useContext, useReducer } from "react";
@@ -221,7 +224,7 @@ Next, we will use this context to pass the list of tasks to the `ProjectDetail` 
 Open `index.tsx` file from `src/pages/project_details` folder in VS Code and import the newly created context in it.
 
 ```tsx
-import { TasksProvider } from "../../context/task/context";
+import { TasksProvider } from "../../context/tasks/context";
 ```
 
 We will wrap the `ProjectDetails` component with `TasksProvider`, so that values passed in the context are available in `ProjectDetails` component.
@@ -246,9 +249,9 @@ import { Fragment, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useProjectsState } from "../../context/projects/context";
-import { useTasksDispatch } from "../../context/task/context";
-import { addTask } from "../../context/task/actions";
-import { TaskDetailsPayload } from "../../context/task/types";
+import { useTasksDispatch } from "../../context/tasks/context";
+import { addTask } from "../../context/tasks/actions";
+import { TaskDetailsPayload } from "../../context/tasks/types";
 
 const NewTask = () => {
   let [isOpen, setIsOpen] = useState(true);
