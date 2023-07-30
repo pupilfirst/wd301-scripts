@@ -1,6 +1,6 @@
 # Text
 
-Now that we have added routes to display project, details, let's add a hyperlink to the project name. So when a user clicks on it, they will be taken to detail page of the corresponding project.
+Now that we have added routes to display project details, let's add a hyperlink to the project name. So, when a user clicks on it, they will be taken to detail page of the corresponding project.
 
 Open `src/pages/projects/ProjectListItems.tsx` in VS Code.
 
@@ -62,7 +62,7 @@ In this component, we will extract the value of `projectID`, then filter it out 
 
 To validate a given project `id`, we will have to send a request to backend. Let's add such a request to project context and actions.
 
-Open `src/context/project/reducer.ts` file.
+Open `src/context/projects/reducer.ts` file.
 
 We will add an `activeProject` key to the `ProjectsState` interface. This key will hold the project details if the given project `id` is valid else it will be `undefined`.
 
@@ -84,9 +84,9 @@ export type ProjectsActions =
   | { type: "FETCH_PROJECTS_SUCCESS"; payload: Project[] }
   | { type: "FETCH_PROJECTS_FAILURE"; payload: string }
   | { type: "ADD_PROJECT_SUCCESS"; payload: Project }
-  | { type: "GET_PROJECT_REQUEST" }
-  | { type: "GET_PROJECT_SUCCESS"; payload: Project }
-  | { type: "GET_PROJECT_FAILURE" };
+  | { type: "FETCH_PROJECT_REQUEST" }
+  | { type: "FETCH_PROJECT_SUCCESS"; payload: Project }
+  | { type: "FETCH_PROJECT_FAILURE" };
 ```
 
 If the request is successful, we will have a payload with project details.
@@ -119,12 +119,12 @@ export const reducer = (
       };
     case "ADD_PROJECT_SUCCESS":
       return { ...state, projects: [...state.projects, action.payload] };
-    case "GET_PROJECT_REQUEST":
+    case "FETCH_PROJECT_REQUEST":
       return { ...state, isLoading: true };
-    case "GET_PROJECT_SUCCESS":
+    case "FETCH_PROJECT_SUCCESS":
       return { ...state, isLoading: false, activeProject: action.payload };
-    case "GET_PROJECT_FAILURE":
-      return { ...state, isLoading: false, activeProject: undefined };
+    case "FETCH_PROJECT_FAILURE":
+      return { ...state, isLoading: false, activeProject: undefined }; 
     default:
       return state;
   }
@@ -133,13 +133,13 @@ export const reducer = (
 
 Now, we need to add the actual API call to fetch project details from backend.
 
-Open `src/context/project/actions.ts` and add code to fetch a project details.
+Open `src/context/projects/actions.ts` and add code to fetch a project details.
 
 ```tsx
 export const fetchProject = async (dispatch: any, projectID: string) => {
   try {
     const token = localStorage.getItem("authToken") ?? "";
-    dispatch({ type: "GET_PROJECT_REQUEST" });
+    dispatch({ type: "FETCH_PROJECT_REQUEST" });
 
     const response = await fetch(`${API_ENDPOINT}/projects/${projectID}`, {
       method: "GET",
@@ -159,17 +159,17 @@ export const fetchProject = async (dispatch: any, projectID: string) => {
       return { ok: false, error: data.errors[0].message };
     }
 
-    dispatch({ type: "GET_PROJECT_SUCCESS", payload: data });
+    dispatch({ type: "FETCH_PROJECT_SUCCESS", payload: data });
     return { ok: true };
   } catch (error) {
     console.error("Operation failed:", error);
-    dispatch({ type: "GET_PROJECT_FAILURE" });
+    dispatch({ type: "FETCH_PROJECT_FAILURE" });
     return { ok: false, error };
   }
 };
 ```
 
-We dispatch `GET_PROJECT_SUCCESS` action with project details if the provided `id` is a valid project id. Else we dispatch a `GET_PROJECT_FAILURE` action.
+We dispatch `FETCH_PROJECT_SUCCESS` action with project details if the provided `id` is a valid project id. Else we dispatch a `FETCH_PROJECT_FAILURE` action.
 
 Save the file.
 
@@ -188,6 +188,10 @@ const ProjectDetails = () => {
 
   const selectedProject = projectState?.activeProject;
 
+  if (projectState?.isLoading) {
+    return <>Loading...</>;
+  }
+  
   if (!selectedProject) {
     return <>No such Project!</>;
   }
