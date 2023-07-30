@@ -57,7 +57,7 @@ Now, let's create types to model this shape.
 
 We will use a `union` type to model the columns.
 
-Open `src/context/task/types.ts` file in VS Code and add the following entry to it.
+Open `src/context/tasks/types.ts` file in VS Code and add the following entry to it.
 
 ```ts
 export type AvailableColumns = "pending" | "in_progress" | "done";
@@ -142,7 +142,7 @@ export interface TaskListState {
 
 You can also use a `type` here instead of an `interface`.
 
-At first, we will work with static data and make sure our drag and drop works. Let's create a file `initialData.ts` in `src/context/task` folder with following content.
+At first, we will work with static data and make sure our drag and drop works. Let's create a file `initialData.ts` in `src/context/tasks` folder with following content.
 
 ```ts
 import { ProjectData } from "./types";
@@ -191,7 +191,7 @@ const initialData: ProjectData = {
 export default initialData;
 ```
 
-Now, we will use this initial state in our `taskReducer`. Let's open `src/context/task/reducer.ts` and update the initial state.
+Now, we will use this initial state in our `taskReducer`. Let's open `src/context/tasks/reducer.ts` and update the initial state.
 
 ```tsx
 import { Reducer } from "react";
@@ -263,9 +263,21 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 
 We will update the state with new ordering whenever `REORDER_TASKS` action is dispatched.
 
-To actually invoke it, we need to add a `reorderTasks` function in `action.ts`. Let's open `src/context/task/action.ts` and add it.
+To actually invoke it, we need to add a `reorderTasks` function in `action.ts`. Let's open `src/context/tasks/action.ts` and add it.
 
 ```tsx
+// ...
+// ...
+import {
+  TaskDetailsPayload,
+  TaskListAvailableAction,
+  TasksDispatch,
+  ProjectData
+} from "./types";
+
+// ...
+// ...
+
 export const reorderTasks = (dispatch: TasksDispatch, newState: ProjectData)  => {
   dispatch({type: TaskListAvailableAction.REORDER_TASKS, payload: newState})
 }
