@@ -13,7 +13,7 @@ cd smarter-tasks
 Now add the packge using `npm`.
 
 ```sh
-npm install react-beautiful-dnd
+npm install react-beautiful-dnd --save
 ```
 
 To get intellisense for TypeScript, we will also install the type definitions for this package.
@@ -30,7 +30,7 @@ We will create `DragDropList` component, and each list be wrapped in a `Containe
 
 ```tsx
 import React from "react";
-import { ProjectData } from "../../context/task/types";
+import { ProjectData } from "../../context/tasks/types";
 import Column from "./Column";
 
 const Container = (props: React.PropsWithChildren) => {
@@ -65,7 +65,7 @@ Let's create the `Column` component. Create a file named `Column.tsx`.
 ```tsx
 import React from "react";
 
-import { ColumnData, TaskDetails } from "../../context/task/types";
+import { ColumnData, TaskDetails } from "../../context/tasks/types";
 
 const Container = (props: React.PropsWithChildren) => {
   // We will use flex to display lists as columns
@@ -107,23 +107,18 @@ const Column: React.FC<Props> = (props) => {
 export default Column;
 ```
 
-We will reuse the `Task` component from earlier levels. But we will modify the component a include a container.
-Copy `Task.tsx`, `TaskCard.css` into `src/pages/project_details` folder from `trash` folder.
-
-Let's import `Task` component in `Column.tsx` file.
-
-```tsx
-import Task from "./Task";
-```
+We will reuse the `Task` component from earlier levels. But we will modify the component a include a container. So if you can access to the source code of previous level, then you can copy `Task.tsx`, `TaskCard.css` and paste it in the `/src/pages/project_details` folder, or you can just create those files.
 
 Now, open `Task.tsx` and split it into a container and child component. We will also add a `Link` to navigate to task detail page, when the user clicks on it. We will remove the code to delete a task for the time being.
 
 ```tsx
-import React from "react";
+// /src/pages/project_details/Task.tsx
 
-import { TaskDetails } from "../../context/task/types";
-import "./TaskCard.css";
+import React from "react";
 import { Link } from "react-router-dom";
+
+import { TaskDetails } from "../../context/tasks/types";
+import "./TaskCard.css";
 
 const Task: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
   props
@@ -181,11 +176,28 @@ const Container = (
 export default Container;
 ```
 
+The `TaskCard.css` file (`/src/pages/project_details/TaskCard.css`) would have the following content:
+```css
+.TaskItem {
+  border: 1px solid #DFDFDF;
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+}
+```
+
+Now, let's import `Task` component in `Column.tsx` file.
+
+```tsx
+import Task from "./Task";
+```
+
+
 Next, we will use the context to get the list of tasks in our component.
 Switch to `src/pages/project_details/ProjectDetails.tsx` file and use the context to retrieve the task list. Let's import the `useTasksState` first. We will also import the `DragDropList` component to render the tasks.
 
 ```tsx
-import { useTasksState } from "../../context/task/context";
+import { useTasksState } from "../../context/tasks/context";
 ```
 
 Now, we can extract required data from the context.
