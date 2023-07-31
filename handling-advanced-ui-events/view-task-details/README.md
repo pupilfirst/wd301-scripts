@@ -4,7 +4,7 @@ In this lesson, we will display the details of a task when user clicks on it.
 
 Currently, we have a placeholder component that renders `Show Task Details` text when a `/accounts/projects/:projectID/tasks/:taskID` route is visited.
 
-Let's add update actions to `src/context/task/types.ts` file. Also we will update the `taskReducer` to handle dispatches to these actions.
+Let's add update actions to `src/context/tasks/types.ts` file. Also we will update the `taskReducer` to handle dispatches to these actions.
 
 ```tsx
 export enum TaskListAvailableAction {
@@ -44,7 +44,7 @@ export type TaskActions =
   | { type: TaskListAvailableAction.UPDATE_TASK_FAILURE; payload: string };
 ```
 
-Let's update the reducer as well. Open `src/context/task/reducer.ts`
+Let's update the reducer as well. Open `src/context/tasks/reducer.ts`
 
 ```tsx
 export const taskReducer: Reducer<TaskListState, TaskActions> = (
@@ -108,7 +108,7 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 
 Save the file.
 
-Now, let's open the `src/context/task/action.ts` file. We will add [API call to update a task](https://wd301-api.pupilfirst.school/#/Tasks/patch_projects__projectId__tasks__id_). Once we update, we will then issue a `refreshTasks` call to fetch the latest list of tasks.
+Now, let's open the `src/context/tasks/action.ts` file. We will add [API call to update a task](https://wd301-api.pupilfirst.school/#/Tasks/patch_projects__projectId__tasks__id_). Once we update, we will then issue a `refreshTasks` call to fetch the latest list of tasks.
 
 ```tsx
 export const updateTask = async (
@@ -156,11 +156,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useTasksDispatch, useTasksState } from "../../context/task/context";
-import { updateTask } from "../../context/task/actions";
+import { useTasksDispatch, useTasksState } from "../../context/tasks/context";
+import { updateTask } from "../../context/tasks/actions";
 
 import { useProjectsState } from "../../context/projects/context";
-import { TaskDetailsPayload } from "../../context/task/types";
+import { TaskDetailsPayload } from "../../context/tasks/types";
 
 type TaskFormUpdatePayload = TaskDetailsPayload;
 
@@ -328,7 +328,7 @@ Let's create a file named `TaskDetailsContainer.tsx` with following content:
 ```tsx
 import React from "react";
 import { useProjectsState } from "../../context/projects/context";
-import { useTasksState } from "../../context/task/context";
+import { useTasksState } from "../../context/tasks/context";
 import TaskDetails from "./TaskDetails";
 import { useParams } from "react-router-dom";
 
@@ -406,7 +406,7 @@ One other feature missing is updating the state of a task when it is dragged and
 Open `DragDropList.tsx` and import `updateTask` from `action.ts`
 
 ```tsx
-import { reorderTasks, updateTask } from "../../context/task/actions";
+import { reorderTasks, updateTask } from "../../context/tasks/actions";
 ```
 
 Now, we just need to invoke the `updateTask` after changing the status of the task when drag and drop action is ended. We do that in `onDragEnd` function. We only need to update the state of task if the `startKey` and `finishKey` are different.
