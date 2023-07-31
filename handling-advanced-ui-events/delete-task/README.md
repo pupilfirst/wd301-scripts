@@ -2,7 +2,7 @@
 
 In this lesson, we will learn how to trigger a request to delete a task.
 
-Let's first add available actions in `src/context/task/types.ts`
+Let's first add available actions in `src/context/tasks/types.ts`
 
 ```tsx
 export enum TaskListAvailableAction {
@@ -88,7 +88,7 @@ The reducer does nothing fancy. We just toggle the loading state. Save the file.
 
 Now, we will add the actual API call to delete a task as said in the [API doc](https://wd301-api.pupilfirst.school/#/Tasks/delete_projects__projectId__tasks__id_).
 
-Let's open `src/context/task/action.ts`. We will add `deleteTask` function which takes a `TasksDispatch`, `projectID`, `task` as it's arguments. We will dispatch a `DELETE_TASKS_REQUEST` before sending the request. And dispatch `DELETE_TASKS_SUCCESS` or `DELETE_TASKS_FAILURE` when the request ends. We will also trigger a `refreshTasks` when the request succeeds.
+Let's open `src/context/tasks/action.ts`. We will add `deleteTask` function which takes a `TasksDispatch`, `projectID`, `task` as it's arguments. We will dispatch a `DELETE_TASKS_REQUEST` before sending the request. And dispatch `DELETE_TASKS_SUCCESS` or `DELETE_TASKS_FAILURE` when the request ends. We will also trigger a `refreshTasks` when the request succeeds.
 
 You have to update the import statement so that `TaskDetails` type is available.
 
@@ -140,8 +140,8 @@ Open `Task.tsx`. And we will import `deleteTask` from `actions.ts`. We will also
 ```tsx
 import React, { forwardRef, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { useTasksDispatch } from "../../context/task/context";
-import { deleteTask } from "../../context/task/actions";
+import { useTasksDispatch } from "../../context/tasks/context";
+import { deleteTask } from "../../context/tasks/actions";
 ```
 
 Now, we can invoke `deleteTask` with the `task` item whenever the trash icon is clicked.
@@ -207,7 +207,7 @@ Right now, if we create a task, it doesn't get reflected in the list. Let's fix 
 
 First let's add a type for the payload that is being sent to create a task.
 
-Open `src/context/task/actions.ts`, and let's edit `addTask` to invoke `refreshTasks` once request is successful.
+Open `src/context/tasks/actions.ts`, and let's edit `addTask` to invoke `refreshTasks` once request is successful.
 
 ```tsx
 export const addTask = async (
