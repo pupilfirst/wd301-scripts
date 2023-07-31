@@ -290,11 +290,11 @@ const startKey = source.droppableId as AvailableColumns;
 const finishKey = destination.droppableId as AvailableColumns;
 ```
 
-Before going further, we will have to import `reorderTasks` from `action.ts` as well as `useTasksDispatch` from `src/context/task/context`.
+Before going further, we will have to import `reorderTasks` from `action.ts` as well as `useTasksDispatch` from `src/context/tasks/context`.
 
 ```tsx
-import { useTasksDispatch } from "../../context/task/context";
-import { reorderTasks } from "../../context/task/actions";
+import { useTasksDispatch } from "../../context/tasks/context";
+import { reorderTasks } from "../../context/tasks/actions";
 ```
 
 Let's get the value out of task context.
@@ -302,7 +302,6 @@ Let's get the value out of task context.
 ```tsx
 const DragDropList: React.FC<{ data: ProjectData }> = (props) => {
   const taskDispatch = useTasksDispatch();
-  const { projectID } = useParams();
   // ...
 };
 ```
@@ -320,7 +319,7 @@ We will
 We will also have to import `AvailableColumns` type.
 
 ```tsx
-import { AvailableColumns, ProjectData } from "../../context/task/types";
+import { AvailableColumns, ProjectData } from "../../context/tasks/types";
 ```
 
 `onDragEnd` will look like:
