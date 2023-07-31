@@ -122,17 +122,17 @@ const TaskList = forwardRef<HTMLDivElement | null, React.PropsWithChildren>(
 );
 ```
 
-Next, we have to make each task item draggable. Switch to `Task.tsx`.
+Next, we have to make each task item draggable. Let's open `Task.tsx` in VS Code.
 
 To make an element draggable, we will have to wrap it within `Draggable` component from `react-beautiful-dnd` package.
 
-Let's import it first.
+Let's import it first. Add the following to `Task.tsx`.
 
 ```tsx
 import { Draggable } from "react-beautiful-dnd";
 ```
 
-Now, let's wrap our `Container` component within `Draggable`. Similar to `Droppable`, `Draggable` also expects a function as it's child. We will also have to pass, `provided.innerRef` to the `Task` component.
+Now, let's wrap our `Container` component in `Task.tsx` within `Draggable`. Similar to `Droppable`, `Draggable` also expects a function as it's child. We will also have to pass, `provided.innerRef` to the `Task` component.
 
 ```tsx
 const Container = (
