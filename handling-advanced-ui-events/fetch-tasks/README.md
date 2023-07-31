@@ -2,7 +2,7 @@
 
 In this lesson, we will replace static task data with the list of tasks retrieved from API server.
 
-Open `src/context/task/types.ts` in VS Code.
+Open `src/context/tasks/types.ts` in VS Code.
 
 Let's add capability to fetch tasks.
 
@@ -71,7 +71,7 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 
 Save the file.
 
-Switch to `src/context/task/action.tsx`
+Switch to `src/context/tasks/action.tsx`
 
 We will now create a function called `refreshTasks` which will trigger a request to API server and fetches the task list for a given `projectID`.
 
@@ -119,13 +119,13 @@ Now, we will trigger this `fetchTasks` when the `ProjectDetails` component gets 
 Let's import `useTasksDispatch` and `useTasksState`
 
 ```tsx
-import { useTasksDispatch, useTasksState } from "../../context/task/context";
+import { useTasksDispatch, useTasksState } from "../../context/tasks/context";
 ```
 
 We will also import `refreshTasks` from `actions.ts`.
 
 ```tsx
-import { refreshTasks } from "../../context/task/actions";
+import { refreshTasks } from "../../context/tasks/actions";
 ```
 
 Now, we will make use of the `useEffect` hook to trigger `refreshTasks`. We can extract the project `id` from url using the `useParams` hook from `react-router-dom`.
@@ -134,10 +134,10 @@ Now, we will make use of the `useEffect` hook to trigger `refreshTasks`. We can 
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { useTasksDispatch, useTasksState } from "../../context/task/context";
+import { useTasksDispatch, useTasksState } from "../../context/tasks/context";
 
 import DragDropList from "./DragDropList";
-import { refreshTasks } from "../../context/task/actions";
+import { refreshTasks } from "../../context/tasks/actions";
 import { useProjectsState } from "../../context/projects/context";
 
 const ProjectDetails = () => {
