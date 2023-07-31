@@ -30,7 +30,7 @@ At this point in the course, this is how your repo should be structured:
 |   |   ├── config
 |   |   |   └── constants.ts
 |   |   ├── context
-|   |   |   ├── comment/
+|   |   |   ├── comments/
 |   |   |   |   ├── actions.ts
 |   |   |   |   ├── context.tsx
 |   |   |   |   └── reducer.ts
@@ -43,7 +43,7 @@ At this point in the course, this is how your repo should be structured:
 |   |   |   |   ├── actions.ts
 |   |   |   |   ├── context.tsx
 |   |   |   |   └── reducer.ts
-|   |   |   ├── task/
+|   |   |   ├── tasks/
 |   |   |   |   ├── actions.ts
 |   |   |   |   ├── context.tsx
 |   |   |   |   └── reducer.ts
@@ -90,10 +90,16 @@ At this point in the course, this is how your repo should be structured:
 |   |   |   ├── index.tsx
 |   |   |   └── ProtectedRoutes.tsx
 |   |   |── App.tsx
-|   |   ├── index.tsx
-|   |   ├── NotFound.tsx
+|   |   ├── index.css
+|   |   └── main.tsx
+│   ├── index.html
+│   ├── package-lock.json
 │   ├── package.json
-│   └── package-lock.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.js
 └── .gitignore
 ```
 
