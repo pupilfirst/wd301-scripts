@@ -84,7 +84,7 @@ At this point in the course, this is how your repo should be structured:
    * Dispatch proper actions from components
    * Consume meaningful data from state
 2. The "New Member" button should have this ID attribute: `new-member-btn`.
-3. In the new member form, make sure the input fields have proper ID attributes. Like, the email field should have `email` ID, password should have `password` ID, name should have `name` as ID.
+3. In the new member form, make sure the input fields have proper ID attributes. Like, the email field should have `email` ID, password should have `password` ID, name should have `name` as ID. Along with that, the submit button should have the `create-member-btn` ID.
 4. In members page, every member card should have a css clsss name: `member`. This will help us to identify each members cards and perform automated tests on it.
 5. After the implementation, commit your changes, and push the code to the GitHub repository.
 
