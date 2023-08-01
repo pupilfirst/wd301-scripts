@@ -131,6 +131,7 @@ In this example, if an error occurs within the `ProjectList`, it will be caught 
 - Just for testing this, try adding the below code in `ProjectListItems.tsx` file.
 
 ```js
+// This check is to validate ErrorBoundary Implementation. Remove this before milestone submission
 if (projects.length === 0) {
   throw Error("Error!!!");
 }
