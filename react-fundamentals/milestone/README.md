@@ -25,6 +25,7 @@ At this point in the course, this is how your repo should be structured:
 |   ├── public
 |   ├── src
 |   |   ├── App.jsx
+|   |   ├── App.css
 |   |   ├── index.css
 |   |   ├── main.jsx
 |   |   ├── TaskCard.jsx
