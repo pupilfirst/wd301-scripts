@@ -5,7 +5,7 @@
 - You have to create a new page called the `NotFound`
 - The component should be available at the route `/notfound`
 - When any invalid route is accessed in the application eg., `/temp` it should redirect back to `/notfound` page.
-- The `/notfound` route should have a 404 message and a button to redirect back to the Homepage.
+- The `/notfound` route should have a 404 message and a button with an id `backToHomeButton` to redirect back to the Homepage.
 - The always available component like Header, should not be visible on the `/notfound` route.
 
 Additionally, make sure to format your code using `Prettier` and use `ESLint` to enforce code standards.
