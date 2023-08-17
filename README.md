@@ -102,6 +102,7 @@ This work is licensed under a
 - [Creating event handlers and form submission](./class-components/event-handler/README.md)
 - [Creating a production build and deploying a React App on the Cloud](./class-components/deploy-react-app/README.md)
 
+- [Deploying React app to GitHub](./class-components/deploy-react-app/README.md)
 ### Milestone 
 - [Milestone](class-components/milestone/README.md)
 
