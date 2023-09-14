@@ -105,6 +105,15 @@ Now that we've created our components and imported them in our 'App' component, 
 > Action: Open http://localhost:5173/ in browser
 So, as you can see, the HomePage content shows up by default, and if we would navigate to http://localhost:5173/tasks, we will see the task list page.
 
+If you deploy the current app to Netlify, and try to visit `https://your-deployed-app.netlify.com/tasks`, it will display an error. React-router handles routings on the client side. Netlify doesn’t know how to locate that route on the server side. And that’s why Netlify throws an error if you try to navigate to any other route apart from the root route. To fix the error, you will have to update the `netlify.toml` file to redirect all server side routes to `index.html`. Modify the `netlify.toml` with following content.
+
+```toml
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
 We will learn more about using the React Router to configure our application and how to use it to programmatically navigate between different pieces of the application in the upcoming lessons.
 
 See you in the next one!
