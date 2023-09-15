@@ -1,32 +1,47 @@
-# Text
+**[INTRODUCTION]**
 
-In this level, we will learn about the type system in TypeScript. Let us go over the basics of the TypeScript type system and how it can help you write more reliable and maintainable code.
+Hello! In this level, we will dive deep into the TypeScript type system. We'll explore the basics and understand how it can make your code more reliable and maintainable.
 
-What is a type system? Simply put, a type system is a set of rules that a programming language uses to ensure that data is used correctly and consistently throughout the codebase. 
+Let's start by answering a fundamental question:
 
-In TypeScript, the type system helps you catch errors by validating, that variables and functions are used in a way that is consistent with their defined types.
+**[WHAT IS A TYPE SYSTEM?]**
 
-There are several built-in types in TypeScript, including:
+> Action: Display the text "What is a type system?" on the screen.
 
-- `string`: A sequence of characters, such as "Hello, world!"
-- `number`: A numeric value, such as 42 or 3.14
-- `boolean`: A value that is either true or false
-- `void`: Used to represent the absence of a return value for a function
-- `null`: Used to represent the absence of a value
-- `undefined`: Used to represent a value that has not been assigned a defined value
+A type system is a set of rules that a programming language uses to ensure that data is used correctly and consistently throughout your codebase. In TypeScript, this type system helps you catch errors by validating that variables and functions are used in a way that matches their defined types.
 
-In addition to these built-in types, you can also define your own types in TypeScript using type aliases and interfaces.
+Now, let's take a closer look at the built-in types in TypeScript.
 
-Type aliases allow you to create a new name for an existing type. For example, you could create a type alias for a string array like so:
+**[BUILT-IN TYPES]**
 
-```js
+> Action: Display a list of built-in types on the screen.
+
+In TypeScript, we have several built-in types, including:
+
+- `string`: This represents a sequence of characters, like "Hello, world!"
+- `number`: It's for numeric values, such as 42 or 3.14.
+- `boolean`: This type can only be `true` or `false`.
+- `void`: Used when a function doesn't return any value.
+- `null`: Represents the absence of a value.
+- `undefined`: Used when a value hasn't been assigned yet.
+
+Now, let's explore how you can create your own types in TypeScript.
+
+**[USER-DEFINED TYPES]**
+
+> Action: Display the code example for creating a type alias and an interface.
+
+In TypeScript, you can define your own types using type aliases and interfaces.
+
+- **Type Aliases**: These allow you to create a new name for an existing type. For example, you can create a `StringArray` type for an array of strings.
+
+```typescript
 type StringArray = string[];
 ```
-You can then use the `StringArray` type whenever you want to refer to an array of strings.
 
-Interfaces, on the other hand, allow you to define a structure for an object type. For example, you could define an interface for a user object like this:
+- **Interfaces**: They help you define a structure for an object type. Here's an example of an `User` interface:
 
-```js
+```typescript
 interface User {
   name: string;
   age: number;
@@ -34,16 +49,20 @@ interface User {
 }
 ```
 
-You can then use the `User` interface to ensure that objects have the correct structure when they are created or passed around in your code.
+These user-defined types can ensure that objects in your code have the correct structure.
 
-Now that you have an understanding of the basic types and how to define your own types in TypeScript, let's look at how you can use the type system to improve your code.
+**[BENEFITS OF THE TYPE SYSTEM]**
 
-One of the main benefits of using the type system is that it can help you catch errors before you even run your code. 
+> Action: Display the benefits of using the TypeScript type system.
 
-For example, if you try to assign a string to a variable that is expected to be a number, the TypeScript compiler will throw an error, alerting you to the problem. This can save you a lot of time and effort in debugging your code, especially as your codebase grows in size and complexity.
+Now that you know about types, let's talk about the benefits of using the type system.
 
-In addition to catching errors, the type system can also make your code easier to read and understand. By explicitly defining the types of your variables and functions, you can make it clear to other developers what kind of data a function is expecting or what type of value a variable is holding. This can make it easier to maintain and modify your code over time.
+- **Error Catching**: TypeScript catches errors before you run your code. If you try to assign a string to a variable expecting a number, TypeScript will throw an error. This saves you time and effort in debugging.
 
-In summary, the TypeScript type system is a powerful tool that can help you write more reliable and maintainable code. By using the built-in types and defining your own types using type aliases and interfaces, you can catch errors and make your code easier to understand.
+- **Code Readability**: By explicitly defining types, your code becomes more readable and understandable. Other developers can quickly grasp what data a function expects or what type of value a variable holds. This helps with code maintenance and modification.
 
-See you in the next lesson.
+In summary, TypeScript's type system is a powerful tool for writing reliable and maintainable code. By using built-in types and defining your own types, you can catch errors early and improve code readability.
+
+> Action: Transition to the closing shot.
+
+That's it for this lesson! We'll see you in the next one as we dive even deeper into TypeScript. Happy coding!
