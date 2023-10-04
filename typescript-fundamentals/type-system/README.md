@@ -1,10 +1,10 @@
-**[INTRODUCTION]**
+## INTRODUCTION
 
 Hello! In this level, we will dive deep into the TypeScript type system. We'll explore the basics and understand how it can make your code more reliable and maintainable.
 
 Let's start by answering a fundamental question:
 
-**[WHAT IS A TYPE SYSTEM?]**
+## WHAT IS A TYPE SYSTEM?
 
 > Action: Display the text "What is a type system?" on the screen.
 
@@ -12,7 +12,7 @@ A type system is a set of rules that a programming language uses to ensure that 
 
 Now, let's take a closer look at the built-in types in TypeScript.
 
-**[BUILT-IN TYPES]**
+## BUILT-IN TYPES
 
 > Action: Display a list of built-in types on the screen.
 
@@ -27,7 +27,7 @@ In TypeScript, we have several built-in types, including:
 
 Now, let's explore how you can create your own types in TypeScript.
 
-**[USER-DEFINED TYPES]**
+## USER-DEFINED TYPES
 
 > Action: Display the code example for creating a type alias and an interface.
 
@@ -51,13 +51,49 @@ interface User {
 
 These user-defined types can ensure that objects in your code have the correct structure.
 
-**[BENEFITS OF THE TYPE SYSTEM]**
+## BENEFITS OF THE TYPE SYSTEM
 
-> Action: Display the benefits of using the TypeScript type system.
+> Action: Display the benefits of using the TypeScript type system using example code.
 
 Now that you know about types, let's talk about the benefits of using the type system.
 
-- **Error Catching**: TypeScript catches errors before you run your code. If you try to assign a string to a variable expecting a number, TypeScript will throw an error. This saves you time and effort in debugging.
+## Error Detection
+
+> Action: Display "Error Catching" on screen and read it.
+
+- **Error Catching**: TypeScript catches errors during compilation, before you actually run your code. If you try to assign a string to a variable expecting a number, TypeScript will throw an error. This helps you find and fix issues early on, saving time and effort in the debugging process.
+
+Let's see how TypeScript's type system helps catch errors before they cause problems:
+
+> Action: Paste the following code snippet in `hello-react/index.tsx` file
+
+```typescript
+// Define a variable expecting a number
+let myNumber: number;
+
+// Try to assign a string to the number variable
+// TypeScript will catch this error during compilation
+myNumber = "Hello, World!";
+
+// The following line won't be reached due to the error above,
+// but it's included for completeness
+console.log(myNumber);
+```
+
+> Action: Explain that: In this code snippet, we first declare a variable `myNumber` and initialize it with the number `5`. However, we then attempt to assign a string `"Hello, World!"` to `myNumber`. This is where TypeScript's type system comes into play.
+
+> Action: Run the command `tsc index.tsx` in terminal and show the output.
+
+Now, let's see how this works in practice. When you try to run this code, TypeScript will give you an error message indicating that you are trying to assign a value of the wrong type to `myNumber`. Here's the error message and output:
+
+```typescript
+index.tsx:6:1 - error TS2322: Type 'string' is not assignable to type 'number'.
+
+6 myNumber = "Hello, World!"; // Error: Type 'string' is not assignable to type 'number'
+  ~~~~~~~~
+
+Found 1 error in index.tsx:6
+```
 
 - **Code Readability**: By explicitly defining types, your code becomes more readable and understandable. Other developers can quickly grasp what data a function expects or what type of value a variable holds. This helps with code maintenance and modification.
 
