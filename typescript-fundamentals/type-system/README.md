@@ -59,7 +59,7 @@ Now that you know about types, let's talk about the benefits of using the type s
 
 ## Error Detection
 
-> Action: Display "Error Catching" on screen and read it.
+> Action: Display "Error Catching" on screen and define it.
 
 - **Error Catching**: TypeScript catches errors during compilation, before you actually run your code. If you try to assign a string to a variable expecting a number, TypeScript will throw an error. This helps you find and fix issues early on, saving time and effort in the debugging process.
 
@@ -80,11 +80,10 @@ myNumber = "Hello, World!";
 console.log(myNumber);
 ```
 
-> Action: Explain that: In this code snippet, we first declare a variable `myNumber` and initialize it with the number `5`. However, we then attempt to assign a string `"Hello, World!"` to `myNumber`. This is where TypeScript's type system comes into play.
+we first declare a variable `myNumber` and initialize it with the number `5`. However, we then attempt to assign a string `"Hello, World!"` to `myNumber`. This is where TypeScript's type system comes into play.
+When you try to run this code, TypeScript will give you an error message indicating that you are trying to assign a value of the wrong type to `myNumber`. Here's the error message and output:
 
 > Action: Run the command `tsc index.tsx` in terminal and show the output.
-
-Now, let's see how this works in practice. When you try to run this code, TypeScript will give you an error message indicating that you are trying to assign a value of the wrong type to `myNumber`. Here's the error message and output:
 
 ```typescript
 index.tsx:6:1 - error TS2322: Type 'string' is not assignable to type 'number'.
@@ -94,6 +93,10 @@ index.tsx:6:1 - error TS2322: Type 'string' is not assignable to type 'number'.
 
 Found 1 error in index.tsx:6
 ```
+
+Continuing with the discussion of TypeScript benefits, let's explore the next advantage:
+
+> Action: Display "Code Readability" on screen and define it.
 
 - **Code Readability**: By explicitly defining types, your code becomes more readable and understandable. Other developers can quickly grasp what data a function expects or what type of value a variable holds. This helps with code maintenance and modification.
 
