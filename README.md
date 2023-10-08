@@ -73,25 +73,23 @@ This work is licensed under a
 ### What is Type System?
 
 - [Type System](./typescript-fundamentals/type-system/README.md)
-- [The ‘Any’ type](./typescript-fundamentals/the-any-type/README.md)
+- [Datatypes in Typescript](./typescript-fundamentals/datatypes-in-typescript/README.md)
 
 ### Type annotations
 
 - [Type annotations and Inference](./typescript-fundamentals/type-annotations-and-inference/README.md)
-- [Annotations with variables](./typescript-fundamentals/annotations-with-variables/README.md)
-- [Annotations around functions](./typescript-fundamentals/annotations-around-functions/README.md)
-- [Void and never](./typescript-fundamentals/void-and-never/README.md)
-- [Annotations around objects](./typescript-fundamentals/annotations-around-objects/README.md)
 
 ### Typed arrays
 
-- [Arrays in TS](./typescript-fundamentals/arrays-in-ts/README.md)
-- [Tuples in TS](./typescript-fundamentals/tuples-in-ts/README.md)
+- [Arrays and Tuples in TS](./typescript-fundamentals/arrays-and-tuples-in-ts/README.md)
 
 ### Interface
 
 - [TS Interfaces and functions](./typescript-fundamentals/ts-interfaces/README.md)
-- [Fields in classes and inheritance](./typescript-fundamentals/fields-in-classes/README.md)
+
+### Add TypeScript to React Application
+
+- [Adding TypeScript](./typescript-fundamentals/adding-typescript/README.md)
 
 ### Milestone
 
