@@ -1,44 +1,66 @@
-In this lesson, we will learn about the `any`, `void` and `never` data types in TypeScript. The `any` data type is a special type that can be used to opt out of TypeScript's type-checking system. It's useful in cases where you don't know the type of value ahead of time, or where you want to disable type-checking for a specific variable or expression. The `void` and `never` data types are used to represent the absence of a value.
+In this lesson, we'll dive into TypeScript's data types. Specifically, we'll explore the `any`, `void`, and `never` data types and understand how they work.
 
-To use the `any` data type, you simply need to annotate the variable or expression with any. For example, try writing the following code in your `main.ts`:
+## Understanding `any` Data Type
 
-```js
+The `any` data type is a unique one. It's like a wildcard that allows us to escape TypeScript's type-checking system. This is handy when you don't know the type of a value in advance or when you intentionally want to bypass type-checking for a specific variable or expression.
+
+Let's see how to use the `any` data type in code.
+
+> Action: Write the following code in `main.ts` file:
+
+```javascript
 let name: any = "hello";
 name = 42;
 name = false;
 ```
 
-In this example, the variable `name` is declared as type `any`, which means it can hold any type of value. As a result, we can assign it a `string`, a `number`, and a `boolean` value without any errors being thrown.
+In this code, we declare the `name` variable with the type `any`. This means it can hold values of any type, be it a string, number, or boolean. TypeScript won't complain, even though we're switching data types.
 
-The `void` type represents the absence of any type. It is commonly used as the return type of function that does not return a value. Add the below code to your `main.ts` file:
+## Exploring the `void` Data Type
 
-```js
+Next up, we have the `void` data type. It represents the absence of a value and is often used as the return type of functions that don't return anything.
+
+Let's add a `void` function to our code
+
+> Action: Add the below code to your main.ts file:
+
+```javascript
 function printHello(): void {
   console.log("Hello!");
 }
 ```
 
-In this example, the `printHello` function does not return a value, so its return type is `void`. If we try to return a value from this function, TypeScript will give us an error:
+In this example, the `printHello` function doesn't return any value, so we mark it with the `void` type. If you try to return something from a `void` function, TypeScript will raise an error.
 
-```js
+```javascript
 function printHello(): void {
   console.log("Hello!");
   return "hello"; // TypeScript will give an error here
 }
 ```
 
-The `never` type represents the absence of a value, but it indicates that the function will never return. This is useful for representing functions that throw an error or never terminate. Add the below code to your `main.ts` file:
+## The `never` Data Type
 
-```js
+Lastly, we have the `never` data type. It signifies the absence of a value and implies that a function will never return. This is particularly useful for functions that either throw errors or run infinitely.
+
+Let's add a function using the `never` type.
+
+> Action: Paste the following snippet of code into your `main.ts` file.
+
+```javascript
 function throwError(): never {
   throw new Error("An error occurred!");
 }
 ```
 
-In this example, the `throwError` function never returns because it always throws an error. Therefore, its return type is `never`.
+In the `throwError` function, it's clear that it will never return normally because it always throws an error. Therefore, its return type is `never`.
 
-It's important to note that using the `any` data type can disable many of the benefits of using TypeScript, such as improved code reliability and better code maintainability. As a result, it's generally best to restrict the use of `any` data type to a minimum and only when absolutely necessary.
+## Important Considerations
 
-Using these types in TypeScript can help you catch errors in your code and ensure that your functions are working as intended.
+Keep in mind that while the `any` data type is versatile, it can also compromise the benefits of using TypeScript, such as improved code reliability and maintainability. Thus, it's advisable to use it sparingly, only when absolutely necessary.
 
-See you in the next lesson!
+By understanding and using these data types in TypeScript, you can catch errors early, ensuring that your code functions as intended and is more robust.
+
+## Conclusion
+
+That's it for this lesson! You've now learned about the `any`, `void`, and `never` data types in TypeScript. These concepts are fundamental to writing type-safe and reliable code in your ReactJS and TypeScript projects. Stay tuned for the next lesson!
