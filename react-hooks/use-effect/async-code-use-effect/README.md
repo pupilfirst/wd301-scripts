@@ -1,10 +1,4 @@
-# Text
-
-In this lesson, we will learn how to run asynchronous code using `useEffect` hook.
-
-# Script
-
-In this video, we will learn how to run asynchronous code using the `useEffect` hook. By asynchronous code, I mean synchronizing the data to a backend or sending any network requests.
+In this lesson, we will learn how to run asynchronous code using the `useEffect` hook. By asynchronous code, I mean synchronizing the data to a backend or sending any network requests.
 
 > Action: Switch to `TaskApp.tsx`
 
@@ -16,9 +10,9 @@ Let's import `useEffect` hook first.
 import React, { useEffect } from "react";
 ```
 
-You can also instead use the hook from already imported `React` package as `React.useEffect`.
+You can also instead use the hook from an already imported `React` package as `React.useEffect`.
 
-Let's now remove the line that updates title when each task is added.
+Let's now remove the line that updates the title when each task is added.
 
 > Action: Remove `document.title =` line from `TaskApp.tsx`
 
@@ -28,7 +22,7 @@ React.useEffect(() => {}, [taskAppState.tasks]);
 
 We can now mock sending a network request by using a `setTimeout`.
 
-> Action: Add the following code.
+> Action: Add the following code right after declaring the state hooks.
 
 ```tsx
 React.useEffect(() => {
@@ -48,7 +42,7 @@ Let's save the file. We can now switch to our browser, and open the developer to
 
 > Action: switch to browser and open the developer console. Add few tasks using the UI.
 
-Now, let's try adding few tasks.
+Now, let's try adding a few tasks.
 
 As you can see, the `setTimeout` gets invoked correctly. Whenever a new task is added, the previously scheduled `setTimeout` is cleared and is not invoked. You can easily verify it by commenting out the `clearTimeout`.
 
@@ -65,13 +59,13 @@ React.useEffect(async () => {
 }, [taskAppState.tasks]);
 ```
 
-In such a code, the clean up function will never get executed. Instead, we can write
+In such a code, the clean-up function will never get executed. Instead, we can write
 
 ```tsx
 React.useEffect(() => {
-// This is correct usage
+  // This is correct usage
   const saveTasks = async () => {
-    token = await saveTasksToBackend(taskAppState.tasks);
+    const token = await saveTasksToBackend(taskAppState.tasks);
   };
   saveTasks();
   return () => {

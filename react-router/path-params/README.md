@@ -1,6 +1,4 @@
-# Text
-
-In this lesson, we will learn more about what path params are and how to use them in React Router within our application.
+In this lesson, we will learn more about what path parameters (params) are and how to use them in React Router within our application.
 
 Path params are dynamic parts of a URL that can be used to pass data to a component in React Router. They are defined in the route path like this:
 
@@ -8,7 +6,7 @@ Path params are dynamic parts of a URL that can be used to pass data to a compon
 const router = createBrowserRouter([
   {
     path: "/tasks/:id",
-    element: <TaskDetails />
+    element: <TaskDetails />,
   },
 ]);
 ```
@@ -18,33 +16,33 @@ In this example, `:id` is the path param, which can be any string value. When th
 For example, if the user navigates to `/tasks/123``, React Router will pass the value "123" as a prop to the TaskDetails component.
 
 To use path params in our project, we will modify the routes in our `App.tsx` file.
+
 ```tsx
 const router = createBrowserRouter([
   {
-    element: (
-      <Layout />
-    ),
+    element: <Layout />,
     children: [
       {
         path: "/",
-        element: (<HomePage />)
+        element: <HomePage />,
       },
       {
         path: "tasks",
-        element: (<TaskListPage />)
+        element: <TaskListPage />,
       },
       {
         path: "tasks/:id",
-        element: (<TaskDetailsPage />)
+        element: <TaskDetailsPage />,
       },
-    ]
-  }
+    ],
+  },
 ]);
 ```
 
-So, next we will create a `TaskDetailsPage` component in the `pages/TaskDetailsPage.tsx` file:
+So, next, we will create a `TaskDetailsPage` component in the `pages/TaskDetailsPage.tsx` file:
+
 ```tsx
-import React from 'react';
+import React from "react";
 
 const TaskDetailsPage: React.FC = () => {
   return (
@@ -58,6 +56,7 @@ export default TaskDetailsPage;
 ```
 
 Once it's complete, we can import this file in `App.tsx`.
+
 ```tsx
 // ...
 import TaskDetailsPage from "./pages/TaskDetailsPage";
@@ -66,16 +65,18 @@ import TaskDetailsPage from "./pages/TaskDetailsPage";
 ```
 
 Now let's go back to the browser to check if this new route is working or not.
+
 > Action: Open http://localhost:5173/tasks/123
 
-So, as you can see, the content from `TaskDetailsPage` component, is showing up here properly. That's great.
+So, as you can see, the content from the `TaskDetailsPage` component, is showing up here properly. That's great.
 
-Next, we will update the `TaskDetailsPage` component, and try to access the ID which is coming as part of path parameter.
+Next, we will update the `TaskDetailsPage` component, and try to access the ID which is coming as part of the path parameter.
+
 ```tsx
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { TaskItem } from '../types';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { TaskItem } from "../types";
 
 interface TaskDetailsPageParams extends Record<string, string> {
   id: string;
@@ -87,14 +88,11 @@ interface TaskAppState {
 
 const TaskDetailsPage: React.FC = () => {
   const { id } = useParams<TaskDetailsPageParams>();
-  const [taskAppState] = useLocalStorage<TaskAppState>(
-    "tasks",
-    {
-      tasks: [],
-    }
-  );
-  
-  const task = taskAppState.tasks.find(task => task.id === id);
+  const [taskAppState] = useLocalStorage<TaskAppState>("tasks", {
+    tasks: [],
+  });
+
+  const task = taskAppState.tasks.find((task) => task.id === id);
 
   return (
     <div className="bg-white shadow-md rounded-md p-4 m-8">
@@ -117,8 +115,8 @@ Now, when the user navigates to a URL like `/tasks/123`, React Router will pass 
 Finally, let's modify the `TaskListPage` component in the `pages/TaskListPage.tsx` to import and use our existing TaskApp component:
 
 ```tsx
-import React from 'react';
-import TaskApp from '../TaskApp';
+import React from "react";
+import TaskApp from "../TaskApp";
 const TaskListPage: React.FC = () => {
   return (
     <div>
@@ -130,7 +128,7 @@ const TaskListPage: React.FC = () => {
 export default TaskListPage;
 ```
 
-Next, we will updated the Task component, to include links to the task details page for each and every task. Update the `Task.tsx` component as below:
+Next, we will update the Task component, to include links to the task details page for each and every task. Update the `Task.tsx` component as below:
 
 ```tsx
 import "./TaskCard.css";
@@ -155,8 +153,10 @@ const Task = (props: TaskProps) => {
           </p>
         </div>
 
-        <button className="deleteTaskButton cursor-pointer flex items-center justify-center h-4 w-4 rounded-full my-5 mr-5"
-          onClick={() => removeTask(item)}>
+        <button
+          className="deleteTaskButton cursor-pointer flex items-center justify-center h-4 w-4 rounded-full my-5 mr-5"
+          onClick={() => removeTask(item)}
+        >
           X
         </button>
       </div>
@@ -166,7 +166,9 @@ const Task = (props: TaskProps) => {
 
 export default Task;
 ```
+
 Now let's go back to the browser to check if this new route is working or not.
+
 > Action: Open http://localhost:5173/tasks
 > Add a new task
 > Click the link available on new task, it will take you to task details page.
@@ -176,5 +178,3 @@ Now, when the user clicks on a task title link, React Router will navigate to th
 Path params provide a level of customization that helps you transfer data from one route to another with a lot of control. Let us learn more about other features of React router in the next lesson.
 
 See you at the next one!
-
-

@@ -133,14 +133,13 @@ This work is licensed under a
 
 - [Understanding useEffect](./react-hooks/use-effect/understanding-use-effect/README.md)
 - [Async code with useEffect](./react-hooks/use-effect/async-code-use-effect/README.md)
-- Making first API call from useEffect hook
 
 ### Introducing localStorage
 
 ### Custom Hooks
 
 - [Overview of custom hooks](./react-hooks/custom-hooks/overview/README.md)
-- [Process of building custom hooks](./react-hooks/custom-hooks/build-custom-hook/README.md)
+- [Building and using custom hooks](./react-hooks/custom-hooks/build-custom-hook/README.md)
 
 ### Milestone
 
@@ -187,7 +186,7 @@ This work is licensed under a
 ### Revamping the app UI
 
 - [Headless UI and designing layout](./react-app-state/app-ui/README.md)
-- [Redefining app routes](./react-app-state/app-ui/README.md)
+- [Redefining app routes](./react-app-state/redifining-app-routes/README.md)
 
 ### Using Context
 

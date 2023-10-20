@@ -1,7 +1,6 @@
-# Text
-
 ### The folder structure we are going to follow
-Maintaining an organized and optimized folder structure is crucial in building scalable and maintainable React application. 
+
+Maintaining an organized and optimized folder structure is crucial in building a scalable and maintainable React application.
 
 Before we start defining the folder structure, we need to understand the concept of "Pages".
 
@@ -58,15 +57,16 @@ This folder structure will give us the following benefits:
 - It will improves the readability of the code.
 - It will encourage separation of concerns.
 
-# Script
-In this video, we are going to create a user signup form. So, when someone new comes to our Smarter Tasks (PMS) app, they should see a link to signup. When we click on the signup link, we should take them to the signup form, where they have to fill some details like:  organisation name, his/her name,  email and password. Then, when they click on the signup button, it should call our API service to create the user account. Let's start.
+We are going to create a user signup form. So, when someone new comes to our Smarter Tasks (PMS) app, they should see a link to signup. When we click on the signup link, we should take them to the signup form, where they have to fill some details like: organisation name, his/her name, email and password. Then, when they click on the signup button, it should call our API service to create the user account. Let's start.
 
 First, we will start with adding the route for the signup page. For that, I'll create a new folder `signup` inside the `pages` directory.
+
 > Action: Create a new folder called `signup` inside the `pages` directory.
 
 Then, inside the signup `folder` I'll add a new file called `index.tsx` with the following content:
+
 ```tsx
-import React from 'react';
+import React from "react";
 
 // Dialogue 1: Let's define the Signup component
 const Signup = () => {
@@ -75,20 +75,18 @@ const Signup = () => {
       <h1>Sign up</h1>
     </div>
   );
-}
+};
 
 // Dialogue 2: And finally, we've to export the component
 export default Signup;
 ```
 
 Let's add this new `Signup` component in our `App` component.
+
 ```tsx
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Notfound from "./pages/Notfound";
-import Signup from './pages/signup';
+import Signup from "./pages/signup";
 
 const router = createBrowserRouter([
   {
@@ -106,17 +104,16 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <Notfound />,
-  }
+  },
 ]);
 
 const App = () => {
-  return (
-    <RouterProvider router={router} />
-  );
-}
+  return <RouterProvider router={router} />;
+};
 
-export default App
+export default App;
 ```
+
 So, as you can see, I've cleaned up all the routes and related imports that `App` component had previously, and only added the `signup` route. Now, let's go back to the browser to check if Signup page is coming or not.
 
 > Action: Open http://localhost:5173 in browser and show the signup page.
@@ -127,7 +124,7 @@ Great! the signup page is coming, now let's create the signup form. For that, I'
 
 ```tsx
 // src/pages/signup/SignupForm.tsx
-import React from 'react';
+import React from "react";
 
 const SignupForm: React.FC = () => {
   return (
@@ -139,127 +136,177 @@ const SignupForm: React.FC = () => {
       <button type="submit">Submit</button>
     </form>
   );
-}
+};
 export default SignupForm;
 ```
 
 Next, we've to add this form in our Signup page, and that's pretty much straight-forward.
+
 > Action: Open pages/signup/index.tsx and import SignupForm.tsx
 
 ```tsx
-import React from 'react';
-// Dialogue 1: Just import the file
-import SignupForm from "./SignupForm"
+import React from "react";
+// Import the file
+import SignupForm from "./SignupForm";
 
-const Signup: React.FC<> = () => {
-  // Dialogue 2: And use it after the h2 tag
+const Signup: React.FC = () => {
+  // And use it after the h2 tag
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full px-6 py-8 bg-white rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Sign up</h1>
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          Sign up
+        </h1>
         <SignupForm />
       </div>
     </div>
   );
-}
+};
 export default Signup;
 ```
 
 Next, I'll add event handlers to store the form field values in our component's state:
+
 ```tsx
 // src/pages/signup/SignupForm.tsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const SignupForm: React.FC = () => {
-  const [organisationName, setOrganisationName] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [organisationName, setOrganisationName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">Organisation Name:</label>
-        <input type="text" name="organisationName" id="organisationName" value={organisationName} onChange={(e) => setOrganisationName(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+        <label className="block text-gray-700 font-semibold mb-2">
+          Organisation Name:
+        </label>
+        <input
+          type="text"
+          name="organisationName"
+          id="organisationName"
+          value={organisationName}
+          onChange={(e) => setOrganisationName(e.target.value)}
+          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+        />
       </div>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">Your Name:</label>
-        <input type="text" name="userName" id="userName" value={userName} onChange={(e) => setUserName(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+        <label className="block text-gray-700 font-semibold mb-2">
+          Your Name:
+        </label>
+        <input
+          type="text"
+          name="userName"
+          id="userName"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+        />
       </div>
       <div>
         <label className="block text-gray-700 font-semibold mb-2">Email:</label>
-        <input type="email" name="userEmail" id="userEmail" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+        <input
+          type="email"
+          name="userEmail"
+          id="userEmail"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+        />
       </div>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">Password:</label>
-        <input type="password" name="userPassword" id="userPassword" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+        <label className="block text-gray-700 font-semibold mb-2">
+          Password:
+        </label>
+        <input
+          type="password"
+          name="userPassword"
+          id="userPassword"
+          value={userPassword}
+          onChange={(e) => setUserPassword(e.target.value)}
+          className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+        />
       </div>
-      <button type="submit" className="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4">Sign up</button>
+      <button
+        type="submit"
+        className="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4"
+      >
+        Sign up
+      </button>
     </form>
   );
 };
 
 export default SignupForm;
 ```
+
 As you can see, I;ve also used some CSS classes from Tailwind to style our form. Now our form is ready and we can submit the form data to the `Create Organisation` API endpoint.
 
 ```tsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const SignupForm: React.FC = () => {
-  const [organisationName, setOrganisationName] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [organisationName, setOrganisationName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`https://wd301-api.pupilfirst.school/organisations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: organisationName, user_name: userName, email: userEmail, password: userPassword}),
-      });
+      const response = await fetch(
+        `https://wd301-api.pupilfirst.school/organisations`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: organisationName,
+            user_name: userName,
+            email: userEmail,
+            password: userPassword,
+          }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Sign-up failed');
+        throw new Error("Sign-up failed");
       }
-      console.log('Sign-up successful');
+      console.log("Sign-up successful");
       // Dialogue: After successful signup we have to redirect the user to the secured page. We will do that later.
     } catch (error) {
-      console.error('Sign-up failed:', error);
+      console.error("Sign-up failed:", error);
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      ...
-      ...
-      ...
-    </form>
-  );
+  return <form onSubmit={handleSubmit}>... ... ...</form>;
 };
 
 export default SignupForm;
 ```
+
 Here, when the form is submitted, the `handleSubmit` function is called, which makes a POST request to the `/organisations` endpoint with the `organisationName`, `userName`, `userEmail` and `userPassword`. If the signup request gets processed in server successfully, the function logs a message to the console. If the request fails, an error message is logged to the console as well.
 
 Now, there is a scope of small refactoring, i.e. the API endpoint `https://wd301-api.pupilfirst.school` is going to be used multiple times throughout our application. So in multiple components we've to write this URL, and if the URL changes (for some reason), then we've to update each and every component to reflect this change. Instead of that, we can simply store it as a constant in our `src/config` folder. So, let's do that.
 
 I'll create a `src/config/constants.ts` file, and add the following content there:
+
 ```ts
-export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT
+export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
 ```
 
 Here, we are trying to read the `VITE_API_ENDPOINT` from environment, and setting the value in a constant called `API_ENDPOINT`.
 
 Next, we have a set this environment variable, and for that we will create a `.env` file in our project root folder, with the following content:
+
 ```
 VITE_API_ENDPOINT=https://wd301-api.pupilfirst.school
 ```
 
 Then I'll import this constant in our `SignupForm` component:
+
 ```tsx
 import React, { useState } from 'react';
 import { API_ENDPOINT } from '../../config/constants';
@@ -268,35 +315,43 @@ import { API_ENDPOINT } from '../../config/constants';
 ```
 
 Then I'll use this constant in the `handleSubmit` method:
+
 ```tsx
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
 
-    try {
-      const response = await fetch(`${API_ENDPOINT}/organisations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: organisationName, user_name: userName, email: userEmail, password: userPassword}),
-      });
+  try {
+    const response = await fetch(`${API_ENDPOINT}/organisations`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: organisationName,
+        user_name: userName,
+        email: userEmail,
+        password: userPassword,
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Sign-up failed');
-      }
-      console.log('Sign-up successful');
-    } catch (error) {
-      console.error('Sign-up failed:', error);
+    if (!response.ok) {
+      throw new Error("Sign-up failed");
     }
-  };
+    console.log("Sign-up successful");
+  } catch (error) {
+    console.error("Sign-up failed:", error);
+  }
+};
 ```
 
 Finally, we are all set to test the signup page.
+
 > Action: Open the app in browser and try to signup, keep browser console opened.
 
 So, as we can see, after filling the form, once we hit the submit button, the `POST /organisations` endpoint is getting called, and we are getting a successful response.
-Now if you would observe the response payload, we are getting a `token` here. 
+Now if you would observe the response payload, we are getting a `token` here.
 
 Now there are two things to take care of:
-1. This `token` is very important as we have to use it to make API calls to secured endpoints. So we have to find a way to store the token in browser.
+
+1. This `token` is very important as we have to use it to make API calls to secured endpoints. So we have to find a way to store the token in the browser.
 2. After successful signup, we've to redirect the users to their dashboard or projects page.
 
 We will do that it later.

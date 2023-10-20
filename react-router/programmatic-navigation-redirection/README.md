@@ -1,12 +1,10 @@
-# Text
-
 In this lesson, we will learn about how programmatic navigation and route redirections work in React Router.
 
 Programmatic navigation and redirections allow you to navigate to different pages in your app or redirect to a different URL programmatically, using JavaScript code instead of clicking on a link or typing in a URL in the address bar.
 
-Let's say we want to add a sign in page to our **smarter tasks** project and redirect the user to the homepage after they've signed in successfully.
+Let's say we want to add a sign-in page to our **smarter tasks** project and redirect the user to the homepage after they've signed in successfully.
 
-First, let's create a new `Signin` component for the sign in page:
+First, let's create a new `Signin` component for the sign-in page:
 
 Create `Signin.tsx` file under the `/src/pages` folder in our `smarter-tasks` project and copy the lines below.
 
@@ -24,7 +22,7 @@ function Signin() {
     e.preventDefault();
     if (username === "admin" && password === "admin") {
       localStorage.setItem("authenticated", "true");
-      navigate("/");
+      navigate("/home");
     } else {
       alert("Invalid username or password");
     }
@@ -88,18 +86,18 @@ function Signin() {
 export default Signin;
 ```
 
-In this example, we use a static username and password to test the programmatic navigation. We will use this to validate the user input and based on that update a local storage object with the authentication state.
+In this example, we use a static username and password to test the programmatic navigation. We will use this to validate the user input and, based on that update a local storage object with the authentication state.
 
-When the user submits the form, we're preventing the default form submission behaviour using `e.preventDefault()`, performing the sign in logic and finally redirecting the user to the homepage using `useNavigate` hook.
+When the user submits the form, we prevent the default form submission behaviour using `e.preventDefault()`, performing the sign in logic and finally redirecting the user to the homepage using `useNavigate` hook.
 
-What we also do is when the user lands on the sign in page for the time the local storage entry for `authenticated` is set to false.
+What we also do is when the user lands on the sign in page for the time, the local storage entry for `authenticated` is set to false.
 
 Next, let's add the routes for the Signin component to the `App.tsx` file:
 
 ```tsx
 // ...
 // ...
-import Signin from "./Signin";
+import Signin from "./pages/Signin";
 
 // ...
 // ...
@@ -141,22 +139,26 @@ Here, you would notice that:
 - I've modified the home page route to `/home`.
 - I've kept the signin page outside the scope of our Layout, as I don't want to show the header in the signin page.
 
-Now, when the user navigates to `/signin`, the Signin component will be rendered.
+Now, when the user navigates to `/signin`, the `Signin` component will be rendered.
 
-While this scenario works, if you navigate to the app using `https://localhost:5173/home` without signing in, the Home page is still displayed. To prevent that, we need to create a ProtectedRoute. This helps you to programmatically decide what happens when a route is accessed.
+While this scenario works, if you navigate to the app using `https://localhost:5173/home` without signing in, the Home page is still displayed. To prevent that, we need to create a `ProtectedRoute`. This helps you to programmatically decide what happens when a route is accessed.
 
 Let's create a file called `ProtectedRoute.tsx` in the `src` folder and add the following code.
 
 ```js
 import { Navigate } from "react-router-dom";
 
-export default function ProtectedRoute({ children }: { children: JSX.Element }) {
+export default function ProtectedRoute({
+  children,
+}: {
+  children: JSX.Element,
+}) {
   const authenticated = localStorage.getItem("authenticated");
-  if (authenticated === 'true') {
+  if (authenticated === "true") {
     return <>{children}</>;
   } else {
     return <Navigate to="/signin" />;
- }
+  }
 }
 ```
 
@@ -173,7 +175,7 @@ import {
 import HomePage from "./pages/HomePage";
 import TaskListPage from "./pages/TaskListPage";
 import TaskDetailsPage from "./pages/TaskDetailsPage";
-import Signin from "./Signin";
+import Signin from "./pages/Signin";
 import ProtectedRoute from "./ProtectedRoute";
 import Layout from "./Layout";
 
@@ -206,7 +208,7 @@ const router = createBrowserRouter([
         element: <TaskDetailsPage />,
       },
     ],
-  }
+  },
 ]);
 
 const App = () => {
@@ -220,7 +222,7 @@ That's it! Now, when the user tries to access the Home page without being authen
 
 Now, let's add a `Signout` option on the Header component, so the user can sign out from within the application.
 
-We do this by adding a link to the Sign in page from within the application. So whenever a user would land on the Sign in page, the Localstorage value for `authenticated` is going to reset.
+We do this by adding a link to the Sign in page from within the application. So whenever a user lands on the Sign-in page, the Localstorage value for `authenticated` is going to reset.
 
 The final `Header.tsx` might look something like this.
 
@@ -231,7 +233,7 @@ const Header = () => {
       <div className="mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex items-center w-1/3">
-          <a href="/home" className="ml-6 text-gray-300 hover:text-white">
+            <a href="/home" className="ml-6 text-gray-300 hover:text-white">
               Home
             </a>
             <a href="/tasks" className="ml-6 text-gray-300 hover:text-white">
@@ -243,9 +245,9 @@ const Header = () => {
           </div>
           <div className="flex items-center w-1/3 justify-end">
             <a href="/signin" className="ml-6 text-gray-300 hover:text-white">
-             Signout
+              Signout
             </a>
-         </div>
+          </div>
         </div>
       </div>
     </nav>
@@ -255,7 +257,7 @@ const Header = () => {
 export default Header;
 ```
 
-So, now let's head back to browser to check everything is working properly or not?
+So, now let's head back to the browser to check everything is working properly or not?
 
 > Action: Open (https://localhost:5173) and test.
 
