@@ -1,6 +1,6 @@
 ## INTRODUCTION
 
-Hello! In this level, we will dive deep into the TypeScript type system. We'll explore the basics and understand how it can make your code more reliable and maintainable.
+Hello! In this lesson, we will dive deep into the TypeScript type system. We'll explore the basics and understand how it can make your code more reliable and maintainable.
 
 Let's start by answering a fundamental question:
 

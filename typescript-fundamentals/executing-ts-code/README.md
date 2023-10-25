@@ -1,6 +1,6 @@
 ## INTRODUCTION
 
-Hello! In this level, we'll tackle a fundamental aspect of TypeScript: how to execute and run TypeScript code.
+Hello! In this lesson, we'll tackle a fundamental aspect of TypeScript: how to execute and run TypeScript code.
 
 If you're new to TypeScript, you might be wondering how to take the code you've written and actually run it in a web browser or another environment. Let's go over the steps you need to follow to do just that.
 
