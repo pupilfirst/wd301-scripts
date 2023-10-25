@@ -1,16 +1,10 @@
-# Script
+In this lesson, we will learn about state in class-based components. We will use state to hold a list of tasks and then render them as new tasks are added to it.
 
-In this video, we will learn about state in class based components. We will use state to hold a list of tasks and then render them as new tasks are added to it.
+Let's go to our `smarter-tasks` react app and open VSCode using `code .`.
 
-> Action: Switch to VSCode, and load the `smarter-tasks` react app.
+Let's first edit our `Task` component inside the `Task.tsx` file to accept a `title` property, so that, we can render different tasks.
 
-Let's first edit our `Task` component to accept a `title` property, so that, we can render different tasks.
-
-> Action: open `Task.tsx`
-
-Since we are using TypeScript, we will have to first create a type for the different properties this component can accept. We can use `interface` to do that.
-
-> Action: create `TaskProp` interface
+Since we are using TypeScript, we will have to first create a type for the different properties this component can accept. We can use `interface` to do that. Let's create a `TaskProp` interface inside our `Task.tsx` file.
 
 ```ts
 interface TaskProp {
@@ -18,80 +12,62 @@ interface TaskProp {
 }
 ```
 
-Then, add it as the first generic parameter in the component definition. This is how we tell TypeScript compiler to always check the `Task` component adheres to it's definition.
+Then, add it as the first generic parameter in the component definition. This is how we tell the TypeScript compiler to always check the `Task` component adheres to its definition.
 
 ```tsx
 class Task extends React.Component<TaskProp> {
   render() {
-    return (
-      <div>Buy groceries </div>
-    )
+    return <div>Buy groceries </div>;
   }
 }
 ```
 
-As soon as I add this, the compiler complains `Property 'title' is missing in type`. This is where TypeScript helps us in reducing the surprise bugs. It is asking us to provide `title` prop along with the `Task` component in the `App.tsx` file.
-
-Let's do that.
-
-> Action: edit `App.tsx` to include `title` prop
+As soon as we add this, the compiler complains `Property 'title' is missing in type`. This is where TypeScript helps us in reducing the surprise bugs. It is asking us to provide `title` prop along with the `Task` component in the `App.tsx` file. To do this, we will go to `App.tsx` file and include `title` prop in that
 
 ```tsx
 function App() {
   return (
     <div className="App">
-      <Task title='Pay rent'/>
+      <Task title="Pay rent" />
     </div>
   );
 }
 ```
 
-Now, let's actually render this `title` prop, instead of hard coded string in `Task.tsx`.
-
-> Action: switch to `Task.tsx`
+Now, let's actually render this `title` prop, instead of hard-coded string in `Task.tsx`. Switch to `Task.tsx` file and update our earlier TaskProp.
 
 ```tsx
 class Task extends React.Component<TaskProp> {
   render() {
-    return (
-      <div>{this.props.title}</div>
-    )
+    return <div>{this.props.title}</div>;
   }
 }
 ```
 
-Let's save the file. And visit `localhost:5173`. Now we can see the title being rendered, which is actually passed as a prop.
+Let's save the file. And visit `localhost:5173`. Now we can see the title being rendered, which is actually passed as a prop, i.e., `Pay rent`.
 
-Now, let's create another component `TaskList.tsx`, which will hold all the task entries and then render each item using `Task` component.
-
-> Action: Create a file `TaskList.tsx`
+Now, let's create another component `TaskList.tsx`, which will hold all the task entries and then render each item using the `Task` component. To do this, we will create a new file `TaskList.tsx` under the `src` folder with the following code:
 
 ```tsx
 import React from "react";
+import Task from "./Task";
 
-class TaskList extends React.Component {
-  
-}
+class TaskList extends React.Component {}
 
 export default TaskList;
 ```
 
-Now, let's import `Task` component and use it to render a task. Let's cut the line from `App.tsx` and paste it in `TaskList.tsx`.
+Now, let's import the `Task` component and use it to render a task. Let's cut the line from `App.tsx` and paste it in `TaskList.tsx`.
 
 ```tsx
-import React from "react";
-import Task from "./Task"
-
 class TaskList extends React.Component {
   render() {
-    return (
-      <Task title='Pay rent'/>
-    )
+    return <Task title="Pay rent" />;
   }
 }
 ```
 
-Then update `App.tsx` to use `TaskList` component.
+Then we will update `App.tsx` to use the `TaskList` component.
 
 ```tsx
 import TaskList from "./TaskList";
@@ -107,16 +83,15 @@ function App() {
 
 Everything is working like before.
 
-Next, we will look how we can use state in class based components to display a list of tasks.
+Next, we will look at how we can use state in class-based components to display a list of tasks.
 
-To do that, we will have to first create types for `props` and `state` for the `TaskList` component.
+To do that, we will have to first create types for `props` and `state` for the `TaskList` component. Add the following code to the `TaskList.tsx` file.
 
 ```tsx
-interface Props {
-}
+interface Props {}
 
 interface TaskItem {
-  title: string
+  title: string;
 }
 interface State {
   tasks: TaskItem[];
@@ -125,25 +100,23 @@ interface State {
 
 The state will have a key `tasks` which would be an array of `TaskItem`.
 
-Let's now initialize a state in the constructor of `TaskList` component. When we write constructor, we will have to call the `super` and pass the props. Also TypeScript will complain if we don't set the type of `props` in the constructor.
+Let's now initialize a state in the constructor of `TaskList` component. When we write a constructor, we will have to call the `super` and pass the props. Also, TypeScript will complain if we don't set the type of `props` in the constructor.
 
 ```tsx
 class TaskList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      tasks: []
-    }
+      tasks: [],
+    };
   }
   render() {
-    return (
-      <Task title='Pay rent'/>
-    )
+    return <Task title="Pay rent" />;
   }
 }
 ```
 
-Now, rather than rendering a hardcoded value, let's render the tasks from state. To do that, let's ad some initial value to state.
+Now, rather than rendering a hardcoded value, let's render the tasks from state. To do that, let's add some initial value to the state.
 
 ```tsx
 class TaskList extends React.Component<Props, State> {
@@ -154,9 +127,7 @@ class TaskList extends React.Component<Props, State> {
     };
   }
   render() {
-    return (
-      <Task title='Pay rent'/>
-    );
+    <Task title="Pay rent" />;
   }
 }
 ```

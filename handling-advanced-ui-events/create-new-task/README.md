@@ -1,25 +1,25 @@
-# Text
-
-In this lesson, we will add capability to create a task under a project.
+In this lesson, we will add the capability to create a task under a project.
 
 Let's open `src/pages/project_details/ProjectDetails.tsx` in VS Code.
 
-We will add a `button` wrapped in `Link` to navigate to `tasks/new` url, so that we can render a modal window. The button should have `newTaskBtn` as it's `id`.
+## Adding a button for new task
+
+We will add a `button` wrapped in `Link` to navigate to `tasks/new` URL so that we can render a modal window. The button should have `newTaskBtn` as it's `id`.
 
 ```tsx
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { useProjectsState } from "../../context/projects/context";
 
 const ProjectDetails = () => {
   const projectState = useProjectsState();
+  let { projectID } = useParams();
 
-  const selectedProject = projectState?.activeProject;
+  const selectedProject = projectState?.projects.filter(
+    (project) => `${project.id}` === projectID
+  )?.[0];
 
-  if (projectState?.isLoading) {
-    return <>Loading...</>;
-  }
   if (!selectedProject) {
     return <>No such Project!</>;
   }
@@ -48,15 +48,17 @@ export default ProjectDetails;
 
 Save the file.
 
-Now if you visit the project details page, you will see a `New Task` button. If you click on it, it will take you to `/accounts/project/:projectID/tasks/new` route.
+Now, if you visit the project details page, you will see a `New Task` button. If you click on it, it will take you to `/accounts/project/:projectID/tasks/new` route.
 
-Next, we will render a modal window, which will accept `title`, `description`, and `dueDate` from user and then create a task.
+## Render a modal window for the new task
 
-We have to first create and setup a context, actions and reducer like we did while creating a project.
+Next, we will render a modal window, which will accept `title`, `description`, and `dueDate` from the user and then create a task.
 
-Let's create a folder `tasks` in `src/context`. We will next create empty files `actions.ts`, `context.tsx`, `reducer.ts`, and `types.ts`.
+We have to first create and set up a context, actions and reducer like we did while creating a project.
 
-Open `src/context/tasks/types.ts` and add actions for the API request. We will also create a `TaskListState` to hold loading status of API requests and a `TasksDispacth` type to be used with context. We will use `enum` to store the list of actions available.
+Let's create a folder `task` in `src/context`. We will next create empty files `actions.ts`, `context.tsx`, `reducer.ts`, and `types.ts`.
+
+Open `src/context/task/types.ts` and add actions for the API request. We will also create a `TaskListState` to hold the loading status of API requests and a `TasksDispatch` type to be used with context. We will use `enum` to store the list of actions available.
 
 ```ts
 export interface TaskListState {
@@ -84,7 +86,7 @@ export type TasksDispatch = React.Dispatch<TaskActions>;
 
 Save the file.
 
-Next, we need to create a reducer. Open `src/context/tasks/reducer.ts`. Here, we will update the state based on action that is dispatched. We will toggle the `isLoading` to true when the request is initiated. Then, we will turn it to `false` when the request succeeds, or update the state with an error message.
+Next, we need to create a reducer. Open `src/context/task/reducer.ts`. Here, we will update the state based on the action that is dispatched. We will toggle the `isLoading` to true when the request is initiated. Then, we will turn it to `false` when the request succeeds, or update the state with an error message.
 
 ```tsx
 import { Reducer } from "react";
@@ -122,12 +124,13 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 
 Now we have our reducer ready.
 
+## Add API corresponding to new task
+
 Next, we need to add the actual API call that needs to be invoked to create a task.
 
-Let's open `src/context/tasks/actions.ts` and update it as per the following code.
+Let's open `src/context/task/actions.ts` and update it as per the following code.
 
 ```tsx
-
 // Import required type annotations
 import { API_ENDPOINT } from "../../config/constants";
 import {
@@ -192,7 +195,7 @@ Switch back to `actions.ts`.
 
 In this file, we provide a `dispatch`, `projectID`, and `task` to create a new task. We are sending a POST request to `{API_ENDPOINT}/projects/{projectID}/tasks/` as mentioned in [Create Task API doc](https://wd301-api.pupilfirst.school/#/Tasks/post_projects__projectId__tasks)
 
-Next, we need to create a context, so that we can pass around the state and actions to components. Open `src/context/tasks/context.tsx` and create `TasksStateContext` and `TasksDispatchContext` similar to how we added `ProjectsStateContext` and `ProjectsDispatchContext` . We will also create `useTasksState` and `useTasksDispatch` hooks to make the context easier to use in components.
+Next, we need to create a context so that we can pass around the state and actions to components. Open `src/context/task/context.tsx` and create `TasksStateContext` and `TasksDispatchContext` similar to how we added `ProjectsStateContext` and `ProjectsDispatchContext`. We will also create `useTasksState` and `useTasksDispatch` hooks to make the context easier to use in components.
 
 ```tsx
 import React, { createContext, useContext, useReducer } from "react";
@@ -224,13 +227,13 @@ Next, we will use this context to pass the list of tasks to the `ProjectDetail` 
 Open `index.tsx` file from `src/pages/project_details` folder in VS Code and import the newly created context in it.
 
 ```tsx
-import { TasksProvider } from "../../context/tasks/context";
+import { TasksProvider } from "../../context/task/context";
 ```
 
 We will wrap the `ProjectDetails` component with `TasksProvider`, so that values passed in the context are available in `ProjectDetails` component.
 
 ```tsx
-const ProjectDetailsContainer: React.FC = () => {
+const ProjectDetailsIndex: React.FC = () => {
   return (
     <TasksProvider>
       <ProjectDetails />
@@ -240,8 +243,11 @@ const ProjectDetailsContainer: React.FC = () => {
 };
 ```
 
+## Creating the modal window component
+
 Now, we have to create the modal window component. We will use something similar to the window used to create a new project.
-Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with following content. We will use `react-hook-form` to manage the form. We will register three elements with react-hook-form. ie, `title`, `description` and `dueDate`.
+
+Let's create a folder named `tasks` in `src/pages`. Inside this folder, let's create a file named `NewTask.tsx` with the following content. We will use `react-hook-form` to manage the form. We will register three elements with react-hook-form. i.e., `title`, `description` and `dueDate`.
 
 ```tsx
 import { Dialog, Transition } from "@headlessui/react";
@@ -249,9 +255,9 @@ import { Fragment, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useProjectsState } from "../../context/projects/context";
-import { useTasksDispatch } from "../../context/tasks/context";
-import { addTask } from "../../context/tasks/actions";
-import { TaskDetailsPayload } from "../../context/tasks/types";
+import { useTasksDispatch } from "../../context/task/context";
+import { addTask } from "../../context/task/actions";
+import { TaskDetailsPayload } from "../../context/task/types";
 
 const NewTask = () => {
   let [isOpen, setIsOpen] = useState(true);
@@ -269,7 +275,9 @@ const NewTask = () => {
   const taskDispatch = useTasksDispatch();
 
   // We do some sanity checks to make sure the `projectID` passed is a valid one
-  const selectedProject = projectState?.activeProject;
+  const selectedProject = projectState?.projects.filter(
+    (project) => `${project.id}` === projectID
+  )?.[0];
   if (!selectedProject) {
     return <>No such Project!</>;
   }
@@ -381,13 +389,13 @@ export default NewTask;
 
 Save the file.
 
-This is very similar to the modal window used to create a new project. Here, we use `navigate` hook from `react-router-dom` to control the redirection of browser after creating a task or when the modal window is closed.
+This is very similar to the modal window used to create a new project. Here, we use the `navigate` hook from `react-router-dom` to control the redirection of the browser after creating a task or when the modal window is closed.
 
-To create a task, we are sending the API request when the form is submitted. In this component also, we do some sanity checks like, whether the project id in the url is valid or not.
+To create a task, we send the API request when the form is submitted. In this component also, we do some sanity checks like, whether the project id in the URL is valid or not.
 
-We use `context` to pass down already fetched project list to the `NewTask` component.
+We use `context` to pass down an already fetched project list to the `NewTask` component.
 
-Next we need to update the `src/routes/index.tsx` to render this component for a new task route.
+Next, we need to update the `src/routes/index.tsx` to render this component for a new task route.
 
 Open `src/routes/index.tsx` in VS Code.
 
@@ -397,11 +405,12 @@ Import the `NewTask` component.
 import NewTask from "../pages/tasks/NewTask";
 ```
 
-Next, we will ask router to render this component for new task url.
+Next, we will ask the router to render this component for the new task URL.
 
 ```tsx
 {
   path: "projects",
+  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
@@ -430,6 +439,6 @@ Next, we will ask router to render this component for new task url.
 }
 ```
 
-Save the file. Now if you click on `New Task` button in project details page, it will show a modal where you can provide a `title`, `description` and `dueDate`. On submitting the form, it will also invoke the API and create a task. You can verify it by opening the `Network` tab of developer console of your browser.
+Save the file. Now if you click on the `New Task` button in project details page, it will show a modal where you can provide a `title`, `description` and `dueDate`. On submitting the form, it will also invoke the API and create a task. You can verify it by opening the `Network` tab of the developer console of your browser.
 
 We currently don't display the tasks associated with the project. Let's do that in the next lesson.

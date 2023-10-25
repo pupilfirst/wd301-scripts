@@ -1,5 +1,3 @@
-# Text
-
 In this lesson, we will create TypeScript types to model the API response.
 
 Let's take a look at the API response for listing a task.
@@ -51,19 +49,19 @@ We can see the response is of the following shape.
 }
 ```
 
-We have three columns ie, `pending`, `in_progress`, and `done`. We have `columnOrder`, which can be used to control in what order the lists must be rendered. Then we have the tasks which can be accessed using their `id`.
+We have three columns i.e., `pending`, `in_progress`, and `done`. We have `columnOrder`, which can be used to control in what order the lists must be rendered. Then we have the tasks which can be accessed using their `id`.
 
 Now, let's create types to model this shape.
 
 We will use a `union` type to model the columns.
 
-Open `src/context/tasks/types.ts` file in VS Code and add the following entry to it.
+Open `src/context/task/types.ts` file in VS Code and add the following entry to it.
 
 ```ts
 export type AvailableColumns = "pending" | "in_progress" | "done";
 ```
 
-Each entry in a column i.e.,
+Each entry in a column, i.e.,
 
 ```json
 {
@@ -73,7 +71,7 @@ Each entry in a column i.e.,
 }
 ```
 
-can be modelled as follows.
+...can be modelled as follows.
 
 ```ts
 export type ColumnData = {
@@ -100,12 +98,12 @@ export type TaskDetails = {
   description: string;
   dueDate: string;
   state: AvailableColumns;
-  assignee?: number,
-  assignedUserName?: string
+  assignee?: number;
+  assignedUserName?: string;
 };
 ```
 
-We can rewrite the `TaskDetailsPayload` to re use the `TaskDetails` type. TypeScript provides a utility type called `Omit`, which helps in creating a new type by list of attributes of already existing type. We just need to discard `id` `assignee`, `state` from `TaskDetails` type.
+We can rewrite the `TaskDetailsPayload` to re-use the `TaskDetails` type. TypeScript provides a utility type called `Omit`, which helps in creating a new type by list of attributes of an already existing type. We just need to discard `id` `assignee`, `state` from `TaskDetails` type.
 
 ```tsx
 export type TaskDetailsPayload = Omit<TaskDetails, "id" | "assignee" | "state">;
@@ -129,7 +127,7 @@ export type ProjectData = {
 };
 ```
 
-We will use `useReducer` hook to manage the state. So, we already have defined `TaskListState` as the state's type. In the state, we have the API response, then some flags whether the data is currently loading or has errored etc. We will also add the `ProjectData` type to it.
+We will use the `useReducer` hook to manage the state. So, we have already defined `TaskListState` as the state's type. In the state, we have the API response, then some flags whether the data is currently loading or has errored etc. We will also add the `ProjectData` type to it.
 
 ```ts
 export interface TaskListState {
@@ -142,7 +140,7 @@ export interface TaskListState {
 
 You can also use a `type` here instead of an `interface`.
 
-At first, we will work with static data and make sure our drag and drop works. Let's create a file `initialData.ts` in `src/context/tasks` folder with following content.
+At first, we will work with static data and make sure our drag and drop works. Let's create a file `initialData.ts` in `src/context/task` folder with following content.
 
 ```ts
 import { ProjectData } from "./types";
@@ -173,7 +171,7 @@ const initialData: ProjectData = {
       dueDate: "",
       state: "in_progress",
       assignee: undefined,
-      assignedUserName: undefined
+      assignedUserName: undefined,
     },
     "2": {
       id: 2,
@@ -182,7 +180,7 @@ const initialData: ProjectData = {
       dueDate: "",
       state: "pending",
       assignee: undefined,
-      assignedUserName: undefined
+      assignedUserName: undefined,
     },
   },
   columnOrder: ["pending", "in_progress", "done"],
@@ -191,7 +189,7 @@ const initialData: ProjectData = {
 export default initialData;
 ```
 
-Now, we will use this initial state in our `taskReducer`. Let's open `src/context/tasks/reducer.ts` and update the initial state.
+Now, we will use this initial state in our `taskReducer`. Let's open `src/context/task/reducer.ts` and update the initial state.
 
 ```tsx
 import { Reducer } from "react";
@@ -212,7 +210,7 @@ We have now defined an initial state. Next, we need to update the actions availa
 
 Switch to `types.ts` and add an entry `REORDER_TASKS`
 
-We use an `enum` to model the available actions, so that we don't deal with any [magic strings](https://deviq.com/antipatterns/magic-strings)
+We use an `enum` to model the available actions so that we don't deal with any [magic strings](https://deviq.com/antipatterns/magic-strings)
 
 ```ts
 export enum TaskListAvailableAction {
@@ -222,7 +220,9 @@ export enum TaskListAvailableAction {
 
   REORDER_TASKS = "REORDER_TASKS",
 }
+```
 
+```ts
 // Define the action types and payload
 export type TaskActions =
   | { type: TaskListAvailableAction.CREATE_TASK_REQUEST }
@@ -263,24 +263,15 @@ export const taskReducer: Reducer<TaskListState, TaskActions> = (
 
 We will update the state with new ordering whenever `REORDER_TASKS` action is dispatched.
 
-To actually invoke it, we need to add a `reorderTasks` function in `action.ts`. Let's open `src/context/tasks/action.ts` and add it.
+To actually invoke it, we need to add a `reorderTasks` function in `action.ts`. Let's open `src/context/task/action.ts` and add it.
 
 ```tsx
-// ...
-// ...
-import {
-  TaskDetailsPayload,
-  TaskListAvailableAction,
-  TasksDispatch,
-  ProjectData
-} from "./types";
-
-// ...
-// ...
-
-export const reorderTasks = (dispatch: TasksDispatch, newState: ProjectData)  => {
-  dispatch({type: TaskListAvailableAction.REORDER_TASKS, payload: newState})
-}
+export const reorderTasks = (
+  dispatch: TasksDispatch,
+  newState: ProjectData
+) => {
+  dispatch({ type: TaskListAvailableAction.REORDER_TASKS, payload: newState });
+};
 ```
 
 See you in the next lesson.

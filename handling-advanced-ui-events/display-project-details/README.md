@@ -1,10 +1,8 @@
-# Text
-
-Now that we have added routes to display project details, let's add a hyperlink to the project name. So, when a user clicks on it, they will be taken to detail page of the corresponding project.
+Now that we have added routes to display project, details, let's add a hyperlink to the project name. So, when a user clicks on it, they will be taken to the detail page of the corresponding project.
 
 Open `src/pages/projects/ProjectListItems.tsx` in VS Code.
 
-To create a hyperlink, we will use `Link` component from `react-router-dom` package. It will essentially be rendered as `anchor` tag in final html.
+To create a hyperlink, we will use the `Link` component from the `react-router-dom` package. It will essentially be rendered as `anchor` tag in final HTML.
 
 Let's import it first.
 
@@ -12,7 +10,7 @@ Let's import it first.
 import { Link } from "react-router-dom";
 ```
 
-`Link` component takes a `to` prop, which will be the `href` of final `a` tag that will be rendered. We will pass `id` as the value of `to` prop. Then the final url will be a relative url which will be `/account/projects/:projectID`. Whenever we are creating a list of items in React, we will have to pass a `key` prop also. It is with value of the `key`, react uniquely identifies a component in a tree.
+`Link` component takes a `to` prop, which will be the `href` of final `a` tag that will be rendered. We will pass `id` as the value of `to` prop. Then the final URL will be a relative URL which will be `/account/projects/:projectID`. Whenever we are creating a list of items in React, we will have to pass a `key` prop as well. It is with the value of the `key`, react uniquely identifies a component in a tree.
 
 We will wrap the `h5` component to make it a hyperlink. It will be linked to `id` of the project. This is how `src/pages/projects/ProjectListItems.tsx` will look like.
 
@@ -60,120 +58,7 @@ Let's create a folder `src/pages/project_details`. Inside the folder, let's crea
 
 In this component, we will extract the value of `projectID`, then filter it out from list of available projects to make sure it is a valid `id`. Then we will go on displaying the name of the project as a header.
 
-To validate a given project `id`, we will have to send a request to backend. Let's add such a request to project context and actions.
-
-Open `src/context/projects/reducer.ts` file.
-
-We will add an `activeProject` key to the `ProjectsState` interface. This key will hold the project details if the given project `id` is valid else it will be `undefined`.
-
-```tsx
-export interface ProjectsState {
-  projects: Project[];
-  isLoading: boolean;
-  isError: boolean;
-  errorMessage: string;
-  activeProject?: Project;
-}
-```
-
-Now, let's update the `ProjectActions` to include request action, success action and failure action.
-
-```tsx
-export type ProjectsActions =
-  | { type: "FETCH_PROJECTS_REQUEST" }
-  | { type: "FETCH_PROJECTS_SUCCESS"; payload: Project[] }
-  | { type: "FETCH_PROJECTS_FAILURE"; payload: string }
-  | { type: "ADD_PROJECT_SUCCESS"; payload: Project }
-  | { type: "FETCH_PROJECT_REQUEST" }
-  | { type: "FETCH_PROJECT_SUCCESS"; payload: Project }
-  | { type: "FETCH_PROJECT_FAILURE" };
-```
-
-If the request is successful, we will have a payload with project details.
-
-Finally, let's update the reducer as well.
-
-```tsx
-export const reducer = (
-  state: ProjectsState = initialState,
-  action: ProjectsActions
-): ProjectsState => {
-  switch (action.type) {
-    case "FETCH_PROJECTS_REQUEST":
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case "FETCH_PROJECTS_SUCCESS":
-      return {
-        ...state,
-        isLoading: false,
-        projects: action.payload,
-      };
-    case "FETCH_PROJECTS_FAILURE":
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-        errorMessage: action.payload,
-      };
-    case "ADD_PROJECT_SUCCESS":
-      return { ...state, projects: [...state.projects, action.payload] };
-    case "FETCH_PROJECT_REQUEST":
-      return { ...state, isLoading: true };
-    case "FETCH_PROJECT_SUCCESS":
-      return { ...state, isLoading: false, activeProject: action.payload };
-    case "FETCH_PROJECT_FAILURE":
-      return { ...state, isLoading: false, activeProject: undefined }; 
-    default:
-      return state;
-  }
-};
-```
-
-Now, we need to add the actual API call to fetch project details from backend.
-
-Open `src/context/projects/actions.ts` and add code to fetch a project details.
-
-```tsx
-export const fetchProject = async (dispatch: any, projectID: string) => {
-  try {
-    const token = localStorage.getItem("authToken") ?? "";
-    dispatch({ type: "FETCH_PROJECT_REQUEST" });
-
-    const response = await fetch(`${API_ENDPOINT}/projects/${projectID}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch project details");
-    }
-
-    const data = await response.json();
-
-    if (data.errors && data.errors.length > 0) {
-      return { ok: false, error: data.errors[0].message };
-    }
-
-    dispatch({ type: "FETCH_PROJECT_SUCCESS", payload: data });
-    return { ok: true };
-  } catch (error) {
-    console.error("Operation failed:", error);
-    dispatch({ type: "FETCH_PROJECT_FAILURE" });
-    return { ok: false, error };
-  }
-};
-```
-
-We dispatch `FETCH_PROJECT_SUCCESS` action with project details if the provided `id` is a valid project id. Else we dispatch a `FETCH_PROJECT_FAILURE` action.
-
-Save the file.
-
-Now, we will extract `activeProject` value from context in `ProjectDetails` component which will have project details if a valid project id was given. Swith to `ProjectDetails.tsx` file.
+`react-router-dom` provides a hook `useParams` to extract the value of a [`dynamic segment`](https://reactrouter.com/en/main/route/route#dynamic-segments) in an URL pattern.
 
 Add the following content to `ProjectDetails.tsx`
 
@@ -186,12 +71,10 @@ const ProjectDetails = () => {
   const projectState = useProjectsState();
   let { projectID } = useParams();
 
-  const selectedProject = projectState?.activeProject;
+  const selectedProject = projectState?.projects.filter(
+    (project) => `${project.id}` === projectID
+  )?.[0];
 
-  if (projectState?.isLoading) {
-    return <>Loading...</>;
-  }
-  
   if (!selectedProject) {
     return <>No such Project!</>;
   }
@@ -209,29 +92,24 @@ const ProjectDetails = () => {
 export default ProjectDetails;
 ```
 
-If no valid project is found, we will render a text `No such Project!`. If a project is found, then we will render it's name.
+Here, we use [`optional chaining`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) to get the first element from the filtered project list. If the array is empty due to an invalid id, it will return undefined.
+
+If no valid project is found, we will render a text `No such Project!`. If a project is found, then we will render its name.
 
 Save the file.
 
 Now, we will create a wrapper component so that we will be able to render child elements like a modal window for creating a task. We will use the `Outlet` component to help us with this.
 
-Create a file `src/pages/project_details/index.tsx` with following content.
+Create a file `src/pages/project_details/index.tsx` with the following content.
 
 ```tsx
-import React, { useEffect } from "react";
+import React from "react";
 
 import ProjectDetails from "./ProjectDetails";
 
-import { Outlet, useParams } from "react-router-dom";
-import { useProjectsDispatch } from "../../context/projects/context";
-import { fetchProject } from "../../context/projects/actions";
+import { Outlet } from "react-router-dom";
 
-const ProjectDetailsContainer: React.FC = () => {
-  let { projectID } = useParams();
-  const projectDispatch = useProjectsDispatch();
-  useEffect(() => {
-    if (projectID) fetchProject(projectDispatch, projectID);
-  }, [projectID, projectDispatch]);
+const ProjectDetailsIndex: React.FC = () => {
   return (
     <>
       <ProjectDetails />
@@ -240,12 +118,10 @@ const ProjectDetailsContainer: React.FC = () => {
   );
 };
 
-export default ProjectDetailsContainer;
+export default ProjectDetailsIndex;
 ```
 
-`react-router-dom` provides a hook `useParams` to extract value of a [`dynamic segment`](https://reactrouter.com/en/main/route/route#dynamic-segments) in a url pattern.
-
-We have added an `Outlet` component so that we can plug the modal window which will be used to create tasks in it.
+We have added an `Outlet` component so that we can plug the modal window, which will be used to create tasks in it.
 
 Now, we have to use this component in the routes.
 
@@ -255,11 +131,14 @@ Open `src/routes/index.tsx`. We will import this component.
 import ProjectDetails from "../pages/project_details";
 ```
 
+> Note: We are specifying only the folder name here. This will by default import the `default export`-ed component in the `index.tsx` file in `project_details` folder ie, `ProjectDetailsIndex ` component.
+
 Then we will replace the component to be rendered in the route.
 
 ```tsx
 {
   path: "projects",
+  element: <ProjectContainer />,
   children: [
     { index: true, element: <Projects /> },
     {
@@ -284,6 +163,6 @@ Then we will replace the component to be rendered in the route.
 },
 ```
 
-Save the file. Now clicking on a project's name will take to it's detail page where we currently display the project name.
+Save the file. Now clicking on a project's name will take to its detail page where we currently display the project name.
 
 See you in the next lesson.
