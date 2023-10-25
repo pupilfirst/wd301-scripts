@@ -1,79 +1,89 @@
-In this level, we will learn about executing and running TypeScript code. If you're new to TypeScript, you might be wondering how to take the code that you've written and actually run it in a web browser or other environment. Let us go over the steps you need to follow to do just that.
+## INTRODUCTION
 
-Before we begin, it's important to note that TypeScript code cannot be directly run in a web browser or other environment. This is because TypeScript is a compiled language, which means that it needs to be transformed into plain JavaScript before it can be executed. However, the TypeScript compiler makes this process easy and straightforward.
+Hello! In this lesson, we'll tackle a fundamental aspect of TypeScript: how to execute and run TypeScript code.
 
-Here are the steps you'll need to follow to execute and run your TypeScript code:
+If you're new to TypeScript, you might be wondering how to take the code you've written and actually run it in a web browser or another environment. Let's go over the steps you need to follow to do just that.
 
-- Install the TypeScript compiler: First, you'll need to install the TypeScript compiler on your machine. You can do this by running the following command:
+> Action: Display the text "TypeScript Compilation" on the screen.
 
-```
+First, it's important to understand that TypeScript code cannot be directly run in a web browser or other environments. TypeScript is a compiled language, which means it needs to be transformed into plain JavaScript before it can be executed. But don't worry, TypeScript makes this process easy.
+
+## STEP 1: Install TypeScript Compiler
+
+> Action: Display the command to install the TypeScript compiler.
+
+The first step is to install the TypeScript compiler on your machine. You can do this by running the following command in the terminal:
+
+```shell
 npm install -g typescript
 ```
 
-- Go to your `hello-react` project and launch VS Code using `code .`. Create a new file called `index.ts` here and enter the following piece of code:
+This installs TypeScript globally on your system.
 
-```
-console.log("This is a typescript file!!!");
-```
+## STEP 2: Create a TypeScript File
 
-- Setup typescript compiler configuration: We need to generate the default configuration file for TypeScript by running following command:
+> Action: Show the creation of an `index.tsx` file and add code.
 
-```
-tsc --init
-```
+Next, create a new file in your working directory, i.e., `hello-react` folder and name it `index.ts`. Inside this file, you can write your TypeScript code. For example:
 
-- This will generate a `tsconfig.json` file in the `hello-react` directory.
-
-- Since we will be using `node` to run the compiled TypeScript file, we will have to install type definitions for Node.js by running the following command:
-
-```
-npm install -D @types/node
+```typescript
+console.log("This is a TypeScript file!!!");
 ```
 
-- Compile your TypeScript code: Once you have the TypeScript compiler installed, you can use it to compile your TypeScript code into JavaScript. To do this, navigate to the directory containing your TypeScript files and run the following command:
+## STEP 3: Compile TypeScript Code
 
-```
-tsc index.ts
-```
+> Action: Demonstrate how to compile TypeScript code.
 
-- This will compile your `index.ts` file into a corresponding `index.js` file. You can also compile multiple TypeScript files at once by specifying them as additional arguments, like this:
+Once you have the TypeScript compiler installed, you can use it to compile your TypeScript code into JavaScript. To do this, navigate to `hello-react` directory that contains the file you just created and run the following command:
 
-```
-tsc index.ts script.ts
+```shell
+tsc index.tsx
 ```
 
-- Run the generated JavaScript code: Once your TypeScript code has been compiled into JavaScript, you can run it just like you would any other JavaScript code. If you're running it in a web browser, you can do this by including the generated `.js` file in your HTML file like so:
+This command will compile your `index.tsx` file into a corresponding `index.js` file. You can also compile multiple TypeScript files at once by specifying them as additional arguments.
+
+## STEP 4: Run JavaScript Code
+
+> Action: Show how to run the generated JavaScript code in a web browser.
+
+Now that your TypeScript code is compiled into JavaScript, you can run it just like any other JavaScript code. If you're running it in a web browser, include the generated `.js` file in your HTML file like this:
 
 ```html
 <script src="index.js"></script>
 ```
 
-- Alternatively, you can run the generated JavaScript code using `Node.js` by running the following command:
+Alternatively, if you want to run the generated JavaScript code using Node.js, you can use the following command:
 
-```
+```shell
 node index.js
 ```
 
-The above might not be the ideal way we run our code, as in most scenarios we use the node bundled with other packages to run our application code written in TypeScript.
+## ALTERNATIVE: Using ts-node
 
-Alternatively, we can use an external npm package to compile and run our TypeScript code in a single command.
+> Action: Explain an alternative method using `ts-node`.
 
-- Install and use the `ts-node` package using the following command:
+While the previous steps work, in most scenarios, we use Node.js bundled with other packages to run our TypeScript applications.
 
-```
+Alternatively, you can use an external npm package called `ts-node` to compile and run your TypeScript code in a single command.
+
+- Install and use the `ts-node` package by running:
+
+```shell
 npm install -g ts-node
 ```
 
-- Once done, you can directly execute your TypeScript code by running the below command in the terminal
+- Once installed, you can directly execute your TypeScript code by running:
 
+```shell
+ts-node index.ts
 ```
-ts-node-esm index.ts
-```
 
-> Note: We are using `ts-node-esm` here because, we scaffolded the application using vite and we have an entry `type: module` in `package.json`
+This simplifies the process of running TypeScript code.
 
-You can learn more about `ts-node` usage [here](https://www.npmjs.com/package/ts-node)
+## CONCLUSION
 
-You should now be able to execute and run your TypeScript code in your chosen environment.
+> Action: Transition to the closing shot.
 
-Let us learn more about Typescript in future lessons. See you at the next one.
+That's it for this lesson on executing and running TypeScript code! Now you know how to take your TypeScript code and make it run in your chosen environment.
+
+In future lessons, we'll delve deeper into TypeScript. See you in the next one, and happy coding!
