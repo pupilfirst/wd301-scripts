@@ -1,14 +1,8 @@
-# Text
-
-In this lesson we will learn how to create a custom hook, which can be used to save data to `localStorage`.
-
-## Script
-
 In this lesson, we will learn how to create our own custom hook. We will use a custom hook to store values to `localStorage`.
 
-Let's create a folder named `hooks` then a file named `useLocalStorage.ts` in it.
+Let's create a folder named `hooks` inside your `src` folder under the `smarter-tasks` project that you created in the last level. Create a file named `useLocalStorage.ts` inside the `hooks` subfolder.
 
-> Action: Create a file named `hooks/useLocalStorage.ts`
+> Action: Create a file named `hooks/useLocalStorage.ts` inside `wd301/smarter-tasks/src/hooks`
 
 Let's add a helper function to extract value stored in `localStorage`.
 
@@ -22,19 +16,9 @@ const getStoredValue = (key: string, defaultValue: any) => {
 };
 ```
 
-Now, we can write our hook. Let's call it `useLocalStorage`. We will use a `state` to store the values, and an `effect` which would trigger whenever the `state` changes. We will then return the `state` and `setter` function. That is what hooks usually do. Now this can be used in components to get the value or set the value.
+Now, we can write our hook. Let's call it `useLocalStorage`. We will use a `state` to store the values, and an `effect` which would trigger whenever the `state` changes. We will then return the `state` and `setter` function. That is what hooks usually do. Now, this can be used in components to get the value or set the value.
 
 ```ts
-import React, { useState, useEffect } from "react"
-
-const getStoredValue = (key: string, defaultValue: any) => {
-  const savedItem = localStorage.getItem(key);
-  if (savedItem) {
-    return JSON.parse(savedItem);
-  }
-  return defaultValue;
-};
-
 export const useLocalStorage = (key: string, defaultValue: any) => {
   const [value, setValue] = useState(() => {
     return getStoredValue(key, defaultValue);
@@ -56,7 +40,7 @@ Now, we use `any` as the type of value which is being saved. It breaks the type 
 React.useState<TaskAppState>;
 ```
 
-We provided `TaskAppState` as the type for the state. This is made possible with a concept called `generics`. It simply means, when we write a piece of code, we won't limit it to a particular type, instead we provide a placeholder. Then whenever this function is used in other part of the code, a type will be specified and it will be used. So if you look at declaration of the `useState`,
+We provided `TaskAppState` as the type for the state. This is made possible with a concept called `generics`. It simply means, when we write a piece of code, we won't limit it to a particular type, instead we provide a placeholder. Then whenever this function is used in other part of the code, a type will be specified, and it will be used. So if you look at the declaration of the `useState`,
 
 > Action: Command + click on `React.useState` to show the TS declaration file.
 
@@ -66,7 +50,7 @@ function useState<S>(
 ): [S, Dispatch<SetStateAction<S>>];
 ```
 
-We can see this wierd looking syntax with angle brackets. `S` is a placeholder. When we invoke, `useState`, we have to provide it. Like we provided `TaskAppState`.
+We can see this weird looking syntax with angle brackets. `S` is a placeholder. When we invoke, `useState`, we have to provide it. Like, we provided `TaskAppState`.
 
 > Action: open <https://www.typescriptlang.org/docs/handbook/2/generics.html> in browser, highlight the examples.
 
@@ -74,13 +58,13 @@ This is how we declare a generic function.
 
 > Action: also google how to add generic parameter to arrow function TypeScript. <https://stackoverflow.com/a/45576880/2861108>
 
-So for an arrow function, we have to place the placeholder after the equal sign. eg:
+So for an arrow function, we have to place the placeholder after the equal sign. E.g.:
 
 ```tsx
 const foo = <T,>(x: T) => x;
 ```
 
-Let's make our hook also a generic one. We will first add placeholder to `getStoredValue` function. The default value will also have the type `T`. T is just an arbitary character short for `Type`. You can use a word instead of single letter. The function also returns a value of type `T`.
+Let's make our hook also a generic one. We will first add a placeholder to the `getStoredValue` function. The default value will also have the type `T`. T is just an arbitrary character short for `Type`. You can use a word instead of a single letter. The function also returns a value of type `T`.
 
 ```ts
 const getStoredValue = <T>(key: string, defaultValue: T): T => {
@@ -92,7 +76,7 @@ const getStoredValue = <T>(key: string, defaultValue: T): T => {
 };
 ```
 
-Now, we will do the same with `useLocalStorage`. The return value of the function will be a pair, which has first element of type `T`, and the second item is a `setter` function. We can look up the type for it by going to the TypeScript declaration file for react.
+Now, we will do the same with `useLocalStorage`. The return value of the function will be a pair, which has a first element of type `T`, and the second item is a `setter` function. We can look up the type for it by going to the TypeScript declaration file for react.
 
 ```tsx
 export const useLocalStorage = <T,>(
@@ -125,7 +109,7 @@ const [taskAppState, setTaskAppState] = useLocalStorage<TaskAppState>("tasks", {
 });
 ```
 
-Let's test it. We will open the developer console. Now there are no entries in the `localStorage`
+Let's test it. We will open the developer console. Now, there are no entries in the `localStorage`
 
 > Action: Open <http://localhost:5173> in browser
 
@@ -143,4 +127,6 @@ See you in the next lesson.
 
 ### Reference
 
-[Hooks](https://beta.reactjs.org/learn/reusing-logic-with-custom-hooks)
+Reusing logic with custom hooks, accessed on: April 04, 2023, URL:https://beta.reactjs.org/learn/reusing-logic-with-custom-hooks
+
+TypeScript Generics, accessed on: April 04, 2023, URL:https://www.typescriptlang.org/docs/handbook/2/generics.html

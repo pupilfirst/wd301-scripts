@@ -73,25 +73,23 @@ This work is licensed under a
 ### What is Type System?
 
 - [Type System](./typescript-fundamentals/type-system/README.md)
-- [The ‘Any’ type](./typescript-fundamentals/the-any-type/README.md)
+- [Datatypes in Typescript](./typescript-fundamentals/datatypes-in-typescript/README.md)
 
 ### Type annotations
 
 - [Type annotations and Inference](./typescript-fundamentals/type-annotations-and-inference/README.md)
-- [Annotations with variables](./typescript-fundamentals/annotations-with-variables/README.md)
-- [Annotations around functions](./typescript-fundamentals/annotations-around-functions/README.md)
-- [Void and never](./typescript-fundamentals/void-and-never/README.md)
-- [Annotations around objects](./typescript-fundamentals/annotations-around-objects/README.md)
 
 ### Typed arrays
 
-- [Arrays in TS](./typescript-fundamentals/arrays-in-ts/README.md)
-- [Tuples in TS](./typescript-fundamentals/tuples-in-ts/README.md)
+- [Arrays and Tuples in TS](./typescript-fundamentals/arrays-and-tuples-in-ts/README.md)
 
 ### Interface
 
 - [TS Interfaces and functions](./typescript-fundamentals/ts-interfaces/README.md)
-- [Fields in classes and inheritance](./typescript-fundamentals/fields-in-classes/README.md)
+
+### Add TypeScript to React Application
+
+- [Adding TypeScript](./typescript-fundamentals/adding-typescript/README.md)
 
 ### Milestone
 
@@ -135,14 +133,13 @@ This work is licensed under a
 
 - [Understanding useEffect](./react-hooks/use-effect/understanding-use-effect/README.md)
 - [Async code with useEffect](./react-hooks/use-effect/async-code-use-effect/README.md)
-- Making first API call from useEffect hook
 
 ### Introducing localStorage
 
 ### Custom Hooks
 
 - [Overview of custom hooks](./react-hooks/custom-hooks/overview/README.md)
-- [Process of building custom hooks](./react-hooks/custom-hooks/build-custom-hook/README.md)
+- [Building and using custom hooks](./react-hooks/custom-hooks/build-custom-hook/README.md)
 
 ### Milestone
 
@@ -189,7 +186,7 @@ This work is licensed under a
 ### Revamping the app UI
 
 - [Headless UI and designing layout](./react-app-state/app-ui/README.md)
-- [Redefining app routes](./react-app-state/app-ui/README.md)
+- [Redefining app routes](./react-app-state/redifining-app-routes/README.md)
 
 ### Using Context
 

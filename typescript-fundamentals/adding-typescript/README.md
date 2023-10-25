@@ -1,24 +1,30 @@
-In this lesson, let us work to integrate TypeScript and make it work with our existing application. 
+In this lesson, let us work to integrate TypeScript and make it work with our existing application.
 
 Follow the steps below to ensure the existing application created in the previous level, `hello-react` is migrated to TypeScript.
 
-- Install TypeScript:
+## Install TypeScript:
+
 Open your terminal and navigate to the root folder of our project.
 
-Run the following command: 
+> Action: Run the following command:
+
 ```
 npm install --save typescript @types/node @types/react @types/react-dom @types/jest
 ```
 
 This will install TypeScript and related packages as a development dependency of your project.
 
-- Rename files:
+## Rename files:
+
 In the `src` folder of your project, rename any files you have created with a `.js/.jsx` extension to `.tsx`.
 This tells TypeScript to treat those files as TypeScript files.
 
-- Configure TypeScript:
+## Configure TypeScript:
+
 Create a new file named `tsconfig.json` in the root folder of your project if it is not already created.
 Add the following code to `tsconfig.json`:
+
+> Action: Paste the following code in `tsconfig.json`
 
 ```js
 {
@@ -41,10 +47,10 @@ Add the following code to `tsconfig.json`:
 This configures TypeScript to use the JSX syntax, target ES5, and include the `src` folder in the compilation.
 
 - Fix any errors on the Typescript code:
-Ideally, your application should work from the get go, but if you face any errors, the pre-existing `eslint` configuration should highlight those and provide solutions to fix them.
+  Ideally, your application should work from the get go, but if you face any errors, the pre-existing `eslint` configuration should highlight those and provide solutions to fix them.
 
 - Restart the development server:
-If you have the development server running, stop it and re-run the server again with: 
+  If you have the development server running, stop it and re-run the server again with:
 
 ```
 npm run dev

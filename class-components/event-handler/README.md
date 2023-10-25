@@ -1,4 +1,4 @@
-# Script - part 1
+## Handling form submissions
 
 In this lesson, you will learn how to handle form submissions.
 
@@ -13,11 +13,11 @@ We can handle a form submission by passing a submission handler as prop to the `
 </form>
 ```
 
-If we hover over `onSubmit` prop, TypeScript compiler shows us the type of function it expects. Let's copy the type. And use it to annotate the submission handler.
+If we hover over the `onSubmit` prop, the TypeScript compiler shows us the type of function it expects. Let's copy the type. And use it to annotate the submission handler.
 
 > Action: copy `React.FormEventHandler<HTMLFormElement>` from VSCode intellisense.
 
-Now, let's create our handler. Also let's override the default behaviour of browser submitting the form by invoking `preventDefault()` on the evet.
+Now, let's create our handler. Also let's override the default behaviour of browser submitting the form by invoking `preventDefault()` on the event.
 
 ```tsx
 addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -49,7 +49,7 @@ See you in the next video.
 
 # Script - part 2
 
-Now, how do we get the data that user has typed in the input field? For that we will have to learn about controlled and uncontrolled components.
+Now, how do we get the data that the user has typed in the input field? For that, we will have to learn about controlled and uncontrolled components.
 
 > Action: open https://reactjs.org/docs/uncontrolled-components.html
 
@@ -84,7 +84,7 @@ addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
 };
 ```
 
-If you hover the mouse over `this.inputRef.current?.`, you can see that the value of `current` can be null or an element. So TypeScript nudges us to access the value using `?.` operator.
+If you hover the mouse over `this.inputRef.current?.`, you can see that the value of `current` can be null or an element. So TypeScript nudges us to access the value using the `?.` operator.
 
 Save the file. And reload the page. Now type in some text in the input field and click the button.
 
@@ -92,11 +92,11 @@ Save the file. And reload the page. Now type in some text in the input field and
 
 You can see `Submitted the form with hello` getting printed on to the console.
 
-This was uncontrolled component. In general, a controlled component is preferred. By controlled component, it means, the state of the component is managed by react.
+This was an uncontrolled component. In general, a controlled component is preferred. By controlled component, it means, the state of the component is managed by react.
 
 > Action: open https://reactjs.org/docs/forms.html#controlled-components
 
-We will use `setState` and `eventHandlers` to manage the input field. Let's edit the `TaskForm` component to use a state for input field. Let's remove the `refs`.
+We will use `setState` and `eventHandlers` to manage the input field. Let's edit the `TaskForm` component to use a state for the input field. Let's remove the `refs`.
 
 > Action: delete the refs.
 
@@ -180,21 +180,21 @@ Then use this handler on the input field.
 And finally, we've to update our `addTask` method as well to print the `title` value from component-level state.
 
 ```tsx
-  addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    console.log(`Submitted the form with ${this.state.title}`);
-  };
+addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
+  event.preventDefault();
+  console.log(`Submitted the form with ${this.state.title}`);
+};
 ```
 
-Save the file. Now, we are able to type in the input field and value gets updated accordingly.
+Save the file. Now, we can type in the input field and the value gets updated accordingly.
 
 See you in the next video
 
 # Script - part 3
 
-In this video, we will connect together different components we created and finally be able to add tasks to our task list.
+In this video, we will connect different components we created and finally be able to add tasks to our task list.
 
-We must first create a `TaskApp` component. Create a file named `TaskApp.tsx` with following content. It will have a state to hold the list of tasks added.
+We must first create a `TaskApp` component. Create a file named `TaskApp.tsx` with the following content. It will have a state to hold the list of tasks added.
 
 ```tsx
 import React from "react";
@@ -213,16 +213,14 @@ class TaskApp extends React.Component<TaskAppProp, TaskAppState> {
   }
 
   render() {
-    return (
-      <div></div>
-    );
+    return <div></div>;
   }
 }
 
 export default TaskApp;
 ```
 
-Next, we will add a method `addTask`, which will take a type `TaskItem` as first argument and adds it to the current state.
+Next, we will add a method `addTask`, which will take a type `TaskItem` as the first argument and add it to the current state.
 
 ```tsx
 addTask = (task: TaskItem) => {
@@ -247,7 +245,7 @@ import TaskList from "./TaskList";
     return (
       <div>
         <TaskForm />
-        <TaskList tasks={this.state.tasks} />        
+        <TaskList tasks={this.state.tasks} />
       </div>
     );
   }
@@ -281,7 +279,7 @@ render() {
   }
 ```
 
-Next, let's edit the `TaskForm` component to accept `addTask` as a prop from `TaskApp` component.
+Next, let's edit the `TaskForm` component to accept `addTask` as a prop from the `TaskApp` component.
 
 > Action: Open `TaskForm.tsx` and update with following code.
 
@@ -304,13 +302,13 @@ addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
 };
 ```
 
-What we do here is, we invoke the `addTask` method which is passed via prop from parent component ie, `TaskApp` with the data user entered. Then we clears the state with empty task title.
+What we do here is, we invoke the `addTask` method which is passed via prop from the parent component, i.e., `TaskApp` with the data user entered. Then we clear the state with empty task title.
 
-Save the file. We can see TypeScript compiler is complaining about missing props. Let's fix that.
+Save the file. We can see the TypeScript compiler is complaining about missing props. Let's fix that.
 
 > Action: switch to `TaskApp.tsx`
 
-Pass the `addTask` method as prop to `TaskForm` component.
+Pass the `addTask` method as prop to the `TaskForm` component.
 
 ```tsx
   render() {
@@ -337,7 +335,7 @@ Pass the `addTask` method as prop to `TaskForm` component.
   }
 ```
 
-Now, only piece remaining is using `TaskApp` component in our `App` component.
+Now, the only piece remaining is using the `TaskApp` component in our `App` component.
 
 > Action: switch to `App.tsx` and updte with following code.
 
@@ -353,11 +351,11 @@ function App() {
 }
 ```
 
-Save the file. Let's check the app in browser.
+Save the file. Let's check the app in the browser.
 
 > Action: visit http://localhost:5173 and add few entries
 
-We can see the items are getting added to our list. Let's also add the custom `TaskCard` css class from level 1 to our items.
+We can see the items are getting added to our list. Let's also add the custom `TaskCard` CSS class from level 1 to our items.
 
 > Action: Switch to `Task.tsx` and add styling from level 1.
 
@@ -375,7 +373,7 @@ render() {
           Due Date:
         </p>
         <p className="text-sm text-slate-500">
-          Description: 
+          Description:
         </p>
       </div>
     );

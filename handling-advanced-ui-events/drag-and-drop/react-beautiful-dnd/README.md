@@ -1,5 +1,3 @@
-# Text
-
 > Visit [react-beautiful-dnd npm package](https://www.npmjs.com/package/react-beautiful-dnd)
 
 `react-beautiful-dnd` is a package maintained by Atlassian. It can be used to add drag and drop feature to our application.
@@ -10,10 +8,10 @@ Let's add it to our project. Open `wd301` in VS Code. From the integrated termin
 cd smarter-tasks
 ```
 
-Now add the packge using `npm`.
+Now add the package using `npm`.
 
 ```sh
-npm install react-beautiful-dnd --save
+npm install react-beautiful-dnd
 ```
 
 To get intellisense for TypeScript, we will also install the type definitions for this package.
@@ -22,15 +20,29 @@ To get intellisense for TypeScript, we will also install the type definitions fo
 npm install @types/react-beautiful-dnd --save-dev
 ```
 
+> `react-beautiful-dnd` doesn't work in react `strict` mode. So you need to make sure the `App` component is **not** rendered within `<React.StrictMode>` in `main.tsx`
+
+```tsx
+// This won't work
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// This will work
+ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
+```
+
 Now, we will render the tasks in different columns based on their state.
 
 Let's create a file `src/pages/project_details/DragDropList.tsx`
 
-We will create `DragDropList` component, and each list be wrapped in a `Container` component. We do it in such a way to make any future customizations simple. We will import `ProjectData` type and a `Column` component, which we will create shortly, in `DragDropList.tsx`.
+We will create a `DragDropList` component, and each list be wrapped in a `Container` component. We do it in such a way to make any future customizations simple. We will import `ProjectData` type and a `Column` component, which we will create shortly, in `DragDropList.tsx`.
 
 ```tsx
 import React from "react";
-import { ProjectData } from "../../context/tasks/types";
+import { ProjectData } from "../../context/task/types";
 import Column from "./Column";
 
 const Container = (props: React.PropsWithChildren) => {
@@ -38,9 +50,9 @@ const Container = (props: React.PropsWithChildren) => {
 };
 ```
 
-`PropsWithChildren` is a type which will include `children` attribute. Otherwise, TypeScript compiler will give warning when we try to access `props.children`.
+`PropsWithChildren` is a type which will include `children` attribute. Otherwise, the TypeScript compiler will give a warning when we try to access `props.children`.
 
-We will then create the `DragDropList` component. It will accept the project details as it's prop.
+We will then create the `DragDropList` component. It will accept the project details as its prop.
 
 We will map over `column` ID from the `columnOrder` and then render the tasks in a `Column` component.
 
@@ -65,7 +77,7 @@ Let's create the `Column` component. Create a file named `Column.tsx`.
 ```tsx
 import React from "react";
 
-import { ColumnData, TaskDetails } from "../../context/tasks/types";
+import { ColumnData, TaskDetails } from "../../context/task/types";
 
 const Container = (props: React.PropsWithChildren) => {
   // We will use flex to display lists as columns
@@ -97,7 +109,7 @@ const Column: React.FC<Props> = (props) => {
       <Title>{props.column.title}</Title>
       <TaskList>
         {props.tasks.map((task) => (
-          <Task key={task.id} task={task}  />
+          <Task key={task.id} task={task} />
         ))}
       </TaskList>
     </Container>
@@ -107,18 +119,23 @@ const Column: React.FC<Props> = (props) => {
 export default Column;
 ```
 
-We will reuse the `Task` component from earlier levels. But we will modify the component a include a container. So if you can access to the source code of previous level, then you can copy `Task.tsx`, `TaskCard.css` and paste it in the `/src/pages/project_details` folder, or you can just create those files.
+We will reuse the `Task` component from earlier levels. But we will modify the component to include a container.
+Copy `Task.tsx`, `TaskCard.css` into `src/pages/project_details` folder from `trash` folder.
 
-Now, open `Task.tsx` and split it into a container and child component. We will also add a `Link` to navigate to task detail page, when the user clicks on it. We will remove the code to delete a task for the time being.
+Let's import `Task` component in `Column.tsx` file.
 
 ```tsx
-// /src/pages/project_details/Task.tsx
+import Task from "./Task";
+```
 
+Now, open `Task.tsx` and split it into a container and child component. We will also add a `Link` to navigate to the task detail page when the user clicks on it. We will remove the code to delete a task for the time being.
+
+```tsx
 import React from "react";
-import { Link } from "react-router-dom";
 
-import { TaskDetails } from "../../context/tasks/types";
+import { TaskDetails } from "../../context/task/types";
 import "./TaskCard.css";
+import { Link } from "react-router-dom";
 
 const Task: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
   props
@@ -176,28 +193,11 @@ const Container = (
 export default Container;
 ```
 
-The `TaskCard.css` file (`/src/pages/project_details/TaskCard.css`) would have the following content:
-```css
-.TaskItem {
-  border: 1px solid #DFDFDF;
-  border-radius: 4px;
-  padding: 6px 8px;
-  margin-bottom: 6px;
-}
-```
-
-Now, let's import `Task` component in `Column.tsx` file.
-
-```tsx
-import Task from "./Task";
-```
-
-
 Next, we will use the context to get the list of tasks in our component.
 Switch to `src/pages/project_details/ProjectDetails.tsx` file and use the context to retrieve the task list. Let's import the `useTasksState` first. We will also import the `DragDropList` component to render the tasks.
 
 ```tsx
-import { useTasksState } from "../../context/tasks/context";
+import { useTasksState } from "../../context/task/context";
 ```
 
 Now, we can extract required data from the context.
@@ -223,14 +223,14 @@ import DragDropList from "./DragDropList";
 
 <div className="grid grid-cols-1 gap-2">
   <DragDropList data={tasksState.projectData} />
-</div>
+</div>;
 ```
 
-So the `ProjectDetails` component looks like:
+So, the `ProjectDetails` component looks like:
 
 ```tsx
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { useTasksState } from "../../context/task/context";
 import DragDropList from "./DragDropList";
@@ -240,9 +240,12 @@ const ProjectDetails = () => {
   // Extract task and project from context
   const tasksState = useTasksState();
   const projectState = useProjectsState();
+  let { projectID } = useParams();
 
   // Get the selected project based on `projectID`
-  const selectedProject = projectState?.activeProject;
+  const selectedProject = projectState?.projects.filter(
+    (project) => `${project.id}` === projectID
+  )?.[0];
 
   // Display error if there is no project with given id.
   if (!selectedProject) {
@@ -278,16 +281,5 @@ export default ProjectDetails;
 ```
 
 Now save the file. We can see the tasks as being rendered as lists. You can add some dummy data in `initialData.ts` and refresh the page to see them populating correctly in the columns.
-
-> `react-beautiful-dnd` doesn't work in react `strict` mode. So you need to make sure the `App` component is **not** rendered within `<React.StrictMode>` in `main.tsx`
-
-```tsx
-// This won't work
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
-```
 
 See you in the next lesson.

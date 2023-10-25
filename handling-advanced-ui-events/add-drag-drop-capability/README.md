@@ -1,10 +1,8 @@
-# Text
-
 In this lesson, we will add drag and drop capability to our task lists.
 
 Let's open `DragDropList.tsx` in VS Code.
 
-We will have to import `DragDropContext` to create an area where a user will be able to drag an element or drop an element. Then, we will also have to import `OnDragEndResponder`, which will be triggered when a dran and drop action is ended.
+We will have to import `DragDropContext` to create an area where a user will be able to drag an element or drop an element. Then, we will also have to import `OnDragEndResponder`, which will be triggered when a drag and drop action is ended.
 
 ```tsx
 import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
@@ -40,9 +38,9 @@ To support the drop feature, we will have to import `Droppable` component from `
 import { Droppable } from "react-beautiful-dnd";
 ```
 
-`Droppable` component takes a `droppableId` as prop, which should be unique. It is with this `droppableId`, different drop locations are identified, when a drag and drop action ends.
+`Droppable` component takes a `droppableId` as a prop, which should be unique. It is with this `droppableId`, different drop locations are identified, when a drag and drop action ends.
 
-Let's wrap the `TaskList` component within `Droppable` component and pass `props.column.id`- which will have values like `pending`, `in_progress`, and `done` as the `droppableId` prop.
+Let's wrap the `TaskList` component within the `Droppable` component and pass `props.column.id`- which will have values like `pending`, `in_progress`, and `done` as the `droppableId` prop.
 
 ```tsx
 const Column: React.FC<Props> = (props) => {
@@ -65,7 +63,7 @@ Now, it will display an error:
 
 > Type 'Element' is not assignable to type '(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => ReactElement<HTMLElement, string | JSXElementConstructor<any>>'.
 
-This is because, `Droppable` component expects a function as it's child and we are providing an `Element` (`TaskList` component).
+This is because, `Droppable` component expects a function as its child, and we are providing an `Element` (`TaskList` component).
 
 Let's modify the `Column` component to adhere to the requirement. The function should have the signature `(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => ReactElement<HTMLElement, string | JSXElementConstructor<any>>`.
 
@@ -95,9 +93,9 @@ Now, it displays another error:
 
 > Property 'ref' does not exist on type 'IntrinsicAttributes & { children?: ReactNode; }
 
-React provides means to directly access a DOM element and interact with it. This is done by attaching a prop called `ref` to a component. Usually to add this capability we use `useRef` hook.
+React provides means to directly access a DOM element and interact with it. This is done by attaching a prop called `ref` to a component. Usually, to add this capability, we use `useRef` hook.
 
-But since the `provided.innerRef` comes from a parent component, we will have to use `forwardRef` on `TaskList` component.
+But since the `provided.innerRef` comes from a parent component, we will have to use `forwardRef` on the `TaskList` component.
 
 Let's modify our `TaskList` component.
 
@@ -122,17 +120,17 @@ const TaskList = forwardRef<HTMLDivElement | null, React.PropsWithChildren>(
 );
 ```
 
-Next, we have to make each task item draggable. Let's open `Task.tsx` in VS Code.
+Next, we have to make each task item draggable. Switch to `Task.tsx`.
 
 To make an element draggable, we will have to wrap it within `Draggable` component from `react-beautiful-dnd` package.
 
-Let's import it first. Add the following to `Task.tsx`.
+Let's import it first.
 
 ```tsx
 import { Draggable } from "react-beautiful-dnd";
 ```
 
-Now, let's wrap our `Container` component in `Task.tsx` within `Draggable`. Similar to `Droppable`, `Draggable` also expects a function as it's child. We will also have to pass, `provided.innerRef` to the `Task` component.
+Now, let's wrap our `Container` component within `Draggable`. Similar to `Droppable`, `Draggable` also expects a function as its child. We will also have to pass, `provided.innerRef` to the `Task` component.
 
 ```tsx
 const Container = (
@@ -167,7 +165,7 @@ const Container = (
 };
 ```
 
-Now we can pass it as prop to `Draggable` component. We will also need to pass along `provided.draggableProps` and `provided.dragHandleProps` to make an element draggable. We will use the `spread` operator to pass these as props to `Task` component.
+Now we can pass it as a prop to the `Draggable` component. We will also need to pass along `provided.draggableProps` and `provided.dragHandleProps` to make an element draggable. We will use the `spread` operator to pass these as props to the `Task` component.
 
 ```tsx
 const Container = (
@@ -264,7 +262,7 @@ const onDragEnd: OnDragEndResponder = (result) => {
 };
 ```
 
-Next, we will do some sanity checks like if there the task is being dropped to some area that is not droppable, we will do nothing. If the task is being taken out from a list, then is being dropped at the same list and position, then also we will do nothing.
+Next, we will do some sanity checks like if the task is being dropped to some area that is not droppable, we will do nothing. If the task is being taken out from a list, then is being dropped at the same list and position, then also we will do nothing.
 
 ```tsx
 const onDragEnd: OnDragEndResponder = (result) => {
@@ -281,20 +279,20 @@ const onDragEnd: OnDragEndResponder = (result) => {
 };
 ```
 
-Now, we have some valid movement of tasks. We will create a new state then invoke the `reorderTasks` method to update the orderings.
+Now, we have some valid movement of tasks. We will create a new state, then invoke the `reorderTasks` method to update the orderings.
 
-Let's cast the `source.droppableId` as a value of `AvailableColumns`. We will do same for `destination.droppableId` also. We do this so that TypeScript can help us with intelliSense.
+Let's cast the `source.droppableId` as a value of `AvailableColumns`. We will do the same for `destination.droppableId` as well. We do this so that TypeScript can help us with intelliSense.
 
 ```tsx
 const startKey = source.droppableId as AvailableColumns;
 const finishKey = destination.droppableId as AvailableColumns;
 ```
 
-Before going further, we will have to import `reorderTasks` from `action.ts` as well as `useTasksDispatch` from `src/context/tasks/context`.
+Before going further, we will have to import `reorderTasks` from `action.ts` as well as `useTasksDispatch` from `src/context/task/context`.
 
 ```tsx
-import { useTasksDispatch } from "../../context/tasks/context";
-import { reorderTasks } from "../../context/tasks/actions";
+import { useTasksDispatch } from "../../context/task/context";
+import { reorderTasks } from "../../context/task/actions";
 ```
 
 Let's get the value out of task context.
@@ -302,6 +300,7 @@ Let's get the value out of task context.
 ```tsx
 const DragDropList: React.FC<{ data: ProjectData }> = (props) => {
   const taskDispatch = useTasksDispatch();
+  const { projectID } = useParams();
   // ...
 };
 ```
@@ -314,12 +313,12 @@ We will
 - Then remove the dragged item using `source.index`.
 - Then we will insert the id at `destination.index`.
 - Then we will update the `columns` key in the state with this newly computed column ordering.
-- Finally invoke `reorderTasks` with the new state.
+- Finally, invoke `reorderTasks` with the new state.
 
 We will also have to import `AvailableColumns` type.
 
 ```tsx
-import { AvailableColumns, ProjectData } from "../../context/tasks/types";
+import { AvailableColumns, ProjectData } from "../../context/task/types";
 ```
 
 `onDragEnd` will look like:
@@ -367,9 +366,9 @@ const onDragEnd: OnDragEndResponder = (result) => {
 };
 ```
 
-Save the file. Now if we check, we are still unable to drop the task to different list. But dragging and dropping in same list is working fine.
+Save the file. Now, if we check, we are still unable to drop the task to a different list. But dragging and dropping in the same list is working fine.
 
-We have to handle the case when `finish` is different than `start`. We will move the above logic into an `if` block and execute only if `start` and `finish` are same.
+We have to handle the case when `finish` is different from `start`. We will move the above logic into an `if` block and execute only if `start` and `finish` are the same.
 
 ```tsx
 const onDragEnd: OnDragEndResponder = (result) => {
@@ -473,7 +472,7 @@ const DragDropList = (props: {
       taskIDs: finishTaskIDs,
     };
 
-    // Create new state with newStart and newFinish 
+    // Create new state with newStart and newFinish
     const newState = {
       ...props.data,
       columns: {
@@ -486,6 +485,6 @@ const DragDropList = (props: {
   };
 ```
 
-Save the file. Now, we should be able to drag and drop items between different lists. When we drag and drops the tasks or changes its order, new state is computed and is passed to the task context by invoking `reorderTasks` action. This will trigger the `dispatch` for `TaskListAvailableAction.REORDER_TASKS` with updated payload. The `reducer` will then updated the state with latest data and renders the lists with updated state.
+Save the file. Now, we should be able to drag and drop items between different lists. When we drag and drop the tasks or change its order, new state is computed and is passed to the task context by invoking the `reorderTasks` action. This will trigger the `dispatch` for `TaskListAvailableAction.REORDER_TASKS` with updated payload. The `reducer` will then update the state with the latest data and renders the lists with updated state.
 
 See you in the next lesson.
