@@ -2,10 +2,11 @@ In this lesson, let us work to integrate TypeScript and make it work with our ex
 
 Follow the steps below to ensure the existing application created in the previous level, `hello-react` is migrated to TypeScript.
 
-- Install TypeScript:
-  Open your terminal and navigate to the root folder of our project.
+## Install TypeScript:
 
-Run the following command:
+Open your terminal and navigate to the root folder of our project.
+
+> Action: Run the following command:
 
 ```
 npm install --save typescript @types/node @types/react @types/react-dom @types/jest
@@ -13,13 +14,17 @@ npm install --save typescript @types/node @types/react @types/react-dom @types/j
 
 This will install TypeScript and related packages as a development dependency of your project.
 
-- Rename files:
-  In the `src` folder of your project, rename any files you have created with a `.js/.jsx` extension to `.tsx`.
-  This tells TypeScript to treat those files as TypeScript files.
+## Rename files:
 
-- Configure TypeScript:
-  Create a new file named `tsconfig.json` in the root folder of your project if it is not already created.
-  Add the following code to `tsconfig.json`:
+In the `src` folder of your project, rename any files you have created with a `.js/.jsx` extension to `.tsx`.
+This tells TypeScript to treat those files as TypeScript files.
+
+## Configure TypeScript:
+
+Create a new file named `tsconfig.json` in the root folder of your project if it is not already created.
+Add the following code to `tsconfig.json`:
+
+> Action: Paste the following code in `tsconfig.json`
 
 ```js
 {
