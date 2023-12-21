@@ -132,7 +132,7 @@ class TaskList extends React.Component<Props, State> {
 }
 ```
 
-Now, let's use `map` and loop over the state and render tasks.
+Now, let's use `map` and loop over the state and render tasks. The final code will look like this:
 
 ```tsx
 class TaskList extends React.Component<Props, State> {
@@ -143,7 +143,13 @@ class TaskList extends React.Component<Props, State> {
     };
   }
   render() {
-    return this.state.tasks.map((task) => <Task title={task.title} />);
+    return (
+      <>
+        {this.state.tasks.map((task) => (
+          <Task title={task.title} />
+        ))}
+      </>
+    );
   }
 }
 ```
